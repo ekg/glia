@@ -1,0 +1,114 @@
+/*
+ *  show.cpp
+ *  glia
+ *
+ *  Created by Deniz Kural on 1/1/12.
+ *  Copyright 2012 __MyCompanyName__. All rights reserved.
+ *
+ */
+
+#include "show.h"
+
+using namespace std;
+
+
+/*
+vector<string> parentNames(sn* node) {
+	
+	vector<string> parentNames;
+	
+	vector<sn*>::iterator t;									// good place for vector iteration?
+	for (t=node.p5.begin(); t!=node.p5.end(); ++t) {
+		parent_names.push_back((*t)->name);
+	}
+	
+	return parentNames;
+}
+
+int displayStrings(vector<string> values) {
+	
+	vector<sn*>::iterator t;									// good place for vector iteration?
+	for (t=node.p5.begin(); t!=node.p5.end(); ++t) {
+		parent_names.push_back((*t)->name);
+	}
+	
+*/
+
+int displayNode(sn* node) {
+
+	cout << "Name:     " << node->name << endl;
+	cout << "Sequence: " << node->sequence << endl;
+	cout << "Depth:    " << node->depth << endl;
+	cout << "Parents:  ";
+	
+	vector<sn*>::iterator t;									
+	
+	for (t = node->p5.begin(); t != node->p5.end(); ++t) {
+		cout<<(*t)->name<<", ";
+	}
+	cout<<endl;
+	
+	cout << "Children: ";
+		
+	for (t = node->p3.begin(); t != node->p3.end(); ++t) {
+		cout<<(*t)->name<<", ";
+	}
+	cout<<endl;
+	
+	return 0;
+}
+
+
+
+
+int displayAlignment(sn* node) {
+	
+	
+	vector<vector<int> >::iterator y;
+	vector<int>::iterator x;
+	
+	cout << "Score:"<<endl;
+	
+	for (y = node->score_matrix.begin(); y != node->score_matrix.end(); ++y) {
+		for (x = (*y).begin(); x != (*y).end();  ++x) {
+			
+				 cout << *x << "\t";
+		}
+		cout << endl;
+	}
+	
+	cout << endl;
+	cout << "Back Trace:"<<endl;
+	
+	vector<vector<char> >::iterator p;
+	vector<char>::iterator q;
+	
+	for (p = node->arrow_matrix.begin(); p != node->arrow_matrix.end(); ++p) {
+		for (q = (*p).begin(); q != (*p).end();  ++q) {
+			
+			cout << *q << "\t";
+		}
+		cout << endl;
+	}
+	
+	cout << endl;
+	cout << "Parent:"<<endl;
+	
+	vector<vector<sn*> >::iterator a;
+	vector<sn*>::iterator b;
+	
+	for (a = node->parent_matrix.begin(); a != node->parent_matrix.end(); ++a) {
+		for (b = (*a).begin(); b != (*a).end();  ++b) {
+			
+			cout << (*b)->name << "\t";
+		}
+		cout << endl;
+	}
+	
+	cout << endl;
+	return 0;
+}
+	
+	
+
+
