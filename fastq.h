@@ -24,9 +24,10 @@ struct fastq_entry {
 	std::string description;
 	std::string quality;
 	
-	std::string complement;
+	std::string rc_sequence;
+	
 	// add clusters ..?
-	// add alignment .. ?
+	// add alignment ..? - probably not - which alignment to keep? 
 	
 };
 

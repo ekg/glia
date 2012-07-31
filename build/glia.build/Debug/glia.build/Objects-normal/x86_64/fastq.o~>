@@ -68,5 +68,3 @@ In file included from /usr/local/include/google/sparsehash/hashtable-common.h:43
                  from /Users/kural/Documents/glia/fastq.h:18,
                  from /Users/kural/Documents/glia/fastq.cpp:10:
 /usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definition
-/Users/kural/Documents/glia/fastq.cpp: In function 'int load_fasta_file(std::string, std::vector<fasta_entry, std::allocator<fasta_entry> >&)':
-/Users/kural/Documents/glia/fastq.cpp:87: error: request for member 'set_deleted_key' in 'fastarecord.fasta_entry::kmer_hash', which is of non-class type 'google::sparse_hash_map<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<int, std::allocator<int> >, std::tr1::hash<std::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::equal_to<std::basic_string<char, std::char_traits<char>, std::allocator<char> > >, google::libc_allocator_with_realloc<std::pair<const std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<int, std::allocator<int> > > > >*'
