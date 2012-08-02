@@ -143,7 +143,7 @@ int lookupRead(string read, google::sparse_hash_map<string, vector<int> > &ghash
 		cout << t->first << " ... " << t->second << endl;
 	}
 	*/
-	 
+	
 	
 	// todo: return clusters
 		

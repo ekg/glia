@@ -21,9 +21,16 @@
 
 // struct cmp_parent_depths;
 
+/* Return the topological order of a node in a DAG
+Check if it has depth, if so don't repeat the backtrack
+Else, check if it has a parent node, if so recurse
+Otherwise declare the node to be a head node */
 int getDepth(sn* node);
 
+
 sn* sequenceDagAlign(std::string sequence, std::vector<sn*> nlist, int maxdepth);
+
+
 
 sn* gsw(std::string read, std::vector<sn*> nlist);
 

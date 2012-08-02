@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7C11F05613B9BFED0045C301 /* nodealign.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C11F05513B9BFED0045C301 /* nodealign.cpp */; };
 		7C1EB71E14CF8F4700D7ADB5 /* getSeeds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C1EB71D14CF8F4700D7ADB5 /* getSeeds.cpp */; };
+		7C2AD0A415C923D500B09FB7 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C2AD0A315C923D500B09FB7 /* jsoncpp.cpp */; };
 		7C2AE6C414A2C1460057C74F /* matrices.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C2AE6C314A2C1460057C74F /* matrices.cpp */; };
 		7C2AE85414A85FC30057C74F /* gliamodels.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C2AE85314A85FC30057C74F /* gliamodels.cpp */; };
 		7C2AE85D14A861A40057C74F /* traceback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C2AE85C14A861A40057C74F /* traceback.cpp */; };
@@ -16,6 +17,7 @@
 		7C2AE94914AA20940057C74F /* examples.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C2AE94814AA20940057C74F /* examples.cpp */; };
 		7C2AE97414AA61790057C74F /* gsw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C2AE97314AA61790057C74F /* gsw.cpp */; };
 		7C40B79513B0122300882D23 /* dump.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C40B79413B0122300882D23 /* dump.cpp */; };
+		7C606E6E15C8E143004DAA42 /* jsreader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C606E6D15C8E143004DAA42 /* jsreader.cpp */; };
 		7CD7E45D14B06FAB00149377 /* show.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CD7E45C14B06FAB00149377 /* show.cpp */; };
 		7CD7E55114B469CD00149377 /* ghash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CD7E55014B469CD00149377 /* ghash.cpp */; };
 		8DD76F650486A84900D96B5E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.cpp */; settings = {ATTRIBUTES = (); }; };
@@ -41,6 +43,7 @@
 		7C11F05513B9BFED0045C301 /* nodealign.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nodealign.cpp; sourceTree = "<group>"; };
 		7C1EB71C14CF8F4700D7ADB5 /* getSeeds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = getSeeds.h; sourceTree = "<group>"; };
 		7C1EB71D14CF8F4700D7ADB5 /* getSeeds.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = getSeeds.cpp; sourceTree = "<group>"; };
+		7C2AD0A315C923D500B09FB7 /* jsoncpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jsoncpp.cpp; sourceTree = "<group>"; };
 		7C2AE6C214A2C1460057C74F /* matrices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrices.h; sourceTree = "<group>"; };
 		7C2AE6C314A2C1460057C74F /* matrices.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = matrices.cpp; sourceTree = "<group>"; };
 		7C2AE85214A85FC30057C74F /* gliamodels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gliamodels.h; sourceTree = "<group>"; };
@@ -55,6 +58,8 @@
 		7C2AE97314AA61790057C74F /* gsw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gsw.cpp; sourceTree = "<group>"; };
 		7C40B79313B0122300882D23 /* dump.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dump.h; sourceTree = "<group>"; };
 		7C40B79413B0122300882D23 /* dump.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dump.cpp; sourceTree = "<group>"; };
+		7C606E6C15C8E143004DAA42 /* jsreader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jsreader.h; sourceTree = "<group>"; };
+		7C606E6D15C8E143004DAA42 /* jsreader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jsreader.cpp; sourceTree = "<group>"; };
 		7CD7E45B14B06FAB00149377 /* show.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = show.h; sourceTree = "<group>"; };
 		7CD7E45C14B06FAB00149377 /* show.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = show.cpp; sourceTree = "<group>"; };
 		7CD7E54F14B469CD00149377 /* ghash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ghash.h; sourceTree = "<group>"; };
@@ -87,6 +92,7 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				7C606E6C15C8E143004DAA42 /* jsreader.h */,
 				7C2AE94714AA20940057C74F /* examples.h */,
 				7C2AE86E14A864190057C74F /* fastq.h */,
 				7C1EB71C14CF8F4700D7ADB5 /* getSeeds.h */,
@@ -97,6 +103,8 @@
 				7CD7E45B14B06FAB00149377 /* show.h */,
 				7C2AE85B14A861A40057C74F /* traceback.h */,
 				7C2AE91214A978770057C74F /* scrap */,
+				7C606E6D15C8E143004DAA42 /* jsreader.cpp */,
+				7C2AD0A315C923D500B09FB7 /* jsoncpp.cpp */,
 				7C2AE94814AA20940057C74F /* examples.cpp */,
 				7C2AE86F14A864190057C74F /* fastq.cpp */,
 				7CD7E55014B469CD00149377 /* ghash.cpp */,
@@ -200,6 +208,8 @@
 				7CD7E45D14B06FAB00149377 /* show.cpp in Sources */,
 				7CD7E55114B469CD00149377 /* ghash.cpp in Sources */,
 				7C1EB71E14CF8F4700D7ADB5 /* getSeeds.cpp in Sources */,
+				7C606E6E15C8E143004DAA42 /* jsreader.cpp in Sources */,
+				7C2AD0A415C923D500B09FB7 /* jsoncpp.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,6 +226,8 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INSTALL_PATH = /usr/local/bin;
+				LIBRARY_SEARCH_PATHS = "/usr/local/include/**";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = glia;
 			};
 			name = Debug;
@@ -227,6 +239,11 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_MODEL_TUNING = G5;
 				INSTALL_PATH = /usr/local/bin;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../Downloads/jsoncpp-src-0.6.0-rc2/libs/linux-gcc-4.2.1\"",
+					"\"$(SRCROOT)/../../Downloads/jsoncpp-src-0.6.0-rc2/buildscons/linux-gcc-4.2.1/src/lib_json\"",
+				);
 				PRODUCT_NAME = glia;
 			};
 			name = Release;

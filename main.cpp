@@ -16,6 +16,7 @@
 #include "show.h"
 #include "ghash.h"
 #include "getSeeds.h"
+#include "jsreader.h"
 
 
 using namespace std;
@@ -91,13 +92,79 @@ int hashfasta(string fasta_file_name, int hashsize, vector<fasta_entry> &ref_gen
 int main (int argc, char * const argv[])
 {
 	
+	//string read = "CTTCTTCTTCTTCTTCTTCTTCTTCCTTCTTCTTCTTCTTCTTCTTCTTC";
+	string read = "ATCGAA";
+	
+	// Declere a read object from a fastq file
+	fastq_entry read_q;					
+	
+	// Open FastQ File
+	ifstream filehandle ("test.fastq");		// open fastq file
+	
+	// Main input file loop
+	if (filehandle.is_open()) 
+	{
+		while (filehandle.good()) 
+		{
+			
+			// Load up the read with the four lines from the FastQ file
+			read_q = getNextRead(filehandle);
+			cout << read_q.readname << endl;
+			
+			// Reverse Complement the sequence information of the read.
+			read_q.rc_sequence = reverseComplement(read_q.sequence);
+			
+						
+			/* --- alignment -- */
+			
+			
+			// Declare the target DAG to align against. 
+			vector<sn*> nlist;
+			//origIndel(nlist);
+			json_example(nlist);
+			
+			
+			
+			cout << "in the main:\t"<< nlist.front()->name << "\tread:\t" << read << endl;
+			sn* result = gsw(read, nlist);
+			
+			cout<<result->name<<", top score:\t"<<result->top_score.score<<endl;
+			
+			displayNode(result);
+			displayAlignment(result);
+			displayAlignment(nlist[0]);
+			
+			mbt trace_report;
+			master_backtrack(result, trace_report);
+			
+			cout << "x: " << trace_report.x << " y: " << trace_report.y << endl;
+			cout << trace_report.cigar << endl;
+			
+		}
+		filehandle.close();
+		
+	}
+	else cout << "Unable to open read file.\n"; 
+	
+	//write_file();
+	return 0;	
+}
+
+
+
+
+
+
+int realmain (int argc, char * const argv[])
+{
+	
 	/* ___ PART 1:  Hash the Genome "Build Step" __________________  */
 	
     
     // The File Path of the Reference Genome (JSON?)
 	string fasta_file_name = "/Users/kural/Downloads/chr20.fa";
 	
-	// The Reference Genome (a vector of fasta entries
+	// The Reference Genome (a vector of fasta entries)
 	vector<fasta_entry> ref_genome;	
 	
 	// kmer hash build size.. very important (JSON?)
@@ -112,8 +179,11 @@ int main (int argc, char * const argv[])
 	
 	/* ___ PART 2:  Read FASTQ and Align Reads _____________________ */
 
-	string read = "CTTCTTCTTCTTCTTCTTCTTCTTCCTTCTTCTTCTTCTTCTTCTTCTTC";
-		
+	
+	// testing
+	//string read = "CTTCTTCTTCTTCTTCTTCTTCTTCCTTCTTCTTCTTCTTCTTCTTCTTC";
+	string read = "ATCGAA";
+	
 	// Declere a read object from a fastq file
 	fastq_entry read_q;					
 	
@@ -134,6 +204,8 @@ int main (int argc, char * const argv[])
 			read_q.rc_sequence = reverseComplement(read_q.sequence);
 
 			
+			
+			// For each chromosome,  get clusters ...
 			vector<fasta_entry>::iterator t;
 			for (t = ref_genome.begin(); t != ref_genome.end(); ++t) {
 				
@@ -145,18 +217,20 @@ int main (int argc, char * const argv[])
 			
 			/* --- alignment -- */
 			
-			// string read = "ATCGAA";
+			//string read = "ATCGAA";
 			
 			
 			// Declare the target DAG to align against. 
 			vector<sn*> nlist;
-			origIndel(nlist);
+			//origIndel(nlist);
+			json_example(nlist);
+
 			
 			
-			cout << "in the main:"<< endl<<nlist.front()->name << endl;
+			cout << "in the main:\t"<< nlist.front()->name << "\tread:\t" << read << endl;
 			sn* result = gsw(read, nlist);
 			
-			cout<<result->name<<", top score: "<<result->top_score.score<<endl;
+			cout<<result->name<<", top score:\t"<<result->top_score.score<<endl;
 			
 			displayNode(result);
 			displayAlignment(result);
@@ -174,15 +248,11 @@ int main (int argc, char * const argv[])
 	}
 	else cout << "Unable to open read file.\n"; 
 	
-	
-	
-	
-	
 	//write_file();
 	
-
-	
 	return 0;
-	
 }
+
+
+
 

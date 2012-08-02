@@ -42,7 +42,6 @@ int origIndel(vector<sn*> &nlist) {
 	n2 = new sn;
 	n3 = new sn;
 	
-	
 	n1->name = "n1";
 	n1->sequence = "TTGGAT";
 	n1->seq_len = n1->sequence.length();

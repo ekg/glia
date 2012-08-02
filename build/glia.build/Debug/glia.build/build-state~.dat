@@ -1,7 +1,7 @@
 Tglia
 v7
 r0
-t349127306.524332
+t365503581.346598
 cCheck dependencies
 cCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/main.o /Users/kural/Documents/glia/main.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
 cCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/dump.o /Users/kural/Documents/glia/dump.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
@@ -14,6 +14,9 @@ cCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/examples.o /Us
 cCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/gsw.o /Users/kural/Documents/glia/gsw.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
 cCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/show.o /Users/kural/Documents/glia/show.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
 cCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/ghash.o /Users/kural/Documents/glia/ghash.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
+cCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/getSeeds.o /Users/kural/Documents/glia/getSeeds.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
+cCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/jsreader.o /Users/kural/Documents/glia/jsreader.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
+cCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/jsoncpp.o /Users/kural/Documents/glia/jsoncpp.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
 cLd /Users/kural/Documents/glia/build/Debug/glia normal x86_64
 
 N/Developer/SDKs/MacOSX10.6.sdk
@@ -21,65 +24,105 @@ c000000004A769DAB00000000000000EE
 t1249287595
 s238
 
+N/Developer/SDKs/MacOSX10.6.sdk/usr/include/assert.h
+c000000004A5C14A60000000000000DCB
+t1247548582
+s3531
+
+N/Developer/SDKs/MacOSX10.6.sdk/usr/include/stdio.h
+c000000004A5C14A70000000000004174
+t1247548583
+s16756
+
+N/Developer/SDKs/MacOSX10.6.sdk/usr/include/stdlib.h
+c000000004A5C14A70000000000002DF5
+t1247548583
+s11765
+
+N/Developer/SDKs/MacOSX10.6.sdk/usr/include/string.h
+c000000004A5C14A70000000000001731
+t1247548583
+s5937
+
 N/Users/kural/Documents/glia/build/Debug/glia
-t1327434506
-s442208
+t1343810781
+s918816
 
 N/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/dump.o
-t1327434502
+t1343810753
 s83000
 
 N/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/examples.o
-t1327434504
+t1343810755
 s185532
 
 N/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/fastq.o
-t1327434504
-s124508
+t1343810756
+s677616
+
+N/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/getSeeds.o
+t1343810758
+s796548
 
 N/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/ghash.o
-t1327434506
-s545048
+t1343810758
+s696600
 
 N/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/ghash.s
 t1325957066
 s801924
 
 N/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/glia.LinkFileList
-c000000004F1F0B050000000000000402
-t1327434501
-s1026
+c000000005018ECC1000000000000051E
+t1343810753
+s1310
+
+N/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/gliamodels.ii
+t1343808685
+s718334
 
 N/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/gliamodels.o
-t1327434503
+t1343810755
 s46272
 
 N/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/gsw.o
-t1327434505
+t1343810756
 s164188
 
 N/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/hash.o
 t2
 s0
 
+N/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/jsoncpp.o
+t1343810781
+s858760
+
+N/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/jsreader.o
+t1343810758
+s203448
+
 N/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/main.o
-t1327434503
-s417164
+t1343810754
+s410468
 
 N/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/matrices.o
-t1327434503
+t1343810754
 s137100
 
 N/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/nodealign.o
-t1327434503
+t1343810754
 s449684
 
+N/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/sfhash.o
+t2
+s0
+
 N/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/show.o
-t1327434505
+t1343810756
 s147124
 
 N/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/traceback.o
-t1327434504
+t1343810755
 s191704
 
 N/Users/kural/Documents/glia/dump.cpp
@@ -111,30 +154,50 @@ i<string>
 i"gliamodels.h"
 
 N/Users/kural/Documents/glia/fastq.cpp
-c000000004F0878AB0000000000000910
-t1325955243
-s2320
+c00000000500CD8C500000000000009FA
+t1343019205
+s2554
 i"fastq.h"
 
 N/Users/kural/Documents/glia/fastq.h
-c000000004F0871A8000000000000032E
-t1325953448
-s814
+c00000000500CD938000000000000042A
+t1343019320
+s1066
 i<iostream>
 i<fstream>
 i<string>
 i<vector>
+i<google/sparse_hash_map>
+
+N/Users/kural/Documents/glia/getSeeds.cpp
+c000000005018AAF50000000000001276
+t1343793909
+s4726
+i"getSeeds.h"
+
+N/Users/kural/Documents/glia/getSeeds.h
+c000000004F2492D700000000000001CE
+t1327796951
+s462
+i<iostream>
+i<vector>
+i<string>
+i<map>
+i<algorithm>
+i<queue>
+i<google/sparse_hash_map>
+i"fastq.h"
 
 N/Users/kural/Documents/glia/ghash.cpp
-c000000004F1F0AD60000000000000531
-t1327434454
-s1329
+c000000004F66C05A00000000000008CF
+t1332133978
+s2255
 i"ghash.h"
 
 N/Users/kural/Documents/glia/ghash.h
-c000000004F0AE26B0000000000000315
-t1326113387
-s789
+c000000004F24934900000000000003A5
+t1327797065
+s933
 i<iostream>
 i<vector>
 i<string>
@@ -144,29 +207,29 @@ i<google/sparse_hash_map>
 i"fastq.h"
 
 N/Users/kural/Documents/glia/gliamodels.cpp
-c000000004EF8284300000000000000A6
-t1324886083
+c000000005018E17C00000000000000A6
+t1343807868
 s166
 i"gliamodels.h"
 
 N/Users/kural/Documents/glia/gliamodels.h
-c000000004F0037940000000000000309
-t1325414292
-s777
+c000000005018AAF50000000000000320
+t1343793909
+s800
 i<iostream>
 i<vector>
 i<string>
 
 N/Users/kural/Documents/glia/gsw.cpp
-c000000004F031E0B0000000000000F00
-t1325604363
-s3840
+c0000000050177B650000000000000FDC
+t1343716197
+s4060
 i"gsw.h"
 
 N/Users/kural/Documents/glia/gsw.h
-c000000004EFA90CE00000000000001D4
-t1325043918
-s468
+c000000005018AAF500000000000002A5
+t1343793909
+s677
 i<vector>
 i<string>
 i<iostream>
@@ -185,10 +248,63 @@ c000000004F0432270000000000000083
 t1325675047
 s131
 
+N/Users/kural/Documents/glia/jsoncpp.cpp
+c000000004DBF266C00000000000195CB
+t1304372844
+s103883
+i<json/json.h>
+i<json/reader.h>
+i<json/value.h>
+i"json_tool.h"
+i<utility>
+i<cstdio>
+i<cassert>
+i<cstring>
+i<iostream>
+i<stdexcept>
+i<stdlib.h>
+i<assert.h>
+i<json/value.h>
+i<json/writer.h>
+i"json_batchallocator.h"
+i<iostream>
+i<utility>
+i<stdexcept>
+i<cstring>
+i<cassert>
+i<cpptl/conststring.h>
+i<cstddef>
+i"json_internalarray.inl"
+i"json_internalmap.inl"
+i"json_valueiterator.inl"
+i<json/writer.h>
+i"json_tool.h"
+i<utility>
+i<assert.h>
+i<stdio.h>
+i<string.h>
+i<iostream>
+i<sstream>
+i<iomanip>
+
+N/Users/kural/Documents/glia/jsreader.cpp
+c000000005018D36700000000000007F6
+t1343804263
+s2038
+i"jsreader.h"
+
+N/Users/kural/Documents/glia/jsreader.h
+c000000005018EC06000000000000010B
+t1343810566
+s267
+i<iostream>
+i<fstream>
+i<json/json.h>
+
 N/Users/kural/Documents/glia/main.cpp
-c000000004F1EEC6300000000000005AC
-t1327426659
-s1452
+c000000005018EA3A0000000000001052
+t1343810106
+s4178
 i<iostream>
 i<fstream>
 i<string>
@@ -203,6 +319,8 @@ i"examples.h"
 i"fastq.h"
 i"show.h"
 i"ghash.h"
+i"getSeeds.h"
+i"jsreader.h"
 
 N/Users/kural/Documents/glia/matrices.cpp
 c000000004EF415DC000000000000021F
@@ -233,6 +351,17 @@ i<string>
 i<iostream>
 i"gliamodels.h"
 i"show.h"
+
+N/Users/kural/Documents/glia/sfhash.cpp
+c000000004F206CA2000000000000009D
+t1327525026
+s157
+i"sfhash.h"
+
+N/Users/kural/Documents/glia/sfhash.h
+c000000004F206CA20000000000000086
+t1327525026
+s134
 
 N/Users/kural/Documents/glia/show.cpp
 c000000004F01BC7A0000000000000801
@@ -267,10 +396,184 @@ i<iostream>
 i"gliamodels.h"
 i"nodealign.h"
 
+N/Users/kural/Downloads/jsoncpp-src-0.6.0-rc2/buildscons/linux-gcc-4.2.1/src/lib_json/libjson_linux-gcc-4.2.1_libmt.a
+c0000000050188986000000000006A058
+t1343785350
+s434264
+
+N/Users/kural/Downloads/jsoncpp-src-0.6.0-rc2/buildscons/linux-gcc-4.2.1/src/lib_json/libjson_linux-gcc-4.2.1_libmt.dylib
+c0000000050188989000000000004D150
+t1343785353
+s315728
+
+N/Users/kural/Downloads/jsoncpp-src-0.6.0-rc2/include/Json/autolink.h
+c000000004DBF266C0000000000000298
+t1304372844
+s664
+i"config.h"
+i<cpptl/cpptl_autolink.h>
+i"autolink.h"
+
+N/Users/kural/Downloads/jsoncpp-src-0.6.0-rc2/include/Json/config.h
+c000000004DBF266C0000000000000D99
+t1304372844
+s3481
+i<cpptl/config.h>
+
+N/Users/kural/Downloads/jsoncpp-src-0.6.0-rc2/include/Json/features.h
+c000000004DBF2652000000000000063B
+t1304372818
+s1595
+i"forwards.h"
+
+N/Users/kural/Downloads/jsoncpp-src-0.6.0-rc2/include/Json/forwards.h
+c000000004DBF266C00000000000003E9
+t1304372844
+s1001
+i"config.h"
+
+N/Users/kural/Downloads/jsoncpp-src-0.6.0-rc2/include/Json/json.h
+c000000004DBF266C00000000000001AA
+t1304372844
+s426
+i"autolink.h"
+i"value.h"
+i"reader.h"
+i"writer.h"
+i"features.h"
+
+N/Users/kural/Downloads/jsoncpp-src-0.6.0-rc2/include/Json/reader.h
+c000000004DBF266C0000000000001D33
+t1304372844
+s7475
+i"features.h"
+i"value.h"
+i<deque>
+i<stack>
+i<string>
+i<iostream>
+
+N/Users/kural/Downloads/jsoncpp-src-0.6.0-rc2/include/Json/value.h
+c000000004DBF266C0000000000008B07
+t1304372844
+s35591
+i"forwards.h"
+i<string>
+i<vector>
+i<map>
+i<cpptl/smallmap.h>
+i<cpptl/forwards.h>
+
+N/Users/kural/Downloads/jsoncpp-src-0.6.0-rc2/include/Json/writer.h
+c000000004DBF266C0000000000001A17
+t1304372844
+s6679
+i"value.h"
+i<vector>
+i<string>
+i<iostream>
+
+N/Users/kural/Downloads/jsoncpp-src-0.6.0-rc2/include/json/autolink.h
+c000000004DBF266C0000000000000298
+t1304372844
+s664
+i"config.h"
+i<cpptl/cpptl_autolink.h>
+i"autolink.h"
+
+N/Users/kural/Downloads/jsoncpp-src-0.6.0-rc2/include/json/config.h
+c000000004DBF266C0000000000000D99
+t1304372844
+s3481
+i<cpptl/config.h>
+
+N/Users/kural/Downloads/jsoncpp-src-0.6.0-rc2/include/json/features.h
+c000000004DBF2652000000000000063B
+t1304372818
+s1595
+i"forwards.h"
+
+N/Users/kural/Downloads/jsoncpp-src-0.6.0-rc2/include/json/forwards.h
+c000000004DBF266C00000000000003E9
+t1304372844
+s1001
+i"config.h"
+
+N/Users/kural/Downloads/jsoncpp-src-0.6.0-rc2/include/json/json.h
+c000000004DBF266C00000000000001AA
+t1304372844
+s426
+i"autolink.h"
+i"value.h"
+i"reader.h"
+i"writer.h"
+i"features.h"
+
+N/Users/kural/Downloads/jsoncpp-src-0.6.0-rc2/include/json/reader.h
+c000000004DBF266C0000000000001D33
+t1304372844
+s7475
+i"features.h"
+i"value.h"
+i<deque>
+i<stack>
+i<string>
+i<iostream>
+
+N/Users/kural/Downloads/jsoncpp-src-0.6.0-rc2/include/json/value.h
+c000000004DBF266C0000000000008B07
+t1304372844
+s35591
+i"forwards.h"
+i<string>
+i<vector>
+i<map>
+i<cpptl/smallmap.h>
+i<cpptl/forwards.h>
+
+N/Users/kural/Downloads/jsoncpp-src-0.6.0-rc2/include/json/writer.h
+c000000004DBF266C0000000000001A17
+t1304372844
+s6679
+i"value.h"
+i<vector>
+i<string>
+i<iostream>
+
+N/Users/kural/Downloads/jsoncpp-src-0.6.0-rc2/libs/linux-gcc-4.2.1/libjson_linux-gcc-4.2.1_libmt.a
+c0000000050188986000000000006A058
+t1343785350
+s434264
+
+N/Users/kural/Downloads/jsoncpp-src-0.6.0-rc2/libs/linux-gcc-4.2.1/libjson_linux-gcc-4.2.1_libmt.dylib
+c0000000050188989000000000004D150
+t1343785353
+s315728
+
 N/usr/local/include/google/sparse_hash_map
 c000000004F0AD5C90000000000003D1F
 t1326110153
 s15647
+
+N/usr/local/include/json
+c000000005018E8830000000000000088
+t1343809667
+s136
+
+N/usr/local/include/json/json-forwards.h
+c000000005018E883000000000000227B
+t1343809667
+s8827
+
+N/usr/local/include/json/json.h
+c000000005018E764000000000000F0FC
+t1343809380
+s61692
+
+N/usr/local/include/jsoncpp.cpp
+c000000005018E76400000000000195CB
+t1343809380
+s103883
 
 C<C0013:'CompileC ghash.o':P8:W0>
 s347649865.610829
@@ -285,13 +588,26 @@ xc++
 xcom.apple.compilers.gcc.4_2
 lSLF07#2@45"Compile /Users/kural/Documents/glia/ghash.cpp347649865#347649866#0(0"0(0#0#37"/Users/kural/Documents/glia/ghash.cpp3344049585523208192#1118"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -S /Users/kural/Documents/glia/ghash.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/ghash.s0#
 
+C<C0015:'CompileC gliamodels.o':P8:W0>
+s365501485.152964
+e365501485.400772
+r1
+xCompileC
+xbuild/glia.build/Debug/glia.build/Objects-normal/x86_64/gliamodels.o
+x/Users/kural/Documents/glia/gliamodels.cpp
+xnormal
+xx86_64
+xc++
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@50"Compile /Users/kural/Documents/glia/gliamodels.cpp365501485#365501485#0(0"0(0#0#42"/Users/kural/Documents/glia/gliamodels.cpp8029180816089624576#1402"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/Users/kural/Downloads/jsoncpp-src-0.6.0-rc2/include -I/Users/kural/Downloads/jsoncpp-src-0.6.0-rc2/include/json -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/jsarc -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -fpch-preprocess -E /Users/kural/Documents/glia/gliamodels.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/gliamodels.ii0#
+
 CCheck dependencies
 r0
-lSLF07#2@18"Check dependencies349127301#349127301#0(0"0(0#1#0"8608539872#0"0#
+lSLF07#2@18"Check dependencies365503553#365503553#0(0"0(0#1#0"8604695616#0"0#
 
 CCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/dump.o /Users/kural/Documents/glia/dump.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
-s349127301.714474
-e349127302.227478
+s365503553.152451
+e365503553.603193
 r1
 xCompileC
 xbuild/glia.build/Debug/glia.build/Objects-normal/x86_64/dump.o
@@ -300,11 +616,11 @@ xnormal
 xx86_64
 xc++
 xcom.apple.compilers.gcc.4_2
-lSLF07#2@44"Compile /Users/kural/Documents/glia/dump.cpp349127301#349127302#0(0"0(0#0#36"/Users/kural/Documents/glia/dump.cpp8600216288#1230"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/dump.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/dump.o0#
+lSLF07#2@44"Compile /Users/kural/Documents/glia/dump.cpp365503553#365503553#0(0"0(0#0#36"/Users/kural/Documents/glia/dump.cpp8604942336#1283"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/jsarc -I/usr/local/include/json -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/dump.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/dump.o0#
 
 CCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/examples.o /Users/kural/Documents/glia/examples.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
-s349127304.160471
-e349127304.684535
+s365503555.430713
+e365503555.881675
 r1
 xCompileC
 xbuild/glia.build/Debug/glia.build/Objects-normal/x86_64/examples.o
@@ -313,11 +629,11 @@ xnormal
 xx86_64
 xc++
 xcom.apple.compilers.gcc.4_2
-lSLF07#2@48"Compile /Users/kural/Documents/glia/examples.cpp349127304#349127304#0(0"0(0#0#40"/Users/kural/Documents/glia/examples.cpp8609463808#1238"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/examples.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/examples.o0#
+lSLF07#2@48"Compile /Users/kural/Documents/glia/examples.cpp365503555#365503555#0(0"0(0#0#40"/Users/kural/Documents/glia/examples.cpp8608943552#1291"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/jsarc -I/usr/local/include/json -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/examples.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/examples.o0#
 
 CCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/fastq.o /Users/kural/Documents/glia/fastq.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
-s349127303.962424
-e349127304.478131
+s365503555.130060
+e365503556.635235
 r1
 xCompileC
 xbuild/glia.build/Debug/glia.build/Objects-normal/x86_64/fastq.o
@@ -326,11 +642,164 @@ xnormal
 xx86_64
 xc++
 xcom.apple.compilers.gcc.4_2
-lSLF07#2@45"Compile /Users/kural/Documents/glia/fastq.cpp349127303#349127304#0(0"0(0#0#37"/Users/kural/Documents/glia/fastq.cpp8609563328#1232"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/fastq.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/fastq.o0#
+oIn file included from /usr/local/include/google/sparsehash/sparsehashtable.h:98,
+o                 from /usr/local/include/google/sparse_hash_map:93,
+o                 from /Users/kural/Documents/glia/fastq.h:18,
+o                 from /Users/kural/Documents/glia/fastq.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefined
+oIn file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h:35,
+o                 from /usr/local/include/google/sparse_hash_map:92,
+o                 from /Users/kural/Documents/glia/fastq.h:18,
+o                 from /Users/kural/Documents/glia/fastq.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definition
+oIn file included from /usr/local/include/google/sparsehash/sparsehashtable.h:98,
+o                 from /usr/local/include/google/sparse_hash_map:93,
+o                 from /Users/kural/Documents/glia/fastq.h:18,
+o                 from /Users/kural/Documents/glia/fastq.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefined
+oIn file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h:35,
+o                 from /usr/local/include/google/sparse_hash_map:92,
+o                 from /Users/kural/Documents/glia/fastq.h:18,
+o                 from /Users/kural/Documents/glia/fastq.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definition
+oIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,
+o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,
+o                 from /usr/local/include/google/sparse_hash_map:93,
+o                 from /Users/kural/Documents/glia/fastq.h:18,
+o                 from /Users/kural/Documents/glia/fastq.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefined
+oIn file included from /usr/local/include/google/template_util.h:52,
+o                 from /usr/local/include/google/type_traits.h:63,
+o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:104,
+o                 from /usr/local/include/google/sparse_hash_map:93,
+o                 from /Users/kural/Documents/glia/fastq.h:18,
+o                 from /Users/kural/Documents/glia/fastq.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definition
+oIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,
+o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,
+o                 from /usr/local/include/google/sparse_hash_map:93,
+o                 from /Users/kural/Documents/glia/fastq.h:18,
+o                 from /Users/kural/Documents/glia/fastq.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefined
+oIn file included from /usr/local/include/google/template_util.h:52,
+o                 from /usr/local/include/google/type_traits.h:63,
+o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:104,
+o                 from /usr/local/include/google/sparse_hash_map:93,
+o                 from /Users/kural/Documents/glia/fastq.h:18,
+o                 from /Users/kural/Documents/glia/fastq.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definition
+oIn file included from /usr/local/include/google/sparsetable:227,
+o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:106,
+o                 from /usr/local/include/google/sparse_hash_map:93,
+o                 from /Users/kural/Documents/glia/fastq.h:18,
+o                 from /Users/kural/Documents/glia/fastq.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefined
+oIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,
+o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,
+o                 from /usr/local/include/google/sparse_hash_map:93,
+o                 from /Users/kural/Documents/glia/fastq.h:18,
+o                 from /Users/kural/Documents/glia/fastq.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definition
+oIn file included from /usr/local/include/google/sparsetable:227,
+o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:106,
+o                 from /usr/local/include/google/sparse_hash_map:93,
+o                 from /Users/kural/Documents/glia/fastq.h:18,
+o                 from /Users/kural/Documents/glia/fastq.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefined
+oIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,
+o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,
+o                 from /usr/local/include/google/sparse_hash_map:93,
+o                 from /Users/kural/Documents/glia/fastq.h:18,
+o                 from /Users/kural/Documents/glia/fastq.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definition
+lSLF07#2@45"Compile /Users/kural/Documents/glia/fastq.cpp365503555#365503556#0(5366"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h:98,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/fastq.h:18,                 from /Users/kural/Documents/glia/fastq.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h:35,                 from /usr/local/include/google/sparse_hash_map:92,                 from /Users/kural/Documents/glia/fastq.h:18,                 from /Users/kural/Documents/glia/fastq.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsehash/sparsehashtable.h:98,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/fastq.h:18,                 from /Users/kural/Documents/glia/fastq.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h:35,                 from /usr/local/include/google/sparse_hash_map:92,                 from /Users/kural/Documents/glia/fastq.h:18,                 from /Users/kural/Documents/glia/fastq.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/fastq.h:18,                 from /Users/kural/Documents/glia/fastq.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/template_util.h:52,                 from /usr/local/include/google/type_traits.h:63,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:104,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/fastq.h:18,                 from /Users/kural/Documents/glia/fastq.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/fastq.h:18,                 from /Users/kural/Documents/glia/fastq.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/template_util.h:52,                 from /usr/local/include/google/type_traits.h:63,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:104,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/fastq.h:18,                 from /Users/kural/Documents/glia/fastq.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsetable:227,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:106,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/fastq.h:18,                 from /Users/kural/Documents/glia/fastq.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/fastq.h:18,                 from /Users/kural/Documents/glia/fastq.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsetable:227,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:106,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/fastq.h:18,                 from /Users/kural/Documents/glia/fastq.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/fastq.h:18,                 from /Users/kural/Documents/glia/fastq.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definition12(22@34""_END_GOOGLE_NAMESPACE_" redefined365503555#275#102#5(7@59"In file included from /Users/kural/Documents/glia/fastq.cpp365503555#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/fastq.cpp364712005#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/fastq.h365503555#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/fastq.h364712120#18#0#18#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503555#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503555#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#98#0#98#0#0"0(13@89""_END_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503555#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#13""*" redefined0(22@47"This is the location of the previous definition365503555#664#115#5(7@59"In file included from /Users/kural/Documents/glia/fastq.cpp365503555#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/fastq.cpp364712005#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/fastq.h365503555#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/fastq.h364712120#18#0#18#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503555#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#92#0#92#0#0"0(7@88"In file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h365503555#18446744073709551615#0#0(6@66"/usr/local/include/google/sparsehash/libc_allocator_with_realloc.h347802953#35#0#35#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503555#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#47"this is the location of the previous definition0(22@36""_START_GOOGLE_NAMESPACE_" redefined365503555#1054#104#5(7@59"In file included from /Users/kural/Documents/glia/fastq.cpp365503555#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/fastq.cpp364712005#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/fastq.h365503555#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/fastq.h364712120#18#0#18#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503555#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503555#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#98#0#98#0#0"0(13@91""_START_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503555#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#13""*" redefined0(22@47"This is the location of the previous definition365503555#1445#115#5(7@59"In file included from /Users/kural/Documents/glia/fastq.cpp365503555#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/fastq.cpp364712005#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/fastq.h365503555#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/fastq.h364712120#18#0#18#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503555#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#92#0#92#0#0"0(7@88"In file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h365503555#18446744073709551615#0#0(6@66"/usr/local/include/google/sparsehash/libc_allocator_with_realloc.h347802953#35#0#35#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503555#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#47"this is the location of the previous definition0(22@34""_END_GOOGLE_NAMESPACE_" redefined365503555#1918#102#6(7@59"In file included from /Users/kural/Documents/glia/fastq.cpp365503555#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/fastq.cpp364712005#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/fastq.h365503555#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/fastq.h364712120#18#0#18#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503555#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503555#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h365503555#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@89""_END_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503555#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#13""*" redefined0(22@47"This is the location of the previous definition365503555#2430#115#7(7@59"In file included from /Users/kural/Documents/glia/fastq.cpp365503555#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/fastq.cpp364712005#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/fastq.h365503555#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/fastq.h364712120#18#0#18#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503555#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503555#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#104#0#104#0#0"0(7@61"In file included from /usr/local/include/google/type_traits.h365503555#18446744073709551615#0#0(6@39"/usr/local/include/google/type_traits.h347802953#63#0#63#0#0"0(7@63"In file included from /usr/local/include/google/template_util.h365503555#18446744073709551615#0#0(6@41"/usr/local/include/google/template_util.h347802953#52#0#52#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503555#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#47"this is the location of the previous definition0(22@36""_START_GOOGLE_NAMESPACE_" redefined365503555#2903#104#6(7@59"In file included from /Users/kural/Documents/glia/fastq.cpp365503555#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/fastq.cpp364712005#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/fastq.h365503555#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/fastq.h364712120#18#0#18#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503555#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503555#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h365503555#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@91""_START_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503555#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#13""*" redefined0(22@47"This is the location of the previous definition365503555#3417#115#7(7@59"In file included from /Users/kural/Documents/glia/fastq.cpp365503555#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/fastq.cpp364712005#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/fastq.h365503555#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/fastq.h364712120#18#0#18#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503555#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503555#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#104#0#104#0#0"0(7@61"In file included from /usr/local/include/google/type_traits.h365503555#18446744073709551615#0#0(6@39"/usr/local/include/google/type_traits.h347802953#63#0#63#0#0"0(7@63"In file included from /usr/local/include/google/template_util.h365503555#18446744073709551615#0#0(6@41"/usr/local/include/google/template_util.h347802953#52#0#52#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503555#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#47"this is the location of the previous definition0(22@34""_END_GOOGLE_NAMESPACE_" redefined365503555#3873#102#6(7@59"In file included from /Users/kural/Documents/glia/fastq.cpp365503555#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/fastq.cpp364712005#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/fastq.h365503555#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/fastq.h364712120#18#0#18#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503555#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503555#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#106#0#106#0#0"0(7@59"In file included from /usr/local/include/google/sparsetable365503555#18446744073709551615#0#0(6@37"/usr/local/include/google/sparsetable347802953#227#0#227#0#0"0(13@89""_END_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503555#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#13""*" redefined0(22@47"This is the location of the previous definition365503555#4333#115#6(7@59"In file included from /Users/kural/Documents/glia/fastq.cpp365503555#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/fastq.cpp364712005#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/fastq.h365503555#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/fastq.h364712120#18#0#18#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503555#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503555#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h365503555#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503555#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#47"this is the location of the previous definition0(22@36""_START_GOOGLE_NAMESPACE_" redefined365503555#4789#104#6(7@59"In file included from /Users/kural/Documents/glia/fastq.cpp365503555#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/fastq.cpp364712005#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/fastq.h365503555#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/fastq.h364712120#18#0#18#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503555#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503555#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#106#0#106#0#0"0(7@59"In file included from /usr/local/include/google/sparsetable365503555#18446744073709551615#0#0(6@37"/usr/local/include/google/sparsetable347802953#227#0#227#0#0"0(13@91""_START_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503555#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#13""*" redefined0(22@47"This is the location of the previous definition365503555#5251#115#6(7@59"In file included from /Users/kural/Documents/glia/fastq.cpp365503555#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/fastq.cpp364712005#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/fastq.h365503555#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/fastq.h364712120#18#0#18#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503555#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503555#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h365503555#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503555#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#47"this is the location of the previous definition0(0#0#37"/Users/kural/Documents/glia/fastq.cpp8610036064#1285"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/jsarc -I/usr/local/include/json -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/fastq.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/fastq.o0#
+
+CCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/getSeeds.o /Users/kural/Documents/glia/getSeeds.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
+s365503556.826162
+e365503558.491171
+r1
+xCompileC
+xbuild/glia.build/Debug/glia.build/Objects-normal/x86_64/getSeeds.o
+x/Users/kural/Documents/glia/getSeeds.cpp
+xnormal
+xx86_64
+xc++
+xcom.apple.compilers.gcc.4_2
+oIn file included from /usr/local/include/google/sparsehash/sparsehashtable.h:98,
+o                 from /usr/local/include/google/sparse_hash_map:93,
+o                 from /Users/kural/Documents/glia/getSeeds.h:21,
+o                 from /Users/kural/Documents/glia/getSeeds.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefined
+oIn file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h:35,
+o                 from /usr/local/include/google/sparse_hash_map:92,
+o                 from /Users/kural/Documents/glia/getSeeds.h:21,
+o                 from /Users/kural/Documents/glia/getSeeds.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definition
+oIn file included from /usr/local/include/google/sparsehash/sparsehashtable.h:98,
+o                 from /usr/local/include/google/sparse_hash_map:93,
+o                 from /Users/kural/Documents/glia/getSeeds.h:21,
+o                 from /Users/kural/Documents/glia/getSeeds.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefined
+oIn file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h:35,
+o                 from /usr/local/include/google/sparse_hash_map:92,
+o                 from /Users/kural/Documents/glia/getSeeds.h:21,
+o                 from /Users/kural/Documents/glia/getSeeds.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definition
+oIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,
+o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,
+o                 from /usr/local/include/google/sparse_hash_map:93,
+o                 from /Users/kural/Documents/glia/getSeeds.h:21,
+o                 from /Users/kural/Documents/glia/getSeeds.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefined
+oIn file included from /usr/local/include/google/template_util.h:52,
+o                 from /usr/local/include/google/type_traits.h:63,
+o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:104,
+o                 from /usr/local/include/google/sparse_hash_map:93,
+o                 from /Users/kural/Documents/glia/getSeeds.h:21,
+o                 from /Users/kural/Documents/glia/getSeeds.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definition
+oIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,
+o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,
+o                 from /usr/local/include/google/sparse_hash_map:93,
+o                 from /Users/kural/Documents/glia/getSeeds.h:21,
+o                 from /Users/kural/Documents/glia/getSeeds.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefined
+oIn file included from /usr/local/include/google/template_util.h:52,
+o                 from /usr/local/include/google/type_traits.h:63,
+o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:104,
+o                 from /usr/local/include/google/sparse_hash_map:93,
+o                 from /Users/kural/Documents/glia/getSeeds.h:21,
+o                 from /Users/kural/Documents/glia/getSeeds.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definition
+oIn file included from /usr/local/include/google/sparsetable:227,
+o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:106,
+o                 from /usr/local/include/google/sparse_hash_map:93,
+o                 from /Users/kural/Documents/glia/getSeeds.h:21,
+o                 from /Users/kural/Documents/glia/getSeeds.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefined
+oIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,
+o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,
+o                 from /usr/local/include/google/sparse_hash_map:93,
+o                 from /Users/kural/Documents/glia/getSeeds.h:21,
+o                 from /Users/kural/Documents/glia/getSeeds.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definition
+oIn file included from /usr/local/include/google/sparsetable:227,
+o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:106,
+o                 from /usr/local/include/google/sparse_hash_map:93,
+o                 from /Users/kural/Documents/glia/getSeeds.h:21,
+o                 from /Users/kural/Documents/glia/getSeeds.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefined
+oIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,
+o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,
+o                 from /usr/local/include/google/sparse_hash_map:93,
+o                 from /Users/kural/Documents/glia/getSeeds.h:21,
+o                 from /Users/kural/Documents/glia/getSeeds.cpp:10:
+o/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definition
+lSLF07#2@48"Compile /Users/kural/Documents/glia/getSeeds.cpp365503556#365503558#0(5438"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h:98,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/getSeeds.h:21,                 from /Users/kural/Documents/glia/getSeeds.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h:35,                 from /usr/local/include/google/sparse_hash_map:92,                 from /Users/kural/Documents/glia/getSeeds.h:21,                 from /Users/kural/Documents/glia/getSeeds.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsehash/sparsehashtable.h:98,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/getSeeds.h:21,                 from /Users/kural/Documents/glia/getSeeds.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h:35,                 from /usr/local/include/google/sparse_hash_map:92,                 from /Users/kural/Documents/glia/getSeeds.h:21,                 from /Users/kural/Documents/glia/getSeeds.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/getSeeds.h:21,                 from /Users/kural/Documents/glia/getSeeds.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/template_util.h:52,                 from /usr/local/include/google/type_traits.h:63,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:104,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/getSeeds.h:21,                 from /Users/kural/Documents/glia/getSeeds.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/getSeeds.h:21,                 from /Users/kural/Documents/glia/getSeeds.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/template_util.h:52,                 from /usr/local/include/google/type_traits.h:63,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:104,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/getSeeds.h:21,                 from /Users/kural/Documents/glia/getSeeds.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsetable:227,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:106,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/getSeeds.h:21,                 from /Users/kural/Documents/glia/getSeeds.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/getSeeds.h:21,                 from /Users/kural/Documents/glia/getSeeds.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsetable:227,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:106,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/getSeeds.h:21,                 from /Users/kural/Documents/glia/getSeeds.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/getSeeds.h:21,                 from /Users/kural/Documents/glia/getSeeds.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definition12(22@34""_END_GOOGLE_NAMESPACE_" redefined365503556#281#102#5(7@62"In file included from /Users/kural/Documents/glia/getSeeds.cpp365503556#18446744073709551615#0#0(6@40"/Users/kural/Documents/glia/getSeeds.cpp365486709#10#0#10#0#0"0(7@60"In file included from /Users/kural/Documents/glia/getSeeds.h365503556#18446744073709551615#0#0(6@38"/Users/kural/Documents/glia/getSeeds.h349489751#21#0#21#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503556#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#98#0#98#0#0"0(13@89""_END_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#13""*" redefined0(22@47"This is the location of the previous definition365503556#676#115#5(7@62"In file included from /Users/kural/Documents/glia/getSeeds.cpp365503556#18446744073709551615#0#0(6@40"/Users/kural/Documents/glia/getSeeds.cpp365486709#10#0#10#0#0"0(7@60"In file included from /Users/kural/Documents/glia/getSeeds.h365503556#18446744073709551615#0#0(6@38"/Users/kural/Documents/glia/getSeeds.h349489751#21#0#21#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#92#0#92#0#0"0(7@88"In file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h365503556#18446744073709551615#0#0(6@66"/usr/local/include/google/sparsehash/libc_allocator_with_realloc.h347802953#35#0#35#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#47"this is the location of the previous definition0(22@36""_START_GOOGLE_NAMESPACE_" redefined365503556#1072#104#5(7@62"In file included from /Users/kural/Documents/glia/getSeeds.cpp365503556#18446744073709551615#0#0(6@40"/Users/kural/Documents/glia/getSeeds.cpp365486709#10#0#10#0#0"0(7@60"In file included from /Users/kural/Documents/glia/getSeeds.h365503556#18446744073709551615#0#0(6@38"/Users/kural/Documents/glia/getSeeds.h349489751#21#0#21#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503556#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#98#0#98#0#0"0(13@91""_START_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#13""*" redefined0(22@47"This is the location of the previous definition365503556#1469#115#5(7@62"In file included from /Users/kural/Documents/glia/getSeeds.cpp365503556#18446744073709551615#0#0(6@40"/Users/kural/Documents/glia/getSeeds.cpp365486709#10#0#10#0#0"0(7@60"In file included from /Users/kural/Documents/glia/getSeeds.h365503556#18446744073709551615#0#0(6@38"/Users/kural/Documents/glia/getSeeds.h349489751#21#0#21#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#92#0#92#0#0"0(7@88"In file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h365503556#18446744073709551615#0#0(6@66"/usr/local/include/google/sparsehash/libc_allocator_with_realloc.h347802953#35#0#35#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#47"this is the location of the previous definition0(22@34""_END_GOOGLE_NAMESPACE_" redefined365503556#1948#102#6(7@62"In file included from /Users/kural/Documents/glia/getSeeds.cpp365503556#18446744073709551615#0#0(6@40"/Users/kural/Documents/glia/getSeeds.cpp365486709#10#0#10#0#0"0(7@60"In file included from /Users/kural/Documents/glia/getSeeds.h365503556#18446744073709551615#0#0(6@38"/Users/kural/Documents/glia/getSeeds.h349489751#21#0#21#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503556#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h365503556#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@89""_END_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#13""*" redefined0(22@47"This is the location of the previous definition365503556#2466#115#7(7@62"In file included from /Users/kural/Documents/glia/getSeeds.cpp365503556#18446744073709551615#0#0(6@40"/Users/kural/Documents/glia/getSeeds.cpp365486709#10#0#10#0#0"0(7@60"In file included from /Users/kural/Documents/glia/getSeeds.h365503556#18446744073709551615#0#0(6@38"/Users/kural/Documents/glia/getSeeds.h349489751#21#0#21#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503556#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#104#0#104#0#0"0(7@61"In file included from /usr/local/include/google/type_traits.h365503556#18446744073709551615#0#0(6@39"/usr/local/include/google/type_traits.h347802953#63#0#63#0#0"0(7@63"In file included from /usr/local/include/google/template_util.h365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/template_util.h347802953#52#0#52#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#47"this is the location of the previous definition0(22@36""_START_GOOGLE_NAMESPACE_" redefined365503556#2945#104#6(7@62"In file included from /Users/kural/Documents/glia/getSeeds.cpp365503556#18446744073709551615#0#0(6@40"/Users/kural/Documents/glia/getSeeds.cpp365486709#10#0#10#0#0"0(7@60"In file included from /Users/kural/Documents/glia/getSeeds.h365503556#18446744073709551615#0#0(6@38"/Users/kural/Documents/glia/getSeeds.h349489751#21#0#21#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503556#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h365503556#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@91""_START_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#13""*" redefined0(22@47"This is the location of the previous definition365503556#3465#115#7(7@62"In file included from /Users/kural/Documents/glia/getSeeds.cpp365503556#18446744073709551615#0#0(6@40"/Users/kural/Documents/glia/getSeeds.cpp365486709#10#0#10#0#0"0(7@60"In file included from /Users/kural/Documents/glia/getSeeds.h365503556#18446744073709551615#0#0(6@38"/Users/kural/Documents/glia/getSeeds.h349489751#21#0#21#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503556#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#104#0#104#0#0"0(7@61"In file included from /usr/local/include/google/type_traits.h365503556#18446744073709551615#0#0(6@39"/usr/local/include/google/type_traits.h347802953#63#0#63#0#0"0(7@63"In file included from /usr/local/include/google/template_util.h365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/template_util.h347802953#52#0#52#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#47"this is the location of the previous definition0(22@34""_END_GOOGLE_NAMESPACE_" redefined365503556#3927#102#6(7@62"In file included from /Users/kural/Documents/glia/getSeeds.cpp365503556#18446744073709551615#0#0(6@40"/Users/kural/Documents/glia/getSeeds.cpp365486709#10#0#10#0#0"0(7@60"In file included from /Users/kural/Documents/glia/getSeeds.h365503556#18446744073709551615#0#0(6@38"/Users/kural/Documents/glia/getSeeds.h349489751#21#0#21#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503556#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#106#0#106#0#0"0(7@59"In file included from /usr/local/include/google/sparsetable365503556#18446744073709551615#0#0(6@37"/usr/local/include/google/sparsetable347802953#227#0#227#0#0"0(13@89""_END_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#13""*" redefined0(22@47"This is the location of the previous definition365503556#4393#115#6(7@62"In file included from /Users/kural/Documents/glia/getSeeds.cpp365503556#18446744073709551615#0#0(6@40"/Users/kural/Documents/glia/getSeeds.cpp365486709#10#0#10#0#0"0(7@60"In file included from /Users/kural/Documents/glia/getSeeds.h365503556#18446744073709551615#0#0(6@38"/Users/kural/Documents/glia/getSeeds.h349489751#21#0#21#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503556#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h365503556#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#47"this is the location of the previous definition0(22@36""_START_GOOGLE_NAMESPACE_" redefined365503556#4855#104#6(7@62"In file included from /Users/kural/Documents/glia/getSeeds.cpp365503556#18446744073709551615#0#0(6@40"/Users/kural/Documents/glia/getSeeds.cpp365486709#10#0#10#0#0"0(7@60"In file included from /Users/kural/Documents/glia/getSeeds.h365503556#18446744073709551615#0#0(6@38"/Users/kural/Documents/glia/getSeeds.h349489751#21#0#21#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503556#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#106#0#106#0#0"0(7@59"In file included from /usr/local/include/google/sparsetable365503556#18446744073709551615#0#0(6@37"/usr/local/include/google/sparsetable347802953#227#0#227#0#0"0(13@91""_START_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#13""*" redefined0(22@47"This is the location of the previous definition365503556#5323#115#6(7@62"In file included from /Users/kural/Documents/glia/getSeeds.cpp365503556#18446744073709551615#0#0(6@40"/Users/kural/Documents/glia/getSeeds.cpp365486709#10#0#10#0#0"0(7@60"In file included from /Users/kural/Documents/glia/getSeeds.h365503556#18446744073709551615#0#0(6@38"/Users/kural/Documents/glia/getSeeds.h349489751#21#0#21#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503556#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h365503556#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#47"this is the location of the previous definition0(0#0#40"/Users/kural/Documents/glia/getSeeds.cpp8608136608#1291"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/jsarc -I/usr/local/include/json -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/getSeeds.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/getSeeds.o0#
 
 CCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/ghash.o /Users/kural/Documents/glia/ghash.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
-s349127305.073986
-e349127306.332109
+s365503556.635320
+e365503558.202983
 r1
 xCompileC
 xbuild/glia.build/Debug/glia.build/Objects-normal/x86_64/ghash.o
@@ -409,11 +878,11 @@ o                 from /usr/local/include/google/sparse_hash_map:93,
 o                 from /Users/kural/Documents/glia/ghash.h:19,
 o                 from /Users/kural/Documents/glia/ghash.cpp:10:
 o/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definition
-lSLF07#2@45"Compile /Users/kural/Documents/glia/ghash.cpp349127305#349127306#0(5366"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h:98,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h:35,                 from /usr/local/include/google/sparse_hash_map:92,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsehash/sparsehashtable.h:98,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h:35,                 from /usr/local/include/google/sparse_hash_map:92,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/template_util.h:52,                 from /usr/local/include/google/type_traits.h:63,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:104,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/template_util.h:52,                 from /usr/local/include/google/type_traits.h:63,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:104,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsetable:227,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:106,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsetable:227,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:106,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definition12(22@34""_END_GOOGLE_NAMESPACE_" redefined349127305#275#102#5(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp349127305#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp349127254#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h349127305#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h347806187#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127305#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h349127305#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#98#0#98#0#0"0(13@89""_END_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h349127305#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#13""*" redefined0(22@47"This is the location of the previous definition349127305#664#115#5(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp349127305#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp349127254#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h349127305#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h347806187#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127305#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#92#0#92#0#0"0(7@88"In file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h349127305#18446744073709551615#0#0(6@66"/usr/local/include/google/sparsehash/libc_allocator_with_realloc.h347802953#35#0#35#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h349127305#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#47"this is the location of the previous definition0(22@36""_START_GOOGLE_NAMESPACE_" redefined349127305#1054#104#5(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp349127305#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp349127254#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h349127305#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h347806187#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127305#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h349127305#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#98#0#98#0#0"0(13@91""_START_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h349127305#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#13""*" redefined0(22@47"This is the location of the previous definition349127305#1445#115#5(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp349127305#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp349127254#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h349127305#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h347806187#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127305#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#92#0#92#0#0"0(7@88"In file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h349127305#18446744073709551615#0#0(6@66"/usr/local/include/google/sparsehash/libc_allocator_with_realloc.h347802953#35#0#35#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h349127305#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#47"this is the location of the previous definition0(22@34""_END_GOOGLE_NAMESPACE_" redefined349127305#1918#102#6(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp349127305#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp349127254#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h349127305#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h347806187#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127305#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h349127305#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h349127305#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@89""_END_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h349127305#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#13""*" redefined0(22@47"This is the location of the previous definition349127305#2430#115#7(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp349127305#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp349127254#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h349127305#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h347806187#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127305#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h349127305#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#104#0#104#0#0"0(7@61"In file included from /usr/local/include/google/type_traits.h349127305#18446744073709551615#0#0(6@39"/usr/local/include/google/type_traits.h347802953#63#0#63#0#0"0(7@63"In file included from /usr/local/include/google/template_util.h349127305#18446744073709551615#0#0(6@41"/usr/local/include/google/template_util.h347802953#52#0#52#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h349127305#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#47"this is the location of the previous definition0(22@36""_START_GOOGLE_NAMESPACE_" redefined349127305#2903#104#6(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp349127305#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp349127254#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h349127305#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h347806187#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127305#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h349127305#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h349127305#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@91""_START_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h349127305#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#13""*" redefined0(22@47"This is the location of the previous definition349127305#3417#115#7(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp349127305#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp349127254#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h349127305#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h347806187#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127305#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h349127305#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#104#0#104#0#0"0(7@61"In file included from /usr/local/include/google/type_traits.h349127305#18446744073709551615#0#0(6@39"/usr/local/include/google/type_traits.h347802953#63#0#63#0#0"0(7@63"In file included from /usr/local/include/google/template_util.h349127305#18446744073709551615#0#0(6@41"/usr/local/include/google/template_util.h347802953#52#0#52#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h349127305#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#47"this is the location of the previous definition0(22@34""_END_GOOGLE_NAMESPACE_" redefined349127305#3873#102#6(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp349127305#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp349127254#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h349127305#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h347806187#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127305#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h349127305#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#106#0#106#0#0"0(7@59"In file included from /usr/local/include/google/sparsetable349127305#18446744073709551615#0#0(6@37"/usr/local/include/google/sparsetable347802953#227#0#227#0#0"0(13@89""_END_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h349127305#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#13""*" redefined0(22@47"This is the location of the previous definition349127305#4333#115#6(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp349127305#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp349127254#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h349127305#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h347806187#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127305#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h349127305#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h349127305#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h349127305#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#47"this is the location of the previous definition0(22@36""_START_GOOGLE_NAMESPACE_" redefined349127305#4789#104#6(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp349127305#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp349127254#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h349127305#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h347806187#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127305#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h349127305#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#106#0#106#0#0"0(7@59"In file included from /usr/local/include/google/sparsetable349127305#18446744073709551615#0#0(6@37"/usr/local/include/google/sparsetable347802953#227#0#227#0#0"0(13@91""_START_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h349127305#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#13""*" redefined0(22@47"This is the location of the previous definition349127305#5251#115#6(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp349127305#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp349127254#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h349127305#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h347806187#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127305#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h349127305#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h349127305#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h349127305#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#47"this is the location of the previous definition0(0#0#37"/Users/kural/Documents/glia/ghash.cpp8609565184#1232"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/ghash.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/ghash.o0#
+lSLF07#2@45"Compile /Users/kural/Documents/glia/ghash.cpp365503556#365503558#0(5366"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h:98,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h:35,                 from /usr/local/include/google/sparse_hash_map:92,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsehash/sparsehashtable.h:98,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h:35,                 from /usr/local/include/google/sparse_hash_map:92,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/template_util.h:52,                 from /usr/local/include/google/type_traits.h:63,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:104,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/template_util.h:52,                 from /usr/local/include/google/type_traits.h:63,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:104,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsetable:227,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:106,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsetable:227,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:106,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/ghash.h:19,                 from /Users/kural/Documents/glia/ghash.cpp:10:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definition12(22@34""_END_GOOGLE_NAMESPACE_" redefined365503556#275#102#5(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp365503556#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp353826778#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h365503556#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h349489865#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503556#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#98#0#98#0#0"0(13@89""_END_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#13""*" redefined0(22@47"This is the location of the previous definition365503556#664#115#5(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp365503556#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp353826778#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h365503556#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h349489865#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#92#0#92#0#0"0(7@88"In file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h365503556#18446744073709551615#0#0(6@66"/usr/local/include/google/sparsehash/libc_allocator_with_realloc.h347802953#35#0#35#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#47"this is the location of the previous definition0(22@36""_START_GOOGLE_NAMESPACE_" redefined365503556#1054#104#5(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp365503556#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp353826778#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h365503556#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h349489865#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503556#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#98#0#98#0#0"0(13@91""_START_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#13""*" redefined0(22@47"This is the location of the previous definition365503556#1445#115#5(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp365503556#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp353826778#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h365503556#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h349489865#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#92#0#92#0#0"0(7@88"In file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h365503556#18446744073709551615#0#0(6@66"/usr/local/include/google/sparsehash/libc_allocator_with_realloc.h347802953#35#0#35#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#47"this is the location of the previous definition0(22@34""_END_GOOGLE_NAMESPACE_" redefined365503556#1918#102#6(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp365503556#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp353826778#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h365503556#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h349489865#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503556#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h365503556#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@89""_END_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#13""*" redefined0(22@47"This is the location of the previous definition365503556#2430#115#7(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp365503556#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp353826778#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h365503556#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h349489865#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503556#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#104#0#104#0#0"0(7@61"In file included from /usr/local/include/google/type_traits.h365503556#18446744073709551615#0#0(6@39"/usr/local/include/google/type_traits.h347802953#63#0#63#0#0"0(7@63"In file included from /usr/local/include/google/template_util.h365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/template_util.h347802953#52#0#52#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#47"this is the location of the previous definition0(22@36""_START_GOOGLE_NAMESPACE_" redefined365503556#2903#104#6(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp365503556#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp353826778#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h365503556#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h349489865#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503556#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h365503556#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@91""_START_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#13""*" redefined0(22@47"This is the location of the previous definition365503556#3417#115#7(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp365503556#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp353826778#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h365503556#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h349489865#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503556#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#104#0#104#0#0"0(7@61"In file included from /usr/local/include/google/type_traits.h365503556#18446744073709551615#0#0(6@39"/usr/local/include/google/type_traits.h347802953#63#0#63#0#0"0(7@63"In file included from /usr/local/include/google/template_util.h365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/template_util.h347802953#52#0#52#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#47"this is the location of the previous definition0(22@34""_END_GOOGLE_NAMESPACE_" redefined365503556#3873#102#6(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp365503556#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp353826778#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h365503556#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h349489865#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503556#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#106#0#106#0#0"0(7@59"In file included from /usr/local/include/google/sparsetable365503556#18446744073709551615#0#0(6@37"/usr/local/include/google/sparsetable347802953#227#0#227#0#0"0(13@89""_END_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#13""*" redefined0(22@47"This is the location of the previous definition365503556#4333#115#6(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp365503556#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp353826778#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h365503556#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h349489865#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503556#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h365503556#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#47"this is the location of the previous definition0(22@36""_START_GOOGLE_NAMESPACE_" redefined365503556#4789#104#6(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp365503556#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp353826778#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h365503556#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h349489865#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503556#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#106#0#106#0#0"0(7@59"In file included from /usr/local/include/google/sparsetable365503556#18446744073709551615#0#0(6@37"/usr/local/include/google/sparsetable347802953#227#0#227#0#0"0(13@91""_START_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#13""*" redefined0(22@47"This is the location of the previous definition365503556#5251#115#6(7@59"In file included from /Users/kural/Documents/glia/ghash.cpp365503556#18446744073709551615#0#0(6@37"/Users/kural/Documents/glia/ghash.cpp353826778#10#0#10#0#0"0(7@57"In file included from /Users/kural/Documents/glia/ghash.h365503556#18446744073709551615#0#0(6@35"/Users/kural/Documents/glia/ghash.h349489865#19#0#19#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503556#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503556#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h365503556#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503556#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#47"this is the location of the previous definition0(0#0#37"/Users/kural/Documents/glia/ghash.cpp8609644960#1285"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/jsarc -I/usr/local/include/json -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/ghash.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/ghash.o0#
 
 CCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/gliamodels.o /Users/kural/Documents/glia/gliamodels.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
-s349127303.419607
-e349127303.962343
+s365503554.752069
+e365503555.129988
 r1
 xCompileC
 xbuild/glia.build/Debug/glia.build/Objects-normal/x86_64/gliamodels.o
@@ -422,11 +891,11 @@ xnormal
 xx86_64
 xc++
 xcom.apple.compilers.gcc.4_2
-lSLF07#2@50"Compile /Users/kural/Documents/glia/gliamodels.cpp349127303#349127303#0(0"0(0#0#42"/Users/kural/Documents/glia/gliamodels.cpp8598622368#1242"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/gliamodels.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/gliamodels.o0#
+lSLF07#2@50"Compile /Users/kural/Documents/glia/gliamodels.cpp365503554#365503555#0(0"0(0#0#42"/Users/kural/Documents/glia/gliamodels.cpp8609654912#1295"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/jsarc -I/usr/local/include/json -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/gliamodels.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/gliamodels.o0#
 
 CCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/gsw.o /Users/kural/Documents/glia/gsw.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
-s349127304.478212
-e349127305.073812
+s365503555.881757
+e365503556.355935
 r1
 xCompileC
 xbuild/glia.build/Debug/glia.build/Objects-normal/x86_64/gsw.o
@@ -435,14 +904,40 @@ xnormal
 xx86_64
 xc++
 xcom.apple.compilers.gcc.4_2
-lSLF07#2@43"Compile /Users/kural/Documents/glia/gsw.cpp349127304#349127305#0(0"0(0#0#35"/Users/kural/Documents/glia/gsw.cpp8602152384#1228"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/gsw.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/gsw.o0#
+lSLF07#2@43"Compile /Users/kural/Documents/glia/gsw.cpp365503555#365503556#0(0"0(0#0#35"/Users/kural/Documents/glia/gsw.cpp8605135328#1281"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/jsarc -I/usr/local/include/json -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/gsw.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/gsw.o0#
 
 CCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/hash.o /Users/kural/Documents/glia/hash.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
 r0
 
+CCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/jsoncpp.o /Users/kural/Documents/glia/jsoncpp.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
+s365503558.491252
+e365503581.082439
+r1
+xCompileC
+xbuild/glia.build/Debug/glia.build/Objects-normal/x86_64/jsoncpp.o
+x/Users/kural/Documents/glia/jsoncpp.cpp
+xnormal
+xx86_64
+xc++
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@47"Compile /Users/kural/Documents/glia/jsoncpp.cpp365503558#365503581#0(0"0(0#0#39"/Users/kural/Documents/glia/jsoncpp.cpp8609783104#1289"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/jsarc -I/usr/local/include/json -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/jsoncpp.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/jsoncpp.o0#
+
+CCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/jsreader.o /Users/kural/Documents/glia/jsreader.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
+s365503558.203164
+e365503581.082711
+r1
+xCompileC
+xbuild/glia.build/Debug/glia.build/Objects-normal/x86_64/jsreader.o
+x/Users/kural/Documents/glia/jsreader.cpp
+xnormal
+xx86_64
+xc++
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@48"Compile /Users/kural/Documents/glia/jsreader.cpp365503558#365503581#0(0"0(0#0#40"/Users/kural/Documents/glia/jsreader.cpp8609953440#1291"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/jsarc -I/usr/local/include/json -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/jsreader.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/jsreader.o0#
+
 CCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/main.o /Users/kural/Documents/glia/main.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
-s349127301.713594
-e349127303.419474
+s365503553.151266
+e365503554.751910
 r1
 xCompileC
 xbuild/glia.build/Debug/glia.build/Objects-normal/x86_64/main.o
@@ -453,67 +948,67 @@ xc++
 xcom.apple.compilers.gcc.4_2
 oIn file included from /usr/local/include/google/sparsehash/sparsehashtable.h:98,
 o                 from /usr/local/include/google/sparse_hash_map:93,
-o                 from /Users/kural/Documents/glia/main.cpp:6:
+o                 from /Users/kural/Documents/glia/main.cpp:7:
 o/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefined
 oIn file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h:35,
 o                 from /usr/local/include/google/sparse_hash_map:92,
-o                 from /Users/kural/Documents/glia/main.cpp:6:
+o                 from /Users/kural/Documents/glia/main.cpp:7:
 o/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definition
 oIn file included from /usr/local/include/google/sparsehash/sparsehashtable.h:98,
 o                 from /usr/local/include/google/sparse_hash_map:93,
-o                 from /Users/kural/Documents/glia/main.cpp:6:
+o                 from /Users/kural/Documents/glia/main.cpp:7:
 o/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefined
 oIn file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h:35,
 o                 from /usr/local/include/google/sparse_hash_map:92,
-o                 from /Users/kural/Documents/glia/main.cpp:6:
+o                 from /Users/kural/Documents/glia/main.cpp:7:
 o/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definition
 oIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,
 o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,
 o                 from /usr/local/include/google/sparse_hash_map:93,
-o                 from /Users/kural/Documents/glia/main.cpp:6:
+o                 from /Users/kural/Documents/glia/main.cpp:7:
 o/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefined
 oIn file included from /usr/local/include/google/template_util.h:52,
 o                 from /usr/local/include/google/type_traits.h:63,
 o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:104,
 o                 from /usr/local/include/google/sparse_hash_map:93,
-o                 from /Users/kural/Documents/glia/main.cpp:6:
+o                 from /Users/kural/Documents/glia/main.cpp:7:
 o/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definition
 oIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,
 o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,
 o                 from /usr/local/include/google/sparse_hash_map:93,
-o                 from /Users/kural/Documents/glia/main.cpp:6:
+o                 from /Users/kural/Documents/glia/main.cpp:7:
 o/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefined
 oIn file included from /usr/local/include/google/template_util.h:52,
 o                 from /usr/local/include/google/type_traits.h:63,
 o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:104,
 o                 from /usr/local/include/google/sparse_hash_map:93,
-o                 from /Users/kural/Documents/glia/main.cpp:6:
+o                 from /Users/kural/Documents/glia/main.cpp:7:
 o/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definition
 oIn file included from /usr/local/include/google/sparsetable:227,
 o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:106,
 o                 from /usr/local/include/google/sparse_hash_map:93,
-o                 from /Users/kural/Documents/glia/main.cpp:6:
+o                 from /Users/kural/Documents/glia/main.cpp:7:
 o/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefined
 oIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,
 o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,
 o                 from /usr/local/include/google/sparse_hash_map:93,
-o                 from /Users/kural/Documents/glia/main.cpp:6:
+o                 from /Users/kural/Documents/glia/main.cpp:7:
 o/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definition
 oIn file included from /usr/local/include/google/sparsetable:227,
 o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:106,
 o                 from /usr/local/include/google/sparse_hash_map:93,
-o                 from /Users/kural/Documents/glia/main.cpp:6:
+o                 from /Users/kural/Documents/glia/main.cpp:7:
 o/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefined
 oIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,
 o                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,
 o                 from /usr/local/include/google/sparse_hash_map:93,
-o                 from /Users/kural/Documents/glia/main.cpp:6:
+o                 from /Users/kural/Documents/glia/main.cpp:7:
 o/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definition
-lSLF07#2@44"Compile /Users/kural/Documents/glia/main.cpp349127301#349127303#0(4598"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h:98,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/main.cpp:6:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h:35,                 from /usr/local/include/google/sparse_hash_map:92,                 from /Users/kural/Documents/glia/main.cpp:6:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsehash/sparsehashtable.h:98,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/main.cpp:6:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h:35,                 from /usr/local/include/google/sparse_hash_map:92,                 from /Users/kural/Documents/glia/main.cpp:6:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/main.cpp:6:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/template_util.h:52,                 from /usr/local/include/google/type_traits.h:63,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:104,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/main.cpp:6:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/main.cpp:6:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/template_util.h:52,                 from /usr/local/include/google/type_traits.h:63,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:104,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/main.cpp:6:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsetable:227,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:106,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/main.cpp:6:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/main.cpp:6:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsetable:227,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:106,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/main.cpp:6:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/main.cpp:6:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definition12(22@34""_END_GOOGLE_NAMESPACE_" redefined349127301#211#102#4(7@58"In file included from /Users/kural/Documents/glia/main.cpp349127301#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp349119459#6#0#6#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127301#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h349127301#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#98#0#98#0#0"0(13@89""_END_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h349127301#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#13""*" redefined0(22@47"This is the location of the previous definition349127301#536#115#4(7@58"In file included from /Users/kural/Documents/glia/main.cpp349127301#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp349119459#6#0#6#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127301#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#92#0#92#0#0"0(7@88"In file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h349127301#18446744073709551615#0#0(6@66"/usr/local/include/google/sparsehash/libc_allocator_with_realloc.h347802953#35#0#35#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h349127301#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#47"this is the location of the previous definition0(22@36""_START_GOOGLE_NAMESPACE_" redefined349127301#862#104#4(7@58"In file included from /Users/kural/Documents/glia/main.cpp349127301#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp349119459#6#0#6#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127301#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h349127301#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#98#0#98#0#0"0(13@91""_START_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h349127301#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#13""*" redefined0(22@47"This is the location of the previous definition349127301#1189#115#4(7@58"In file included from /Users/kural/Documents/glia/main.cpp349127301#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp349119459#6#0#6#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127301#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#92#0#92#0#0"0(7@88"In file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h349127301#18446744073709551615#0#0(6@66"/usr/local/include/google/sparsehash/libc_allocator_with_realloc.h347802953#35#0#35#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h349127301#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#47"this is the location of the previous definition0(22@34""_END_GOOGLE_NAMESPACE_" redefined349127302#1598#102#5(7@58"In file included from /Users/kural/Documents/glia/main.cpp349127302#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp349119459#6#0#6#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127302#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h349127302#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h349127302#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@89""_END_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h349127302#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#13""*" redefined0(22@47"This is the location of the previous definition349127302#2046#115#6(7@58"In file included from /Users/kural/Documents/glia/main.cpp349127302#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp349119459#6#0#6#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127302#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h349127302#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#104#0#104#0#0"0(7@61"In file included from /usr/local/include/google/type_traits.h349127302#18446744073709551615#0#0(6@39"/usr/local/include/google/type_traits.h347802953#63#0#63#0#0"0(7@63"In file included from /usr/local/include/google/template_util.h349127302#18446744073709551615#0#0(6@41"/usr/local/include/google/template_util.h347802953#52#0#52#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h349127302#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#47"this is the location of the previous definition0(22@36""_START_GOOGLE_NAMESPACE_" redefined349127302#2455#104#5(7@58"In file included from /Users/kural/Documents/glia/main.cpp349127302#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp349119459#6#0#6#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127302#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h349127302#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h349127302#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@91""_START_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h349127302#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#13""*" redefined0(22@47"This is the location of the previous definition349127302#2905#115#6(7@58"In file included from /Users/kural/Documents/glia/main.cpp349127302#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp349119459#6#0#6#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127302#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h349127302#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#104#0#104#0#0"0(7@61"In file included from /usr/local/include/google/type_traits.h349127302#18446744073709551615#0#0(6@39"/usr/local/include/google/type_traits.h347802953#63#0#63#0#0"0(7@63"In file included from /usr/local/include/google/template_util.h349127302#18446744073709551615#0#0(6@41"/usr/local/include/google/template_util.h347802953#52#0#52#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h349127302#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#47"this is the location of the previous definition0(22@34""_END_GOOGLE_NAMESPACE_" redefined349127302#3297#102#5(7@58"In file included from /Users/kural/Documents/glia/main.cpp349127302#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp349119459#6#0#6#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127302#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h349127302#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#106#0#106#0#0"0(7@59"In file included from /usr/local/include/google/sparsetable349127302#18446744073709551615#0#0(6@37"/usr/local/include/google/sparsetable347802953#227#0#227#0#0"0(13@89""_END_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h349127302#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#13""*" redefined0(22@47"This is the location of the previous definition349127302#3693#115#5(7@58"In file included from /Users/kural/Documents/glia/main.cpp349127302#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp349119459#6#0#6#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127302#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h349127302#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h349127302#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h349127302#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#47"this is the location of the previous definition0(22@36""_START_GOOGLE_NAMESPACE_" redefined349127302#4085#104#5(7@58"In file included from /Users/kural/Documents/glia/main.cpp349127302#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp349119459#6#0#6#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127302#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h349127302#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#106#0#106#0#0"0(7@59"In file included from /usr/local/include/google/sparsetable349127302#18446744073709551615#0#0(6@37"/usr/local/include/google/sparsetable347802953#227#0#227#0#0"0(13@91""_START_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h349127302#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#13""*" redefined0(22@47"This is the location of the previous definition349127302#4483#115#5(7@58"In file included from /Users/kural/Documents/glia/main.cpp349127302#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp349119459#6#0#6#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map349127302#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h349127302#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h349127302#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h349127302#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#47"this is the location of the previous definition0(0#0#36"/Users/kural/Documents/glia/main.cpp8605523808#1230"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/main.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/main.o0#
+lSLF07#2@44"Compile /Users/kural/Documents/glia/main.cpp365503553#365503554#0(4598"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h:98,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/main.cpp:7:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h:35,                 from /usr/local/include/google/sparse_hash_map:92,                 from /Users/kural/Documents/glia/main.cpp:7:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsehash/sparsehashtable.h:98,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/main.cpp:7:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h:35,                 from /usr/local/include/google/sparse_hash_map:92,                 from /Users/kural/Documents/glia/main.cpp:7:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/main.cpp:7:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/template_util.h:52,                 from /usr/local/include/google/type_traits.h:63,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:104,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/main.cpp:7:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/main.cpp:7:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/template_util.h:52,                 from /usr/local/include/google/type_traits.h:63,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:104,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/main.cpp:7:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsetable:227,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:106,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/main.cpp:7:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/main.cpp:7:/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definitionIn file included from /usr/local/include/google/sparsetable:227,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:106,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/main.cpp:7:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefinedIn file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,                 from /usr/local/include/google/sparse_hash_map:93,                 from /Users/kural/Documents/glia/main.cpp:7:/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definition12(22@34""_END_GOOGLE_NAMESPACE_" redefined365503553#211#102#4(7@58"In file included from /Users/kural/Documents/glia/main.cpp365503553#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp365502906#7#0#7#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503553#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503553#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#98#0#98#0#0"0(13@89""_END_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503553#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#13""*" redefined0(22@47"This is the location of the previous definition365503553#536#115#4(7@58"In file included from /Users/kural/Documents/glia/main.cpp365503553#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp365502906#7#0#7#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503553#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#92#0#92#0#0"0(7@88"In file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h365503553#18446744073709551615#0#0(6@66"/usr/local/include/google/sparsehash/libc_allocator_with_realloc.h347802953#35#0#35#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503553#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#47"this is the location of the previous definition0(22@36""_START_GOOGLE_NAMESPACE_" redefined365503553#862#104#4(7@58"In file included from /Users/kural/Documents/glia/main.cpp365503553#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp365502906#7#0#7#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503553#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503553#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#98#0#98#0#0"0(13@91""_START_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503553#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#13""*" redefined0(22@47"This is the location of the previous definition365503553#1189#115#4(7@58"In file included from /Users/kural/Documents/glia/main.cpp365503553#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp365502906#7#0#7#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503553#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#92#0#92#0#0"0(7@88"In file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h365503553#18446744073709551615#0#0(6@66"/usr/local/include/google/sparsehash/libc_allocator_with_realloc.h347802953#35#0#35#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503553#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#47"this is the location of the previous definition0(22@34""_END_GOOGLE_NAMESPACE_" redefined365503553#1598#102#5(7@58"In file included from /Users/kural/Documents/glia/main.cpp365503553#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp365502906#7#0#7#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503553#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503553#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h365503553#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@89""_END_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503553#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#13""*" redefined0(22@47"This is the location of the previous definition365503553#2046#115#6(7@58"In file included from /Users/kural/Documents/glia/main.cpp365503553#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp365502906#7#0#7#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503553#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503553#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#104#0#104#0#0"0(7@61"In file included from /usr/local/include/google/type_traits.h365503553#18446744073709551615#0#0(6@39"/usr/local/include/google/type_traits.h347802953#63#0#63#0#0"0(7@63"In file included from /usr/local/include/google/template_util.h365503553#18446744073709551615#0#0(6@41"/usr/local/include/google/template_util.h347802953#52#0#52#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503553#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#47"this is the location of the previous definition0(22@36""_START_GOOGLE_NAMESPACE_" redefined365503553#2455#104#5(7@58"In file included from /Users/kural/Documents/glia/main.cpp365503553#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp365502906#7#0#7#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503553#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503553#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h365503553#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@91""_START_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503553#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#13""*" redefined0(22@47"This is the location of the previous definition365503553#2905#115#6(7@58"In file included from /Users/kural/Documents/glia/main.cpp365503553#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp365502906#7#0#7#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503553#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503553#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#104#0#104#0#0"0(7@61"In file included from /usr/local/include/google/type_traits.h365503553#18446744073709551615#0#0(6@39"/usr/local/include/google/type_traits.h347802953#63#0#63#0#0"0(7@63"In file included from /usr/local/include/google/template_util.h365503553#18446744073709551615#0#0(6@41"/usr/local/include/google/template_util.h347802953#52#0#52#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503553#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#47"this is the location of the previous definition0(22@34""_END_GOOGLE_NAMESPACE_" redefined365503553#3297#102#5(7@58"In file included from /Users/kural/Documents/glia/main.cpp365503553#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp365502906#7#0#7#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503553#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503553#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#106#0#106#0#0"0(7@59"In file included from /usr/local/include/google/sparsetable365503553#18446744073709551615#0#0(6@37"/usr/local/include/google/sparsetable347802953#227#0#227#0#0"0(13@89""_END_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503553#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#13""*" redefined0(22@47"This is the location of the previous definition365503553#3693#115#5(7@58"In file included from /Users/kural/Documents/glia/main.cpp365503553#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp365502906#7#0#7#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503553#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503553#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h365503553#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503553#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#43#0#43#0#47"this is the location of the previous definition0(22@36""_START_GOOGLE_NAMESPACE_" redefined365503553#4085#104#5(7@58"In file included from /Users/kural/Documents/glia/main.cpp365503553#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp365502906#7#0#7#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503553#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503553#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#106#0#106#0#0"0(7@59"In file included from /usr/local/include/google/sparsetable365503553#18446744073709551615#0#0(6@37"/usr/local/include/google/sparsetable347802953#227#0#227#0#0"0(13@91""_START_GOOGLE_NAMESPACE_" redefined in /usr/local/include/google/sparsehash/sparseconfig.h365503553#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#13""*" redefined0(22@47"This is the location of the previous definition365503553#4483#115#5(7@58"In file included from /Users/kural/Documents/glia/main.cpp365503553#18446744073709551615#0#0(6@36"/Users/kural/Documents/glia/main.cpp365502906#7#0#7#0#0"0(7@63"In file included from /usr/local/include/google/sparse_hash_map365503553#18446744073709551615#0#0(6@41"/usr/local/include/google/sparse_hash_map347802953#93#0#93#0#0"0(7@76"In file included from /usr/local/include/google/sparsehash/sparsehashtable.h365503553#18446744073709551615#0#0(6@54"/usr/local/include/google/sparsehash/sparsehashtable.h347802953#105#0#105#0#0"0(7@77"In file included from /usr/local/include/google/sparsehash/hashtable-common.h365503553#18446744073709551615#0#0(6@55"/usr/local/include/google/sparsehash/hashtable-common.h347802953#43#0#43#0#0"0(13@102"This is the location of the previous definition in /usr/local/include/google/sparsehash/sparseconfig.h365503553#18446744073709551615#0#0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#0"0(6@51"/usr/local/include/google/sparsehash/sparseconfig.h347802953#46#0#46#0#47"this is the location of the previous definition0(0#0#36"/Users/kural/Documents/glia/main.cpp8011462186023858176#1283"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/jsarc -I/usr/local/include/json -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/main.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/main.o0#
 
 CCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/matrices.o /Users/kural/Documents/glia/matrices.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
-s349127303.134860
-e349127303.573358
+s365503554.497114
+e365503554.954803
 r1
 xCompileC
 xbuild/glia.build/Debug/glia.build/Objects-normal/x86_64/matrices.o
@@ -522,11 +1017,11 @@ xnormal
 xx86_64
 xc++
 xcom.apple.compilers.gcc.4_2
-lSLF07#2@48"Compile /Users/kural/Documents/glia/matrices.cpp349127303#349127303#0(0"0(0#0#40"/Users/kural/Documents/glia/matrices.cpp8609393696#1238"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/matrices.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/matrices.o0#
+lSLF07#2@48"Compile /Users/kural/Documents/glia/matrices.cpp365503554#365503554#0(0"0(0#0#40"/Users/kural/Documents/glia/matrices.cpp8605205440#1291"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/jsarc -I/usr/local/include/json -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/matrices.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/matrices.o0#
 
 CCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/nodealign.o /Users/kural/Documents/glia/nodealign.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
-s349127302.227555
-e349127303.134770
+s365503553.603274
+e365503554.497025
 r1
 xCompileC
 xbuild/glia.build/Debug/glia.build/Objects-normal/x86_64/nodealign.o
@@ -535,11 +1030,14 @@ xnormal
 xx86_64
 xc++
 xcom.apple.compilers.gcc.4_2
-lSLF07#2@49"Compile /Users/kural/Documents/glia/nodealign.cpp349127302#349127303#0(0"0(0#0#41"/Users/kural/Documents/glia/nodealign.cpp8608909120#1240"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/nodealign.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/nodealign.o0#
+lSLF07#2@49"Compile /Users/kural/Documents/glia/nodealign.cpp365503553#365503554#0(0"0(0#0#41"/Users/kural/Documents/glia/nodealign.cpp8609457952#1293"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/jsarc -I/usr/local/include/json -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/nodealign.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/nodealign.o0#
+
+CCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/sfhash.o /Users/kural/Documents/glia/sfhash.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
+r0
 
 CCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/show.o /Users/kural/Documents/glia/show.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
-s349127304.684622
-e349127305.222501
+s365503556.356103
+e365503556.825945
 r1
 xCompileC
 xbuild/glia.build/Debug/glia.build/Objects-normal/x86_64/show.o
@@ -548,11 +1046,11 @@ xnormal
 xx86_64
 xc++
 xcom.apple.compilers.gcc.4_2
-lSLF07#2@44"Compile /Users/kural/Documents/glia/show.cpp349127304#349127305#0(0"0(0#0#36"/Users/kural/Documents/glia/show.cpp8606552160#1230"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/show.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/show.o0#
+lSLF07#2@44"Compile /Users/kural/Documents/glia/show.cpp365503556#365503556#0(0"0(0#0#36"/Users/kural/Documents/glia/show.cpp8598154208#1283"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/jsarc -I/usr/local/include/json -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/show.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/show.o0#
 
 CCompileC build/glia.build/Debug/glia.build/Objects-normal/x86_64/traceback.o /Users/kural/Documents/glia/traceback.cpp normal x86_64 c++ com.apple.compilers.gcc.4_2
-s349127303.573440
-e349127304.160389
+s365503554.954889
+e365503555.430638
 r1
 xCompileC
 xbuild/glia.build/Debug/glia.build/Objects-normal/x86_64/traceback.o
@@ -561,15 +1059,15 @@ xnormal
 xx86_64
 xc++
 xcom.apple.compilers.gcc.4_2
-lSLF07#2@49"Compile /Users/kural/Documents/glia/traceback.cpp349127303#349127304#0(0"0(0#0#41"/Users/kural/Documents/glia/traceback.cpp8608699840#1240"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/traceback.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/traceback.o0#
+lSLF07#2@49"Compile /Users/kural/Documents/glia/traceback.cpp365503554#365503555#0(0"0(0#0#41"/Users/kural/Documents/glia/traceback.cpp8605849408#1293"    cd /Users/kural/Documents/glia    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-generated-files.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-own-target-headers.hmap -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-all-target-headers.hmap -iquote /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/glia-project-headers.hmap -F/Users/kural/Documents/glia/build/Debug -I/Users/kural/Documents/glia/build/Debug/include -I/usr/local/include -I/usr/local/include/fuse -I/usr/local/include/google -I/usr/local/include/jsarc -I/usr/local/include/json -I/usr/local/include/google/sparsehash -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources/x86_64 -I/Users/kural/Documents/glia/build/glia.build/Debug/glia.build/DerivedSources -c /Users/kural/Documents/glia/traceback.cpp -o /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/traceback.o0#
 
 CLd /Users/kural/Documents/glia/build/Debug/glia normal x86_64
-s349127306.332185
-e349127306.524282
+s365503581.082861
+e365503581.346554
 r1
 xLd
 x/Users/kural/Documents/glia/build/Debug/glia
 xnormal
 xx86_64
-lSLF07#2@49"Link /Users/kural/Documents/glia/build/Debug/glia349127306#349127306#0(0"0(0#0#0"8609204576#545"    cd /Users/kural/Documents/glia    setenv MACOSX_DEPLOYMENT_TARGET 10.6    /Developer/usr/bin/g++-4.2 -arch x86_64 -isysroot /Developer/SDKs/MacOSX10.6.sdk -L/Users/kural/Documents/glia/build/Debug -L/usr/local/include -L/usr/local/include/fuse -L/usr/local/include/google -L/usr/local/include/google/sparsehash -F/Users/kural/Documents/glia/build/Debug -filelist /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/glia.LinkFileList -mmacosx-version-min=10.6 -o /Users/kural/Documents/glia/build/Debug/glia0#
+lSLF07#2@49"Link /Users/kural/Documents/glia/build/Debug/glia365503581#365503581#0(0"0(0#0#0"8608431584#598"    cd /Users/kural/Documents/glia    setenv MACOSX_DEPLOYMENT_TARGET 10.6    /Developer/usr/bin/g++-4.2 -arch x86_64 -isysroot /Developer/SDKs/MacOSX10.6.sdk -L/Users/kural/Documents/glia/build/Debug -L/usr/local/include -L/usr/local/include/fuse -L/usr/local/include/google -L/usr/local/include/jsarc -L/usr/local/include/json -L/usr/local/include/google/sparsehash -F/Users/kural/Documents/glia/build/Debug -filelist /Users/kural/Documents/glia/build/glia.build/Debug/glia.build/Objects-normal/x86_64/glia.LinkFileList -mmacosx-version-min=10.6 -o /Users/kural/Documents/glia/build/Debug/glia0#
 

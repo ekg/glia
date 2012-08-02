@@ -84,22 +84,22 @@ sn* sequenceDagAlign(string sequence, vector<sn*> nlist, int maxdepth) {
 			}
 		}
 	}
+	// Note that top score is not returned, but just used internally. 
 	return top_node;
 }
 
 
 sn* gsw(string read, vector<sn*> nlist) {
 	/* Create a local POSET and record the poset layer ordering on the Node object.
-	 * This might not be necessary in the full framework 
+	 * This might not be necessary in the full framework - for example when a reference DAG is already pre-sorted
+	 * and comes with appropriate depth. This assumes a local unsorted framework. 
 	 */
 	int maxdepth;
 
-	/* py:
-	 *
-	 * for node in nlist:
-	 * 	 node.depth = getDepth(node)
+	/* py: for node in nlist:
+	 *       node.depth = getDepth(node)
 	 */
-	vector<sn*>::iterator t;									// good place for vector iteration?
+	vector<sn*>::iterator t;									// good place for vector iteration? (<- done already!?)
 	for (t=nlist.begin(); t!=nlist.end(); ++t) {
 		(*t)->depth = getDepth(*t);
 	}

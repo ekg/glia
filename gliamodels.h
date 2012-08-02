@@ -3,7 +3,7 @@
  *  glia
  *
  *  Created by Deniz Kural.
- *  Copyright 2011 Deniz Kural. All rights reserved.
+ *  Copyright 2010-2012 Deniz Kural. All rights reserved.
  *
  */
 
@@ -16,7 +16,7 @@
 #include <string>
 
 
-// ts := top score data structure
+// ts := top score data structure,  3-tuplet of int
 // keeps track of matrix node with highest score
 struct ts {
 	int score;
