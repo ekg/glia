@@ -17,49 +17,12 @@
 #include "ghash.h"
 #include "getSeeds.h"
 #include "jsreader.h"
+#include "seqtools.h"
 
 
 using namespace std;
 
-
-string reverseComplement(string read) {
-	
-	// Declare the reverse complement read as a string
-	string rc_read;	
-	
-	// Reverse Read
-	rc_read.assign(read.rbegin(), read.rend());
-	
-	// Complement.  Note that not IUPAC compliant. Uses the alphabet {A,T,C,G,N}
-	string::iterator t;
-	for (t = rc_read.begin(); t != rc_read.end(); ++t) {
-		switch (*t) {
-			case 'A':
-				*t = 'T';
-				break;
-			case 'T':
-				*t = 'A';
-				break;
-			case 'C':
-				*t = 'G';
-				break;
-			case 'G':
-				*t = 'C';
-				break;
-			case 'N':
-				*t = 'N';
-				break;
-			default:
-				cout << "Unknown Nucleotide!";
-				break;
-		}
-	}
-	
-	// Return the Read  (faster if done through pointers?)
-	return rc_read;
-}
-
-// TODO: Move to GHASH
+// TODO: Move to GHASH   <-done?
 int hashfasta(string fasta_file_name, int hashsize, vector<fasta_entry> &ref_genome) {	
 
 		
@@ -89,23 +52,27 @@ int hashfasta(string fasta_file_name, int hashsize, vector<fasta_entry> &ref_gen
 }
 	
 
-int main (int argc, char * const argv[])
+int main (int argc, char * const argv[])		// For the Stand Alone version
 {
 	
 	//string read = "CTTCTTCTTCTTCTTCTTCTTCTTCCTTCTTCTTCTTCTTCTTCTTCTTC";
 	string read = "ATCGAA";
 	
-	// Declere a read object from a fastq file
+	// Declare the target DAG to align against. 
+	vector<sn*> nlist;
+	//origIndel(nlist);
+	json_example(nlist);
+	
+	
+	// Declere a read object from a fastq file   -> WHAT's the Best Place to do this  <-
 	fastq_entry read_q;					
 	
 	// Open FastQ File
 	ifstream filehandle ("test.fastq");		// open fastq file
 	
 	// Main input file loop
-	if (filehandle.is_open()) 
-	{
-		while (filehandle.good()) 
-		{
+	if (filehandle.is_open()) {
+		while (filehandle.good()) {
 			
 			// Load up the read with the four lines from the FastQ file
 			read_q = getNextRead(filehandle);
@@ -117,22 +84,19 @@ int main (int argc, char * const argv[])
 						
 			/* --- alignment -- */
 			
+			cout << "Root node of the DAG:\t"<< nlist.front()->name << endl
+				 << "Sequence:\t" << read << endl;
 			
-			// Declare the target DAG to align against. 
-			vector<sn*> nlist;
-			//origIndel(nlist);
-			json_example(nlist);
-			
-			
-			
-			cout << "in the main:\t"<< nlist.front()->name << "\tread:\t" << read << endl;
+			// Check if the nodes get cleaned up. 
 			sn* result = gsw(read, nlist);
 			
-			cout<<result->name<<", top score:\t"<<result->top_score.score<<endl;
+			cout << "End of Alignment:\t" << result->name << "\t"
+				 << "top score:\t"<<result->top_score.score<<endl;
+			
 			
 			displayNode(result);
 			displayAlignment(result);
-			displayAlignment(nlist[0]);
+			//displayAlignment(nlist[0]);
 			
 			mbt trace_report;
 			master_backtrack(result, trace_report);

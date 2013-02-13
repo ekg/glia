@@ -3,7 +3,7 @@
  *  glia
  *
  *  Created by Deniz Kural on 8/2/12.
- *  Copyright 2012 __MyCompanyName__. All rights reserved.
+ *  Copyright 2012. All rights reserved.
  *
  */
 
@@ -14,7 +14,7 @@ using namespace std;
 /* Returns the Reverse Complement of a DNA Sequence, from the alphabet {A,T,C,G,N} */
 string reverseComplement(string read) {
 	
-	// Declare the reverse complement read as a string
+	// Declare the (empty) reverse complement read as a string
 	string rc_read;	
 	
 	// Reverse Read

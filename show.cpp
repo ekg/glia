@@ -36,7 +36,8 @@ int displayStrings(vector<string> values) {
 
 int displayNode(sn* node) {
 
-	cout << "Name:     " << node->name << endl;
+	cout << "Node Summary" << endl << "----------" << endl;
+	cout << "NodeName: " << node->name << endl;
 	cout << "Sequence: " << node->sequence << endl;
 	cout << "Depth:    " << node->depth << endl;
 	cout << "Parents:  ";
@@ -53,7 +54,7 @@ int displayNode(sn* node) {
 	for (t = node->p3.begin(); t != node->p3.end(); ++t) {
 		cout<<(*t)->name<<", ";
 	}
-	cout<<endl;
+	cout<<endl<<endl;
 	
 	return 0;
 }
@@ -67,9 +68,10 @@ int displayAlignment(sn* node) {
 	vector<vector<int> >::iterator y;
 	vector<int>::iterator x;
 	
-	cout << "Score:"<<endl;
+	cout << "Score:"<< endl << "----------" << endl;
 	
 	for (y = node->score_matrix.begin(); y != node->score_matrix.end(); ++y) {
+		cout << "\t";
 		for (x = (*y).begin(); x != (*y).end();  ++x) {
 			
 				 cout << *x << "\t";
@@ -78,12 +80,13 @@ int displayAlignment(sn* node) {
 	}
 	
 	cout << endl;
-	cout << "Back Trace:"<<endl;
+	cout << "Back Trace:" << endl << "----------" << endl;
 	
 	vector<vector<char> >::iterator p;
 	vector<char>::iterator q;
 	
 	for (p = node->arrow_matrix.begin(); p != node->arrow_matrix.end(); ++p) {
+		cout << "\t";
 		for (q = (*p).begin(); q != (*p).end();  ++q) {
 			
 			cout << *q << "\t";
@@ -92,12 +95,13 @@ int displayAlignment(sn* node) {
 	}
 	
 	cout << endl;
-	cout << "Parent:"<<endl;
+	cout << "Parent:" << endl << "----------" << endl;
 	
 	vector<vector<sn*> >::iterator a;
 	vector<sn*>::iterator b;
 	
 	for (a = node->parent_matrix.begin(); a != node->parent_matrix.end(); ++a) {
+		cout << "\t";
 		for (b = (*a).begin(); b != (*a).end();  ++b) {
 			
 			cout << (*b)->name << "\t";

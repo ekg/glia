@@ -10,6 +10,7 @@
 		7C11F05613B9BFED0045C301 /* nodealign.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C11F05513B9BFED0045C301 /* nodealign.cpp */; };
 		7C1EB71E14CF8F4700D7ADB5 /* getSeeds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C1EB71D14CF8F4700D7ADB5 /* getSeeds.cpp */; };
 		7C2AD0A415C923D500B09FB7 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C2AD0A315C923D500B09FB7 /* jsoncpp.cpp */; };
+		7C2AD11E15CA7BF100B09FB7 /* seqtools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C2AD11D15CA7BF100B09FB7 /* seqtools.cpp */; };
 		7C2AE6C414A2C1460057C74F /* matrices.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C2AE6C314A2C1460057C74F /* matrices.cpp */; };
 		7C2AE85414A85FC30057C74F /* gliamodels.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C2AE85314A85FC30057C74F /* gliamodels.cpp */; };
 		7C2AE85D14A861A40057C74F /* traceback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C2AE85C14A861A40057C74F /* traceback.cpp */; };
@@ -44,6 +45,8 @@
 		7C1EB71C14CF8F4700D7ADB5 /* getSeeds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = getSeeds.h; sourceTree = "<group>"; };
 		7C1EB71D14CF8F4700D7ADB5 /* getSeeds.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = getSeeds.cpp; sourceTree = "<group>"; };
 		7C2AD0A315C923D500B09FB7 /* jsoncpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jsoncpp.cpp; sourceTree = "<group>"; };
+		7C2AD11C15CA7BF100B09FB7 /* seqtools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = seqtools.h; sourceTree = "<group>"; };
+		7C2AD11D15CA7BF100B09FB7 /* seqtools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = seqtools.cpp; sourceTree = "<group>"; };
 		7C2AE6C214A2C1460057C74F /* matrices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrices.h; sourceTree = "<group>"; };
 		7C2AE6C314A2C1460057C74F /* matrices.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = matrices.cpp; sourceTree = "<group>"; };
 		7C2AE85214A85FC30057C74F /* gliamodels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gliamodels.h; sourceTree = "<group>"; };
@@ -100,6 +103,7 @@
 				7C2AE85214A85FC30057C74F /* gliamodels.h */,
 				7C2AE97214AA61790057C74F /* gsw.h */,
 				7C11F05413B9BFED0045C301 /* nodealign.h */,
+				7C2AD11C15CA7BF100B09FB7 /* seqtools.h */,
 				7CD7E45B14B06FAB00149377 /* show.h */,
 				7C2AE85B14A861A40057C74F /* traceback.h */,
 				7C2AE91214A978770057C74F /* scrap */,
@@ -107,6 +111,7 @@
 				7C2AD0A315C923D500B09FB7 /* jsoncpp.cpp */,
 				7C2AE94814AA20940057C74F /* examples.cpp */,
 				7C2AE86F14A864190057C74F /* fastq.cpp */,
+				7C2AD11D15CA7BF100B09FB7 /* seqtools.cpp */,
 				7CD7E55014B469CD00149377 /* ghash.cpp */,
 				7C1EB71D14CF8F4700D7ADB5 /* getSeeds.cpp */,
 				7C2AE85314A85FC30057C74F /* gliamodels.cpp */,
@@ -210,6 +215,7 @@
 				7C1EB71E14CF8F4700D7ADB5 /* getSeeds.cpp in Sources */,
 				7C606E6E15C8E143004DAA42 /* jsreader.cpp in Sources */,
 				7C2AD0A415C923D500B09FB7 /* jsoncpp.cpp in Sources */,
+				7C2AD11E15CA7BF100B09FB7 /* seqtools.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

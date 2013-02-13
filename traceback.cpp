@@ -21,16 +21,17 @@ using namespace std;
 
 int master_backtrack(sn* node, mbt &trace_report) {
 	// Declare CIGAR string
+
+	string cigar;
 	string backstr = "";
 	vector<string> node_list;
-	string cigar;
 	
 	
 	// Recover starting matrix coordinates from the highest scoring entry
 	int x = node->top_score.x;
 	int y = node->top_score.y;
 	
-	//Go into the recursion
+	//Go into the recursion with max score coordinates, empty cigar & empty node list.
 	bt result = backtrack(node, x, y, backstr, node_list);
 	
 	// cout << "cigar: " << result.backstr << endl;
@@ -40,8 +41,12 @@ int master_backtrack(sn* node, mbt &trace_report) {
 	cigar = result.backstr;
 	
 	// py: return {'node_id':node_id, 'x':x, 'y':y, 'cigar':cigar, 'nodes':nodes}
-	trace_report.x = x; trace_report.y = y; trace_report.cigar = cigar;
-	trace_report.node_list = node_list;  trace_report.node_name = node_list.back();
+	trace_report.x = x; 
+	trace_report.y = y; 
+	trace_report.cigar = cigar;
+	
+	trace_report.node_list = node_list;  
+	trace_report.node_name = node_list.back();
 	
 	return 0;
 }
@@ -53,7 +58,7 @@ int master_backtrack(sn* node, mbt &trace_report) {
  * to do this;  but it might not be very strong.  Might add / improve later
  * 
  * Will do final reversal in the end for C++ reasons
- * Might be a good idea to add a BAM-flattener
+ * Might be a good idea to add a BAM-flattener (can also do in Python)
  */
 
 
@@ -64,10 +69,13 @@ bt backtrack(sn* node, int x, int y, string backstr, vector<string> &node_list) 
 	 * (4) Do it anyways, but if the node changes, append node name, and change x coordinate.
 	 *
 	 * TODO: Update to Reflect Gaps
+	 * Long Term Todo: See how many recursions break it!
 	 */
 	
 	// Declare and initialize backtrack data Structure
+	// When inside the bottom of recursing stack, this also reassigns final results
 	bt backtrace;
+	
 	backtrace.x = x;
 	backtrace.y = y;
 	
@@ -95,7 +103,7 @@ bt backtrack(sn* node, int x, int y, string backstr, vector<string> &node_list) 
 		return backtrace;
 		
 	} else {
-		arrow = node->arrow_matrix[y][x];					// TODO: check about pointers
+		arrow = node->arrow_matrix[y][x];					// TODO: check about pointers  ??
 		if (arrow == 'm') {
 			// py: backstr = "M" + backstr
 			backstr.append("M");

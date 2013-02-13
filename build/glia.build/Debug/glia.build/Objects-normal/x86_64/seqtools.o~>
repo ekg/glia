@@ -1,0 +1,82 @@
+In file included from /usr/local/include/google/sparsehash/sparsehashtable.h:98,
+                 from /usr/local/include/google/sparse_hash_map:93,
+                 from /Users/kural/Documents/glia/fastq.h:18,
+                 from /Users/kural/Documents/glia/seqtools.h:16,
+                 from /Users/kural/Documents/glia/seqtools.cpp:10:
+/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefined
+In file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h:35,
+                 from /usr/local/include/google/sparse_hash_map:92,
+                 from /Users/kural/Documents/glia/fastq.h:18,
+                 from /Users/kural/Documents/glia/seqtools.h:16,
+                 from /Users/kural/Documents/glia/seqtools.cpp:10:
+/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definition
+In file included from /usr/local/include/google/sparsehash/sparsehashtable.h:98,
+                 from /usr/local/include/google/sparse_hash_map:93,
+                 from /Users/kural/Documents/glia/fastq.h:18,
+                 from /Users/kural/Documents/glia/seqtools.h:16,
+                 from /Users/kural/Documents/glia/seqtools.cpp:10:
+/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefined
+In file included from /usr/local/include/google/sparsehash/libc_allocator_with_realloc.h:35,
+                 from /usr/local/include/google/sparse_hash_map:92,
+                 from /Users/kural/Documents/glia/fastq.h:18,
+                 from /Users/kural/Documents/glia/seqtools.h:16,
+                 from /Users/kural/Documents/glia/seqtools.cpp:10:
+/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definition
+In file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,
+                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,
+                 from /usr/local/include/google/sparse_hash_map:93,
+                 from /Users/kural/Documents/glia/fastq.h:18,
+                 from /Users/kural/Documents/glia/seqtools.h:16,
+                 from /Users/kural/Documents/glia/seqtools.cpp:10:
+/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefined
+In file included from /usr/local/include/google/template_util.h:52,
+                 from /usr/local/include/google/type_traits.h:63,
+                 from /usr/local/include/google/sparsehash/sparsehashtable.h:104,
+                 from /usr/local/include/google/sparse_hash_map:93,
+                 from /Users/kural/Documents/glia/fastq.h:18,
+                 from /Users/kural/Documents/glia/seqtools.h:16,
+                 from /Users/kural/Documents/glia/seqtools.cpp:10:
+/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definition
+In file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,
+                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,
+                 from /usr/local/include/google/sparse_hash_map:93,
+                 from /Users/kural/Documents/glia/fastq.h:18,
+                 from /Users/kural/Documents/glia/seqtools.h:16,
+                 from /Users/kural/Documents/glia/seqtools.cpp:10:
+/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefined
+In file included from /usr/local/include/google/template_util.h:52,
+                 from /usr/local/include/google/type_traits.h:63,
+                 from /usr/local/include/google/sparsehash/sparsehashtable.h:104,
+                 from /usr/local/include/google/sparse_hash_map:93,
+                 from /Users/kural/Documents/glia/fastq.h:18,
+                 from /Users/kural/Documents/glia/seqtools.h:16,
+                 from /Users/kural/Documents/glia/seqtools.cpp:10:
+/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definition
+In file included from /usr/local/include/google/sparsetable:227,
+                 from /usr/local/include/google/sparsehash/sparsehashtable.h:106,
+                 from /usr/local/include/google/sparse_hash_map:93,
+                 from /Users/kural/Documents/glia/fastq.h:18,
+                 from /Users/kural/Documents/glia/seqtools.h:16,
+                 from /Users/kural/Documents/glia/seqtools.cpp:10:
+/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: "_END_GOOGLE_NAMESPACE_" redefined
+In file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,
+                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,
+                 from /usr/local/include/google/sparse_hash_map:93,
+                 from /Users/kural/Documents/glia/fastq.h:18,
+                 from /Users/kural/Documents/glia/seqtools.h:16,
+                 from /Users/kural/Documents/glia/seqtools.cpp:10:
+/usr/local/include/google/sparsehash/sparseconfig.h:43:1: warning: this is the location of the previous definition
+In file included from /usr/local/include/google/sparsetable:227,
+                 from /usr/local/include/google/sparsehash/sparsehashtable.h:106,
+                 from /usr/local/include/google/sparse_hash_map:93,
+                 from /Users/kural/Documents/glia/fastq.h:18,
+                 from /Users/kural/Documents/glia/seqtools.h:16,
+                 from /Users/kural/Documents/glia/seqtools.cpp:10:
+/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: "_START_GOOGLE_NAMESPACE_" redefined
+In file included from /usr/local/include/google/sparsehash/hashtable-common.h:43,
+                 from /usr/local/include/google/sparsehash/sparsehashtable.h:105,
+                 from /usr/local/include/google/sparse_hash_map:93,
+                 from /Users/kural/Documents/glia/fastq.h:18,
+                 from /Users/kural/Documents/glia/seqtools.h:16,
+                 from /Users/kural/Documents/glia/seqtools.cpp:10:
+/usr/local/include/google/sparsehash/sparseconfig.h:46:1: warning: this is the location of the previous definition
