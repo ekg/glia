@@ -7,8 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7C9D9E8B16D0E5060065936E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9D9E8A16D0E5060065936E /* main.cpp */; };
 		7C9D9E8D16D0E5060065936E /* gswcmd.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7C9D9E8C16D0E5060065936E /* gswcmd.1 */; };
+		7C9D9EA816D0E5C40065936E /* dump.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9D9E9316D0E5C40065936E /* dump.cpp */; };
+		7C9D9EA916D0E5C40065936E /* examples.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9D9E9516D0E5C40065936E /* examples.cpp */; };
+		7C9D9EAA16D0E5C40065936E /* fastq.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9D9E9716D0E5C40065936E /* fastq.cpp */; };
+		7C9D9EAB16D0E5C40065936E /* getSeeds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9D9E9916D0E5C40065936E /* getSeeds.cpp */; };
+		7C9D9EAC16D0E5C40065936E /* ghash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9D9E9B16D0E5C40065936E /* ghash.cpp */; };
+		7C9D9EAD16D0E5C40065936E /* gliamodels.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9D9E9D16D0E5C40065936E /* gliamodels.cpp */; };
+		7C9D9EAE16D0E5C40065936E /* gsw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9D9E9F16D0E5C40065936E /* gsw.cpp */; };
+		7C9D9EAF16D0E5C40065936E /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9D9EA116D0E5C40065936E /* jsoncpp.cpp */; };
+		7C9D9EB016D0E5C40065936E /* jsreader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9D9EA216D0E5C40065936E /* jsreader.cpp */; };
+		7C9D9EB116D0E5C40065936E /* matrices.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9D9EA416D0E5C40065936E /* matrices.cpp */; };
+		7C9D9EB216D0E5C40065936E /* nodealign.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9D9EA616D0E5C40065936E /* nodealign.cpp */; };
+		7C9D9EBA16D0E5E40065936E /* seqtools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9D9EB316D0E5E40065936E /* seqtools.cpp */; };
+		7C9D9EBB16D0E5E40065936E /* show.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9D9EB516D0E5E40065936E /* show.cpp */; };
+		7C9D9EBC16D0E5E40065936E /* traceback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9D9EB716D0E5E40065936E /* traceback.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,8 +39,35 @@
 
 /* Begin PBXFileReference section */
 		7C9D9E8716D0E5060065936E /* gswcmd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = gswcmd; sourceTree = BUILT_PRODUCTS_DIR; };
-		7C9D9E8A16D0E5060065936E /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		7C9D9E8C16D0E5060065936E /* gswcmd.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = gswcmd.1; sourceTree = "<group>"; };
+		7C9D9E9316D0E5C40065936E /* dump.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dump.cpp; path = /Users/kural/Code/clia/../../Code/clia/dump.cpp; sourceTree = "<absolute>"; };
+		7C9D9E9416D0E5C40065936E /* dump.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dump.h; path = /Users/kural/Code/clia/../../Code/clia/dump.h; sourceTree = "<absolute>"; };
+		7C9D9E9516D0E5C40065936E /* examples.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = examples.cpp; path = /Users/kural/Code/clia/../../Code/clia/examples.cpp; sourceTree = "<absolute>"; };
+		7C9D9E9616D0E5C40065936E /* examples.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = examples.h; path = /Users/kural/Code/clia/../../Code/clia/examples.h; sourceTree = "<absolute>"; };
+		7C9D9E9716D0E5C40065936E /* fastq.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fastq.cpp; path = /Users/kural/Code/clia/../../Code/clia/fastq.cpp; sourceTree = "<absolute>"; };
+		7C9D9E9816D0E5C40065936E /* fastq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fastq.h; path = /Users/kural/Code/clia/../../Code/clia/fastq.h; sourceTree = "<absolute>"; };
+		7C9D9E9916D0E5C40065936E /* getSeeds.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = getSeeds.cpp; path = /Users/kural/Code/clia/../../Code/clia/getSeeds.cpp; sourceTree = "<absolute>"; };
+		7C9D9E9A16D0E5C40065936E /* getSeeds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = getSeeds.h; path = /Users/kural/Code/clia/../../Code/clia/getSeeds.h; sourceTree = "<absolute>"; };
+		7C9D9E9B16D0E5C40065936E /* ghash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ghash.cpp; path = /Users/kural/Code/clia/../../Code/clia/ghash.cpp; sourceTree = "<absolute>"; };
+		7C9D9E9C16D0E5C40065936E /* ghash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ghash.h; path = /Users/kural/Code/clia/../../Code/clia/ghash.h; sourceTree = "<absolute>"; };
+		7C9D9E9D16D0E5C40065936E /* gliamodels.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gliamodels.cpp; path = /Users/kural/Code/clia/../../Code/clia/gliamodels.cpp; sourceTree = "<absolute>"; };
+		7C9D9E9E16D0E5C40065936E /* gliamodels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gliamodels.h; path = /Users/kural/Code/clia/../../Code/clia/gliamodels.h; sourceTree = "<absolute>"; };
+		7C9D9E9F16D0E5C40065936E /* gsw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gsw.cpp; path = /Users/kural/Code/clia/../../Code/clia/gsw.cpp; sourceTree = "<absolute>"; };
+		7C9D9EA016D0E5C40065936E /* gsw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gsw.h; path = /Users/kural/Code/clia/../../Code/clia/gsw.h; sourceTree = "<absolute>"; };
+		7C9D9EA116D0E5C40065936E /* jsoncpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = jsoncpp.cpp; path = /Users/kural/Code/clia/../../Code/clia/jsoncpp.cpp; sourceTree = "<absolute>"; };
+		7C9D9EA216D0E5C40065936E /* jsreader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = jsreader.cpp; path = /Users/kural/Code/clia/../../Code/clia/jsreader.cpp; sourceTree = "<absolute>"; };
+		7C9D9EA316D0E5C40065936E /* jsreader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jsreader.h; path = /Users/kural/Code/clia/../../Code/clia/jsreader.h; sourceTree = "<absolute>"; };
+		7C9D9EA416D0E5C40065936E /* matrices.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = matrices.cpp; path = /Users/kural/Code/clia/../../Code/clia/matrices.cpp; sourceTree = "<absolute>"; };
+		7C9D9EA516D0E5C40065936E /* matrices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = matrices.h; path = /Users/kural/Code/clia/../../Code/clia/matrices.h; sourceTree = "<absolute>"; };
+		7C9D9EA616D0E5C40065936E /* nodealign.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = nodealign.cpp; path = /Users/kural/Code/clia/../../Code/clia/nodealign.cpp; sourceTree = "<absolute>"; };
+		7C9D9EA716D0E5C40065936E /* nodealign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = nodealign.h; path = /Users/kural/Code/clia/../../Code/clia/nodealign.h; sourceTree = "<absolute>"; };
+		7C9D9EB316D0E5E40065936E /* seqtools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = seqtools.cpp; path = /Users/kural/Code/clia/../../Code/clia/seqtools.cpp; sourceTree = "<absolute>"; };
+		7C9D9EB416D0E5E40065936E /* seqtools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = seqtools.h; path = /Users/kural/Code/clia/../../Code/clia/seqtools.h; sourceTree = "<absolute>"; };
+		7C9D9EB516D0E5E40065936E /* show.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = show.cpp; path = /Users/kural/Code/clia/../../Code/clia/show.cpp; sourceTree = "<absolute>"; };
+		7C9D9EB616D0E5E40065936E /* show.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = show.h; path = /Users/kural/Code/clia/../../Code/clia/show.h; sourceTree = "<absolute>"; };
+		7C9D9EB716D0E5E40065936E /* traceback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = traceback.cpp; path = /Users/kural/Code/clia/../../Code/clia/traceback.cpp; sourceTree = "<absolute>"; };
+		7C9D9EB816D0E5E40065936E /* traceback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = traceback.h; path = /Users/kural/Code/clia/../../Code/clia/traceback.h; sourceTree = "<absolute>"; };
+		7C9D9EB916D0E5E40065936E /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = file; name = main.cpp; path = ../../main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +100,34 @@
 		7C9D9E8916D0E5060065936E /* gswcmd */ = {
 			isa = PBXGroup;
 			children = (
-				7C9D9E8A16D0E5060065936E /* main.cpp */,
+				7C9D9E9316D0E5C40065936E /* dump.cpp */,
+				7C9D9E9416D0E5C40065936E /* dump.h */,
+				7C9D9E9516D0E5C40065936E /* examples.cpp */,
+				7C9D9E9616D0E5C40065936E /* examples.h */,
+				7C9D9E9716D0E5C40065936E /* fastq.cpp */,
+				7C9D9E9816D0E5C40065936E /* fastq.h */,
+				7C9D9E9916D0E5C40065936E /* getSeeds.cpp */,
+				7C9D9E9A16D0E5C40065936E /* getSeeds.h */,
+				7C9D9E9B16D0E5C40065936E /* ghash.cpp */,
+				7C9D9E9C16D0E5C40065936E /* ghash.h */,
+				7C9D9E9D16D0E5C40065936E /* gliamodels.cpp */,
+				7C9D9E9E16D0E5C40065936E /* gliamodels.h */,
+				7C9D9E9F16D0E5C40065936E /* gsw.cpp */,
+				7C9D9EA016D0E5C40065936E /* gsw.h */,
+				7C9D9EA116D0E5C40065936E /* jsoncpp.cpp */,
+				7C9D9EA216D0E5C40065936E /* jsreader.cpp */,
+				7C9D9EA316D0E5C40065936E /* jsreader.h */,
+				7C9D9EA416D0E5C40065936E /* matrices.cpp */,
+				7C9D9EA516D0E5C40065936E /* matrices.h */,
+				7C9D9EB316D0E5E40065936E /* seqtools.cpp */,
+				7C9D9EB416D0E5E40065936E /* seqtools.h */,
+				7C9D9EB516D0E5E40065936E /* show.cpp */,
+				7C9D9EB616D0E5E40065936E /* show.h */,
+				7C9D9EB716D0E5E40065936E /* traceback.cpp */,
+				7C9D9EB816D0E5E40065936E /* traceback.h */,
+				7C9D9EB916D0E5E40065936E /* main.cpp */,
+				7C9D9EA616D0E5C40065936E /* nodealign.cpp */,
+				7C9D9EA716D0E5C40065936E /* nodealign.h */,
 				7C9D9E8C16D0E5060065936E /* gswcmd.1 */,
 			);
 			path = gswcmd;
@@ -117,7 +184,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C9D9E8B16D0E5060065936E /* main.cpp in Sources */,
+				7C9D9EA816D0E5C40065936E /* dump.cpp in Sources */,
+				7C9D9EA916D0E5C40065936E /* examples.cpp in Sources */,
+				7C9D9EAA16D0E5C40065936E /* fastq.cpp in Sources */,
+				7C9D9EAB16D0E5C40065936E /* getSeeds.cpp in Sources */,
+				7C9D9EAC16D0E5C40065936E /* ghash.cpp in Sources */,
+				7C9D9EAD16D0E5C40065936E /* gliamodels.cpp in Sources */,
+				7C9D9EAE16D0E5C40065936E /* gsw.cpp in Sources */,
+				7C9D9EAF16D0E5C40065936E /* jsoncpp.cpp in Sources */,
+				7C9D9EB016D0E5C40065936E /* jsreader.cpp in Sources */,
+				7C9D9EB116D0E5C40065936E /* matrices.cpp in Sources */,
+				7C9D9EB216D0E5C40065936E /* nodealign.cpp in Sources */,
+				7C9D9EBA16D0E5E40065936E /* seqtools.cpp in Sources */,
+				7C9D9EBB16D0E5E40065936E /* show.cpp in Sources */,
+				7C9D9EBC16D0E5E40065936E /* traceback.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

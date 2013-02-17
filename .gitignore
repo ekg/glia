@@ -3,3 +3,5 @@
 *.DS_Store
 *.xcsettings
 *.xcuserstate
+*.xcodeproj
+*.1
