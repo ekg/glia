@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:../../Code/clia/dump.cpp">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/dump.h">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/examples.cpp">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/examples.h">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/fastq.cpp">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/fastq.h">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/getSeeds.cpp">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/getSeeds.h">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/ghash.cpp">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/ghash.h">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/gliamodels.cpp">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/gliamodels.h">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/gsw.cpp">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/gsw.h">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/jsoncpp.cpp">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/jsreader.cpp">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/jsreader.h">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/matrices.cpp">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/matrices.h">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/nodealign.cpp">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/nodealign.h">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/README.md">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/seqtools.cpp">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/seqtools.h">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/show.cpp">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/show.h">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/traceback.cpp">
+   </FileRef>
+   <FileRef
+      location = "group:../../Code/clia/traceback.h">
+   </FileRef>
+   <FileRef
+      location = "container:../../Code/clia/main.cpp">
+   </FileRef>
+</Workspace>
