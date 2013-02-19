@@ -70,6 +70,9 @@ license you like.
 
 
 
+#ifndef JSON_H
+#define JSON_H
+
 
 
 #ifndef JSON_AMALGATED_H_INCLUDED
@@ -1849,7 +1852,8 @@ namespace Json {
 // //////////////////////////////////////////////////////////////////////
 
 
-
-
-
 #endif //ifndef JSON_AMALGATED_H_INCLUDED
+
+
+#endif // ifndef JSON_H
+
