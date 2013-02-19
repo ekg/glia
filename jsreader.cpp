@@ -87,7 +87,7 @@ int json_example(vector<sn*> &nlist) {
 	
 	
 		
-		//loadPlugIn( plugins[index].asString() );
+    //loadPlugIn( plugins[index].asString() );
 	
 	//setIndentLength( root["indent"].get("length", 3).asInt() );
 	//setIndentUseSpace( root["indent"].get("use_space", true).asBool() );
