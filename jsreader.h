@@ -15,8 +15,6 @@
 #include <map>
 
 #include "gliamodels.h"
-
-
 #include "json.h"
 
 
