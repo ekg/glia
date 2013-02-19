@@ -74,7 +74,6 @@ license you like.
 #define JSON_H
 
 
-
 #ifndef JSON_AMALGATED_H_INCLUDED
 # define JSON_AMALGATED_H_INCLUDED
 /// If defined, indicates that the source file is amalgated
