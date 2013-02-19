@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #include <google/sparse_hash_map>
+#include <json/json.h>              # not in the macbook pro version!
 //#include <tr1/functional>
 
 #include "gliamodels.h"
@@ -18,8 +19,6 @@
 #include "getSeeds.h"
 #include "jsreader.h"
 #include "seqtools.h"
-#include "json.h"
-
 
 using namespace std;
 
