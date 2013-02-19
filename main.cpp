@@ -18,6 +18,7 @@
 #include "getSeeds.h"
 #include "jsreader.h"
 #include "seqtools.h"
+#include "json.h"
 
 
 using namespace std;
