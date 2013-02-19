@@ -5,7 +5,7 @@
 #include <algorithm>
 
 #include <google/sparse_hash_map>
-#include <functional>
+//#include <tr1/functional>
 
 #include "gliamodels.h"
 #include "nodealign.h"
