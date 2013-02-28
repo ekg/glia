@@ -32,7 +32,7 @@ int hashfasta(string fasta_file_name, int hashsize, vector<fasta_entry> &ref_gen
 	load_fasta_file(fasta_file_name, ref_genome);
 	
 	vector<fasta_entry>::iterator t;
-	
+       
 	for (t = ref_genome.begin(); t != ref_genome.end(); ++t) {
 		cout << t->name << endl;
 		//cout << t->sequence << endl;
@@ -65,8 +65,10 @@ int main (int argc, const char * argv[])		// For the Stand Alone version
     // get variants in target
     vector<Variant> variants;
     VariantCallFile vcffile;
+
     vcffile.open(params.vcf_file);
     Variant var(vcffile);
+    
     vcffile.setRegion(params.target);
     while (vcffile.getNextVariant(var)) {
 	variants.push_back(var);
@@ -76,14 +78,16 @@ int main (int argc, const char * argv[])		// For the Stand Alone version
     FastaReference reference;
     reference.open(params.fasta_reference);
     FastaRegion target(params.target);
+
     string targetSequence = reference.getSubSequence(target.startSeq,
 						     target.startPos - 1,
-						     target.length());
-
+						     target.length());    
 
     // Declare the target DAG to align against.
     vector<sn*> nlist;
-    origIndel(nlist);
+
+    constructDag(nlist);
+    //origIndel(nlist);
     //json_example(nlist);
 
     

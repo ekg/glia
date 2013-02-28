@@ -5,6 +5,7 @@
 *.xcuserstate
 *.xcodeproj
 gswcmd
+gsw
 *.1dump.o
 examples.o
 fastq.o

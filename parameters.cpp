@@ -15,9 +15,6 @@ using namespace std;
 // by Anders Sewerin Johansen
 // http://www.merriampark.com/ldcpp.htm
 
-#include <string>
-#include <vector>
-
 int levenshteinDistance(const std::string source, const std::string target) {
     // Step 1
     const int n = source.length();
