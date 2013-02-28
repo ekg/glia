@@ -158,7 +158,7 @@ Parameters::Parameters(int argc, char** argv) {
     while (true) {
         int option_index = 0;
         c = getopt_long(argc, argv,
-                        "hcO4ZKjH0diN5aI_k=wluVXJY:b:G:M:x:@:A:f:t:r:s:v:n:B:p:m:q:R:Q:U:$:e:T:P:D:^:S:W:F:C:L:8:z:1:3:E:7:2:9:%:",
+                        "hxrs:q:f:t:v:o:",
                         long_options, &option_index);
         
         if (c == -1) // end of options
@@ -187,7 +187,7 @@ Parameters::Parameters(int argc, char** argv) {
                 
             // -v --vcf-file
             case 'v':
-                target = optarg;
+                vcf_file = optarg;
                 break;
                 
             // -o --output-file
