@@ -74,7 +74,7 @@ sn* sequenceDagAlign(string sequence, vector<sn*> nlist, int maxdepth) {
 		vector<sn*>::iterator t;									// good place for vector iteration?
 		for (t=nlist.begin(); t!=nlist.end(); ++t) {
 			if ((*t)->depth == i) {
-				//cout<<"against node"<<t->name<<endl;
+			    cerr<<"against node"<<(*t)->name<<endl;
 				//jlist.append(node.jsonize());						// NOT PORTED
 				StringNodeAlign(sequence, sequence.length(), **t);
 				if ((*t)->top_score.score > top_score) {
@@ -99,16 +99,23 @@ sn* gsw(string read, vector<sn*> nlist) {
 	/* py: for node in nlist:
 	 *       node.depth = getDepth(node)
 	 */
-	vector<sn*>::iterator t;									// good place for vector iteration? (<- done already!?)
+	vector<sn*>::iterator t;
 	for (t=nlist.begin(); t!=nlist.end(); ++t) {
-		(*t)->depth = getDepth(*t);
+	    (*t)->depth = getDepth(*t);
+	    // as long as this isn't an empty node (anchor)
+	    // initialize the scoring matrix for this specific read
+	    (*t)->initScore(read.size());
+	    cerr << "iterating, node " << t - nlist.begin() << " has depth " << (*t)->depth << endl;
 	}
-
 		
 	// py: maxdepth = max([node.depth for node in nlist]);
 	sort(nlist.begin(), nlist.end(), my_depth_compare);
-	maxdepth = (*nlist.begin())->depth;
-
+	cerr << (*nlist.begin())->depth << endl;
+	maxdepth = -1;
+	for (t=nlist.begin(); t!=nlist.end(); ++t) {
+	    int d = (*nlist.begin())->depth;
+	    if (d > maxdepth) maxdepth = d;
+	}
 
 	/* Submits the read & each node in the correct sequence to the block-GSW algorithm:
 	 - Picks the root node(s),  proceeds according to topological sort so child nodes inherit parents

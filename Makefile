@@ -96,4 +96,7 @@ clean:
 	cd bamtools/build && $(MAKE) clean
 	rm libbamtools.a
 
+clean-clia:
+	rm -f $(BINS) $(OBJECTS)
+
 .PHONY: clean all

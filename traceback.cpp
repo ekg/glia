@@ -84,7 +84,7 @@ bt backtrack(sn* node, int x, int y, string backstr, vector<string> &node_list) 
 	
 	// Look for the score in the given coordinates. Try&Catch included for debugging. 
 	try {
-		score = node->score_matrix[y][x];
+		score = node->matrix[y][x].score;
 	}
 	catch (exception& e) {
 		cout<<"Standard Exception: "<<e.what()<<endl;
@@ -103,7 +103,7 @@ bt backtrack(sn* node, int x, int y, string backstr, vector<string> &node_list) 
 		return backtrace;
 		
 	} else {
-		arrow = node->arrow_matrix[y][x];					// TODO: check about pointers  ??
+		arrow = node->matrix[y][x].arrow;					// TODO: check about pointers  ??
 		if (arrow == 'm') {
 			// py: backstr = "M" + backstr
 			backstr.append("M");
@@ -127,7 +127,7 @@ bt backtrack(sn* node, int x, int y, string backstr, vector<string> &node_list) 
 		}
 		
 		
-		sn* new_node = node->parent_matrix[y][x];
+		sn* new_node = node->matrix[y][x].parent;
 		
 		if (new_node->name != node->name) {							// might be better way to cmp
 			x = new_node->seq_len;

@@ -27,9 +27,9 @@ using namespace std;
 
 // compare parent nodes by score.
 struct cmp_parent_nodes {
-	int y_i;
+    int y_i;
     bool operator () (const sn* node_x, const sn* node_y) {
-		return node_x->score_matrix[y_i][node_x->seq_len] > node_y->score_matrix[y_i][node_x->seq_len];        
+	return node_x->matrix[y_i][node_x->seq_len].score > node_y->matrix[y_i][node_x->seq_len].score;
     }
 };
 
@@ -66,28 +66,18 @@ int StringNodeAlign(string read, int read_length, sn &node) {
 
 	
 	// Initialize Top Score before the alignment starts
-	ts top_score;
-	top_score.score = 0;
-	top_score.x = 0;
-	top_score.y = 0;
+	ts top_score; // now done in constructor
 
-	
-	// declare the score matrix
-	vector<vector<int> > score_matrix (read_length+1, vector<int>(node.seq_len+1, 0));
-
-	// declare the backtrace matrix
-	vector<vector<char> > arrow_matrix (read_length+1, vector<char>(node.seq_len+1, 0));
-
-	// declare the parent matrix
-	vector<vector<sn*> > parent_matrix (read_length+1, vector<sn*>(node.seq_len+1, &node));
-	
+	ms o;
+	o.parent = &node;
+	vector<vector<ms> > matrix (read_length+1, vector<ms>(node.seq_len+1, o));
 
 	/* Inherit The Top values for the leftmost utility column */
 	
 	// Seed the Service Left Column to 0 or parents
 	if (node.p5.empty()) {
 		for (int i = 0; i < read_length +1; i++) {
-			parent_matrix[i][0] = &node; }                // redundant, (replace with what?)
+			matrix[i][0].parent = &node; }                // redundant, (replace with what?)
 	} else {
 		for (int i = 1; i < read_length + 1; i++) {
 			// i = 1 because coordinate [0,0] gets seeded with the top row above
@@ -103,25 +93,29 @@ int StringNodeAlign(string read, int read_length, sn &node) {
 			top_parent = node.p5[0];
 			
 			// DEBUG PRINT
+			// XXX ... the top parent is the null; but...
 			//displayAlignment(top_parent);
 			//cout << "top parent: " << top_parent->name;
 			//cout << "score at y:" << i << "x:" << top_parent->seq_len << " -- "; 
-			//cout << top_parent->score_matrix[i][top_parent->seq_len]<<endl;
+			//cout << top_parent->matrix[i][top_parent->seq_len].score<<endl;
+
+			//cerr << "top parent matrix x " << top_parent->matrix.size() << endl;
+			//cerr << "top parent matrix y " << top_parent->matrix.front().size() << endl;
 			
-			score_matrix[i][0] = top_parent->score_matrix[i][top_parent->seq_len];  // convert to pointers?
-			parent_matrix[i][0] = top_parent;
-			arrow_matrix[i][0] = top_parent->arrow_matrix[i][top_parent->seq_len];  // convert to pointers?
-			
+			matrix[i][0].score = top_parent->matrix[i][top_parent->seq_len].score;  // convert to pointers?
+			matrix[i][0].parent = top_parent;
+			matrix[i][0].arrow = top_parent->matrix[i][top_parent->seq_len].arrow;  // convert to pointers?			
 			
 			//Update Top Score
-			if (score_matrix[i][0] > top_score.score) {
-				top_score.score = score_matrix[i][0];
+			if (matrix[i][0].score > top_score.score) {
+				top_score.score = matrix[i][0].score;
 				top_score.y = i;
 				top_score.x = 0;
 			}
 		}
 	}
 
+	cerr << "set up for the alignment" << endl;
 	
 	/* Do the Alignment */
 	for (int y = 1; y < read_length + 1; y++) {
@@ -151,9 +145,9 @@ int StringNodeAlign(string read, int read_length, sn &node) {
 			// cout node.mscore[y-1][x-1];
 			// cout node.mscore[y][x-1];
 
-			char dia_total = score_matrix[y-1][x-1] + dia_score;
-			char up_total = score_matrix[y-1][x] + gap;
-			char side_total = score_matrix[y][x-1] + gap;
+			char dia_total = matrix[y-1][x-1].score + dia_score;
+			char up_total = matrix[y-1][x].score + gap;
+			char side_total = matrix[y][x-1].score + gap;
 			
 			
 			// Compare scores & update matrices (score + arrow)
@@ -164,24 +158,24 @@ int StringNodeAlign(string read, int read_length, sn &node) {
 				if (dia_total >= side_total) {
 					if (dia_total < 0)
 						dia_total = 0;
-					arrow_matrix[y][x] = dia;
-					score_matrix[y][x] = dia_total;
+					matrix[y][x].arrow = dia;
+					matrix[y][x].score = dia_total;
 				} else {
 					if (side_total < 0)
 						side_total = 0;
-					arrow_matrix[y][x] = 's';
-					score_matrix[y][x] = side_total;
+					matrix[y][x].arrow = 's';
+					matrix[y][x].score = side_total;
 				}
 			} else if (up_total >= side_total) {
 				if (up_total < 0)
 					up_total = 0;
-				arrow_matrix[y][x] = 'u';
-				score_matrix[y][x] = up_total;		
+				matrix[y][x].arrow = 'u';
+				matrix[y][x].score = up_total;		
 			} else {
 				if (side_total < 0)
 					side_total = 0;
-				arrow_matrix[y][x] = 's';
-				score_matrix[y][x] = side_total;
+				matrix[y][x].arrow = 's';
+				matrix[y][x].score = side_total;
 			}
 
 			/* Assign the matrix
@@ -189,8 +183,8 @@ int StringNodeAlign(string read, int read_length, sn &node) {
 			 py: node.mscore[y][x] = [score[1], score[0], node.id, node]  */
 
 			/* Update Top Score */
-			if (score_matrix[y][x] > top_score.score) {
-				top_score.score = score_matrix[y][x];
+			if (matrix[y][x].score > top_score.score) {
+				top_score.score = matrix[y][x].score;
 				top_score.y = y;
 				top_score.x = x;
 			}
@@ -199,9 +193,8 @@ int StringNodeAlign(string read, int read_length, sn &node) {
 	}	// close the column
 			
 	node.top_score = top_score;
-	node.score_matrix = score_matrix;
-	node.parent_matrix = parent_matrix;
-	node.arrow_matrix = arrow_matrix;
+	node.matrix = matrix;
+	cerr << "done with StringNodeAlign" << endl;
 	return 0;
 }
 

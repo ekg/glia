@@ -8,6 +8,7 @@
 
 
 #include "construct.h"
+#include "convert.h"
 
 using namespace std;
 using namespace vcf;
@@ -28,6 +29,7 @@ struct sn {
 }; 
  */
 
+
 int constructDAG(vector<sn*> &nlist, string &targetSequence, 
 		 vector<Variant> &variants, long offset) {
 
@@ -44,9 +46,11 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence,
     current_pos = rit->position - offset;
     
     // Var Type changes this
+    //cerr << "trying to get target from " << current_pos << " of length " << "(" << prev_pos << " - " << current_pos << ")" << endl;
     right_seq = targetSequence.substr(current_pos, (prev_pos - current_pos));
+    //cerr << "right_seq = " << right_seq << endl;
     left_seq = targetSequence.substr(0,current_pos);
-
+    //cerr << "left_seq = " << left_seq << endl;
     
     // Construct Right Node
     sn* right_node;
@@ -65,7 +69,7 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence,
 
     // Fill out Right Node
     right_node->name.append("ref");
-    right_node->name.append(std::to_string(current_pos));
+    right_node->name.append(":" + convert(current_pos));
 
     right_node->sequence = right_seq;
     right_node->seq_len = right_node->sequence.length();

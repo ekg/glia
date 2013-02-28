@@ -65,16 +65,15 @@ int displayNode(sn* node) {
 int displayAlignment(sn* node) {
 	
 	
-	vector<vector<int> >::iterator y;
-	vector<int>::iterator x;
+	vector<vector<ms> >::iterator y;
+	vector<ms>::iterator x;
 	
 	cout << "Score:"<< endl << "----------" << endl;
 	
-	for (y = node->score_matrix.begin(); y != node->score_matrix.end(); ++y) {
+	for (y = node->matrix.begin(); y != node->matrix.end(); ++y) {
 		cout << "\t";
 		for (x = (*y).begin(); x != (*y).end();  ++x) {
-			
-				 cout << *x << "\t";
+		    cout << x->score << "\t";
 		}
 		cout << endl;
 	}
@@ -82,14 +81,10 @@ int displayAlignment(sn* node) {
 	cout << endl;
 	cout << "Back Trace:" << endl << "----------" << endl;
 	
-	vector<vector<char> >::iterator p;
-	vector<char>::iterator q;
-	
-	for (p = node->arrow_matrix.begin(); p != node->arrow_matrix.end(); ++p) {
+	for (y = node->matrix.begin(); y != node->matrix.end(); ++y) {
 		cout << "\t";
-		for (q = (*p).begin(); q != (*p).end();  ++q) {
-			
-			cout << *q << "\t";
+		for (x = (*y).begin(); x != (*y).end();  ++x) {
+		    cout << x->arrow << "\t";
 		}
 		cout << endl;
 	}
@@ -97,18 +92,14 @@ int displayAlignment(sn* node) {
 	cout << endl;
 	cout << "Parent:" << endl << "----------" << endl;
 	
-	vector<vector<sn*> >::iterator a;
-	vector<sn*>::iterator b;
-	
-	for (a = node->parent_matrix.begin(); a != node->parent_matrix.end(); ++a) {
+	for (y = node->matrix.begin(); y != node->matrix.end(); ++y) {
 		cout << "\t";
-		for (b = (*a).begin(); b != (*a).end();  ++b) {
-			
-			cout << (*b)->name << "\t";
+		for (x = (*y).begin(); x != (*y).end();  ++x) {
+		    cout << x->parent->name << "\t";
 		}
 		cout << endl;
 	}
-	
+
 	cout << endl;
 	return 0;
 }
