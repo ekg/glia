@@ -58,8 +58,8 @@ int main (int argc, const char * argv[])		// For the Stand Alone version
     //cout << "fastq file:" << params.fastq_file << endl;
     cout << "fasta reference:" << params.fasta_reference << endl;
 
-    cout << "vcf file" << params.vcf_file << endl;
-    cout << "target" << params.target << endl;
+    cout << "vcf file " << params.vcf_file << endl;
+    cout << "target " << params.target << endl;
 
 
     // get variants in target
@@ -79,6 +79,7 @@ int main (int argc, const char * argv[])		// For the Stand Alone version
     string targetSequence = reference.getSubSequence(target.startSeq,
 						     target.startPos - 1,
 						     target.length());
+
 
 
     // Declare the target DAG to align against.

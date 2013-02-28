@@ -82,8 +82,6 @@ $(VCFLIB):
 
 # clia build
 
-#$(OBJECTS): $(SOURCES) $(HEADERS)
-
 %.o: %.cpp %.h
 	$(CXX) -c -o $@ $(*F).cpp $(INCLUDES) $(LDFLAGS) $(CXXFLAGS)
 
