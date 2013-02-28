@@ -68,7 +68,6 @@ int main (int argc, const char * argv[])		// For the Stand Alone version
     
     
     
-    
 	//string read = "CTTCTTCTTCTTCTTCTTCTTCTTCCTTCTTCTTCTTCTTCTTCTTCTTC";
 	string read = "ATCGAA";
 	
