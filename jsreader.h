@@ -15,7 +15,7 @@
 #include <map>
 
 #include "gliamodels.h"
-#include <json/json.h>
+#include "json/json.h"
 
 
 int json_example(std::vector<sn*> &nlist);

@@ -15,6 +15,7 @@
 #include <vector>
 #include <map>
 #include <getopt.h>
+#include <stdlib.h>
 
 using namespace std;
 

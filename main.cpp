@@ -26,14 +26,6 @@ using namespace std;
 // TODO: Move to GHASH   <-done?
 int hashfasta(string fasta_file_name, int hashsize, vector<fasta_entry> &ref_genome) {	
 
-		
-	// map<string, vector<int> > contig_hash;
-	// google::sparse_hash_map<string, vector <int>, tr1::hash<string> > contig_hash;
-	/* Disabled after moving the hash to the fasta_entry struct
-	google::sparse_hash_map<string, vector <int> > contig_hash;
-	contig_hash.set_deleted_key("");
-	*/	
-
 	load_fasta_file(fasta_file_name, ref_genome);
 	
 	vector<fasta_entry>::iterator t;
@@ -145,7 +137,7 @@ int realmain (int argc, char * const argv[])
 	// The Reference Genome (a vector of fasta entries)
 	vector<fasta_entry> ref_genome;	
 	
-	// kmer hash build size.. very important (JSON?)
+	// kmer hash build size.. very important
 	int hashsize = 25;
 
 	/* Loads up the genome & hashes it. Might carve out in the future as 
@@ -200,8 +192,7 @@ int realmain (int argc, char * const argv[])
 			
 			// Declare the target DAG to align against. 
 			vector<sn*> nlist;
-			//origIndel(nlist);
-			json_example(nlist);
+			origIndel(nlist);
 
 			
 			
