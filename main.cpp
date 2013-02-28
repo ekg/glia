@@ -66,62 +66,91 @@ int main (int argc, const char * argv[])		// For the Stand Alone version
     cout << "target" << params.target << endl;
     
     
+    // Declare the target DAG to align against.
+    vector<sn*> nlist;
+    origIndel(nlist);
+    //json_example(nlist);
+
     
     
-	//string read = "CTTCTTCTTCTTCTTCTTCTTCTTCCTTCTTCTTCTTCTTCTTCTTCTTC";
-	string read = "ATCGAA";
-	
-	// Declare the target DAG to align against. 
-	vector<sn*> nlist;
-	origIndel(nlist);
-	//json_example(nlist);
-	
-	
-	// Declere a read object from a fastq file   -> WHAT's the Best Place to do this  <-
-	fastq_entry read_q;					
-	
-	// Open FastQ File
-	ifstream filehandle ("test.fastq");		// open fastq file
-	
-	// Main input file loop
-	if (filehandle.is_open()) {
-		while (filehandle.good()) {
-			
-			// Load up the read with the four lines from the FastQ file
-			read_q = getNextRead(filehandle);
-			cout << read_q.readname << endl;
-			
-			// Reverse Complement the sequence information of the read.
-			read_q.rc_sequence = reverseComplement(read_q.sequence);
-			
-						
-			/* --- alignment -- */
-			
-			cout << "Root node of the DAG:\t"<< nlist.front()->name << endl
-				 << "Sequence:\t" << read << endl;
-			
-			// Check if the nodes get cleaned up. 
-			sn* result = gsw(read, nlist);
-			
-			cout << "End of Alignment:\t" << result->name << "\t"
-				 << "top score:\t"<<result->top_score.score<<endl;
-			
-			
-			displayNode(result);
-			displayAlignment(result);
-			//displayAlignment(nlist[0]);
-			
-			mbt trace_report;
-			master_backtrack(result, trace_report);
-			
-			cout << "x: " << trace_report.x << " y: " << trace_report.y << endl;
-			cout << trace_report.cigar << endl;
-			
-		}
-		filehandle.close();
+    if (params.useFile == false) {
+    
+        string read = params.read_input;
+    
+        sn* result = gsw(read, nlist);
+        
+        cout << "End of Alignment:\t" << result->name << "\t"
+        << "top score:\t"<<result->top_score.score<<endl;
+        
+        
+        displayNode(result);
+        displayAlignment(result);
+        //displayAlignment(nlist[0]);
+        
+        mbt trace_report;
+        master_backtrack(result, trace_report);
+        
+        cout << "x: " << trace_report.x << " y: " << trace_report.y << endl;
+        cout << trace_report.cigar << endl;
+        
+        
+    } else {
+        
+        
+        /* Ancient 
+         //string read = "CTTCTTCTTCTTCTTCTTCTTCTTCCTTCTTCTTCTTCTTCTTCTTCTTC";
+         //string read = "ATCGAA";
+         */
+        
+        // Declere a read object from a fastq file   -> WHAT's the Best Place to do this  <-
+        fastq_entry read_q;
+        
+        // Open FastQ File
+        // TODO: use the parameter
+        ifstream filehandle ("test.fastq");		// open fastq file
+        
+        // Main input file loop
+        if (filehandle.is_open()) {
+            while (filehandle.good()) {
+                
+                // Load up the read with the four lines from the FastQ file
+                read_q = getNextRead(filehandle);
+                cout << read_q.readname << endl;
+                
+                // Reverse Complement the sequence information of the read.
+                read_q.rc_sequence = reverseComplement(read_q.sequence);
+                
+                
+                /* --- alignment -- */
+                
+                cout << "Root node of the DAG:\t"<< nlist.front()->name << endl
+                << "Sequence:\t" << read << endl;
+                
+                // Check if the nodes get cleaned up.
+                sn* result = gsw(read_q.sequence, nlist);
+                
+                cout << "End of Alignment:\t" << result->name << "\t"
+                << "top score:\t"<<result->top_score.score<<endl;
+                
+                
+                displayNode(result);
+                displayAlignment(result);
+                //displayAlignment(nlist[0]);
+                
+                mbt trace_report;
+                master_backtrack(result, trace_report);
+                
+                cout << "x: " << trace_report.x << " y: " << trace_report.y << endl;
+                cout << trace_report.cigar << endl;
+                
+            }
+            filehandle.close();
+        } else {
+            cout << "Unable to open read file.\n";
+           }
+    
 		
 	}
-	else cout << "Unable to open read file.\n"; 
 	
 	//write_file();
 	return 0;	
