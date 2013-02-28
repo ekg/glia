@@ -27,8 +27,82 @@ struct sn {
 }; 
  */
 
+int constructDAG(vector<sn*> &nlist, string &targetSequence, 
+		 vector<Variants> &variants, long offset) {
 
 
+  long  current_pos;
+  long prevs_pos = targetSequence.size();
+  string right_seq = "";
+  string left_seq = "":
+  
+for(vector<Variants>::reverse_iterator rit = variants.rbegin(); 
+      rit != variants.rend(); ++rit) {
+
+    // Construct Right-Node    
+    current_position = rit->position - offset;
+    
+    // Var Type changes this
+    right_seq = targetSequence.substr(current_pos, (prev_pos - current_pos));
+    left_seq = targetSequence.substr(0,current_pos);
+
+    
+    // Construct Right Node
+    sn* right_node;
+    
+    sn* na1;
+    sn* na2;
+
+    sn* left_node;
+
+    right_node = new sn;
+
+    na1 = new sn;
+    na2 = new sn;
+
+    left_node = new sn; 
+
+    // Fill out Right Node
+    right_node->name.append("ref");
+    right_node->name.append(to_string(current_pos));
+
+    right_node->sequence = right_sequence;
+    right_node->seq_len = right_node->sequence.length();
+    right_node->depth = -1;
+    
+    // Fill out Allele Nodes
+
+    // Fill out Left Nodes
 
 
-int constructDAG(vector<sn*> &nlist, 
+    // Connect Nodes
+    
+    right_node->p5.push_back(na1);
+    right_node->p5.push_back(na1);
+    
+    na1->p3.push_back(right_node);
+    na2->p3.push_back(right_node);
+    
+    na1->p5.push_back(left_node);
+    na1->p5.push_back(left_node);
+
+    left_node->p3.push_back(na1);
+    left_node->p3.push_back(na2);
+    
+    nlist.push_back(na1);
+    nlist.push_back(na2);
+    nlist.push_back(right_node);
+    
+
+    }
+  
+  last-node
+
+    
+    
+    
+ 
+
+}
+
+

@@ -84,14 +84,15 @@ int main (int argc, const char * argv[])		// For the Stand Alone version
 						     target.length());    
 
 
+    long offset = target.startPos
+
     // Declare the target DAG to align against.
     vector<sn*> nlist;
 
-    constructDag(nlist);
+    constructDag(nlist, targetSequence, variants, offset);
     //origIndel(nlist);
     //json_example(nlist);
 
-    
     
     if (params.useFile == false) {
     
