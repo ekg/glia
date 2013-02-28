@@ -98,14 +98,16 @@ void Parameters::simpleUsage(char ** argv) {
     cout
     << "usage: " << argv[0] << " -s [SEQUENCE] -f [REFERENCE] -t [TARGET] -v [VCF-FILE] > [OUTPUT]" << endl
     << "Please see README at http://www.github.com/denizkural/clia ." << endl
-    << "author:   Deniz Kural <denizkural@gmail.com>" << endl;
+    << "authors:   Deniz Kural <denizkural@gmail.com>" << endl
+    << "           Erik Garrison <erik.garrison@gmail.com>" << endl;
 }
 
 void Parameters::usage(char** argv) {
     cout
     << "usage: " << argv[0] << " -s [SEQUENCE] -f [REFERENCE] -t [TARGET] -v [VCF-FILE] > [OUTPUT]" << endl
     << "Please see README at http://www.github.com/denizkural/clia ." << endl
-    << "author:   Deniz Kural <denizkural@gmail.com>" << endl;
+    << "authors:   Deniz Kural <denizkural@gmail.com>" << endl
+    << "           Erik Garrison <erik.garrison@gmail.com>" << endl;
 }
 
 
