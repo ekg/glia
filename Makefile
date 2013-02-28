@@ -39,7 +39,7 @@ CXX = g++
 CXXFLAGS = -O3 -D_FILE_OFFSET_BITS=64
 INCLUDES = 
 LDFLAGS =
-LIBS = -lz -lm -L./ -L../vcflib/tabixpp/ -L$(BAMTOOLS_ROOT)/lib -ltabix
+LIBS = -lz -lm -L./ -Lvcflib/tabixpp/ -L$(BAMTOOLS_ROOT)/lib -ltabix
 
 BAMTOOLS_ROOT=bamtools
 BAMTOOLS_LIB_DIR=bamtools/lib
