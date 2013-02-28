@@ -4,7 +4,6 @@
 *.xcsettings
 *.xcuserstate
 *.xcodeproj
-gswcmd
 *.1dump.o
 examples.o
 fastq.o
@@ -21,7 +20,6 @@ seqtools.o
 show.o
 traceback.o
 dump.o
-*.o
 clia
 *~
 libbamtools.a
