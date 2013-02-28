@@ -22,3 +22,4 @@ traceback.o
 dump.o
 clia
 *~
+libbamtools.a
