@@ -19,6 +19,7 @@
 #include "getSeeds.h"
 #include "jsreader.h"
 #include "seqtools.h"
+#include "parameters.h"
 
 using namespace std;
 
@@ -54,7 +55,14 @@ int hashfasta(string fasta_file_name, int hashsize, vector<fasta_entry> &ref_gen
 
 int main (int argc, char * const argv[])		// For the Stand Alone version
 {
-	
+
+    
+    
+    Parameters params(argc, *argv);
+    
+    cout << params.fastq_file;
+    
+    
 	//string read = "CTTCTTCTTCTTCTTCTTCTTCTTCCTTCTTCTTCTTCTTCTTCTTCTTC";
 	string read = "ATCGAA";
 	
