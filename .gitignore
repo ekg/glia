@@ -23,3 +23,4 @@ dump.o
 clia
 *~
 libbamtools.a
+split.o

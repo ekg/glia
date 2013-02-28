@@ -5,7 +5,7 @@
 #include <algorithm>
 
 #include <google/sparse_hash_map>
-//#include <json/json.h>              # not in the macbook pro version!
+//#include <json/json.h>
 //#include <tr1/functional>
 
 #include "gliamodels.h"
@@ -20,8 +20,11 @@
 #include "jsreader.h"
 #include "seqtools.h"
 #include "parameters.h"
+#include "vcflib/Variant.h"
+#include "fastahack/Fasta.h"
 
 using namespace std;
+using namespace vcf;
 
 // TODO: Move to GHASH   <-done?
 int hashfasta(string fasta_file_name, int hashsize, vector<fasta_entry> &ref_genome) {	
@@ -54,10 +57,30 @@ int main (int argc, const char * argv[])		// For the Stand Alone version
     cout << "read: " << params.read_input << endl;
     //cout << "fastq file:" << params.fastq_file << endl;
     cout << "fasta reference:" << params.fasta_reference << endl;
+
     cout << "vcf file" << params.vcf_file << endl;
     cout << "target" << params.target << endl;
-    
-    
+
+
+    // get variants in target
+    vector<Variant> variants;
+    VariantCallFile vcffile;
+    vcffile.open(params.vcf_file);
+    Variant var(vcffile);
+    vcffile.setRegion(params.target);
+    while (vcffile.getNextVariant(var)) {
+	variants.push_back(var);
+    }
+
+    // get sequence of target
+    FastaReference reference;
+    reference.open(params.fasta_reference);
+    FastaRegion target(params.target);
+    string targetSequence = reference.getSubSequence(target.startSeq,
+						     target.startPos - 1,
+						     target.length());
+
+
     // Declare the target DAG to align against.
     vector<sn*> nlist;
     origIndel(nlist);

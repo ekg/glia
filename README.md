@@ -9,6 +9,10 @@ Note that there is a bunch of code for future hashing purposes (currently unused
 Installation Instructions
 ----------
 
+To build, you'll need to first pull in a few dependencies.
+
+***Dependencies:***
+
 **Sparsehash:**
 
 * Download and install http://code.google.com/p/sparsehash/  using:
@@ -34,6 +38,7 @@ Installation Instructions
     - Copy it to /usr/local/include/json/json.h  or another path you recognize.
     - TODO: Considering switch to a better maintained package (like rapidjson) in the future.
 
+Now that your dependencies are installed, you simply have to compile using: `make`
 
 TODO:
 -----
