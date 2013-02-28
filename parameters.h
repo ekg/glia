@@ -18,6 +18,9 @@
 
 using namespace std;
 
+int levenshteinDistance(const std::string source, const std::string target);
+
+
 // Command line parameters Class
 class Parameters {
     
@@ -28,9 +31,9 @@ public:
     // i/o parameters:
     string read_input;           // -s --sequence
     string fastq_file;          // -q --fastq-file
-    string fasta;               // -f --fasta-reference
+    string fasta_reference;     // -f --fasta-reference
     string target;             // -t --target
-
+    string vcf_file;            // -v --vcf-file
     string outputFile;          // -o --bam-output
 
     // operation parameters
@@ -39,9 +42,9 @@ public:
 
     
     // functions
-    Parameters(int argc, char * const argv);
-    void usage(char **argv);
-    void simpleUsage(char **argv);
+    Parameters(int argc, char ** argv);
+    void usage(char ** argv);
+    void simpleUsage(char ** argv);
     
     //reporting
     string commandline;

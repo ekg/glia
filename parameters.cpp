@@ -11,22 +11,105 @@
 using namespace std;
 
 
+// Levenshtein Distance Algorithm: C++ Implementation
+// by Anders Sewerin Johansen
+// http://www.merriampark.com/ldcpp.htm
+
+#include <string>
+#include <vector>
+
+int levenshteinDistance(const std::string source, const std::string target) {
+    // Step 1
+    const int n = source.length();
+    const int m = target.length();
+    if (n == 0) {
+        return m;
+    }
+    if (m == 0) {
+        return n;
+    }
+    
+    // Good form to declare a TYPEDEF
+    typedef std::vector< std::vector<int> > Tmatrix;
+    
+    Tmatrix matrix(n+1);
+    
+    // Size the vectors in the 2.nd dimension. Unfortunately C++ doesn't
+    // allow for allocation on declaration of 2.nd dimension of vec of vec
+    
+    for (int i = 0; i <= n; i++) {
+        matrix[i].resize(m+1);
+    }
+    
+    // Step 2
+    for (int i = 0; i <= n; i++) {
+        matrix[i][0]=i;
+    }
+    for (int j = 0; j <= m; j++) {
+        matrix[0][j]=j;
+    }
+    
+    // Step 3
+    for (int i = 1; i <= n; i++) {
+        const char s_i = source[i-1];
+        
+        // Step 4
+        for (int j = 1; j <= m; j++) {
+            const char t_j = target[j-1];
+            
+            // Step 5
+            int cost;
+            if (s_i == t_j) {
+                cost = 0;
+            }
+            else {
+                cost = 1;
+            }
+            
+            // Step 6
+            const int above = matrix[i-1][j];
+            const int left = matrix[i][j-1];
+            const int diag = matrix[i-1][j-1];
+            int cell = min( above + 1, min(left + 1, diag + cost));
+            
+            // Step 6A: Cover transposition, in addition to deletion,
+            // insertion and substitution. This step is taken from:
+            // Berghel, Hal ; Roach, David : "An Extension of Ukkonen's
+            // Enhanced Dynamic Programming ASM Algorithm"
+            // (http://www.acm.org/~hlb/publications/asm/asm.html)
+            
+            if (i>2 && j>2) {
+                int trans=matrix[i-2][j-2]+1;
+                if (source[i-2]!=t_j) trans++;
+                if (s_i!=target[j-2]) trans++;
+                if (cell>trans) cell = trans;
+            }
+            
+            matrix[i][j]=cell;
+        }
+    }
+    
+    // Step 7
+    return matrix[n][m];
+}
+
+
 void Parameters::simpleUsage(char ** argv) {
     cout
-    << "usage: " << argv[0] << " -f [REFERENCE] [OPTIONS] >[OUTPUT]" << endl
+    << "usage: " << argv[0] << " -s [SEQUENCE] -f [REFERENCE] -t [TARGET] -v [VCF-FILE] > [OUTPUT]" << endl
     << "Please see README at http://www.github.com/denizkural/clia ." << endl
     << "author:   Deniz Kural <denizkural@gmail.com>" << endl;
 }
 
 void Parameters::usage(char** argv) {
     cout
-    << "usage: " << argv[0] << " -f [REFERENCE] [OPTIONS] >[OUTPUT]" << endl
+    << "usage: " << argv[0] << " -s [SEQUENCE] -f [REFERENCE] -t [TARGET] -v [VCF-FILE] > [OUTPUT]" << endl
     << "Please see README at http://www.github.com/denizkural/clia ." << endl
     << "author:   Deniz Kural <denizkural@gmail.com>" << endl;
 }
 
 
-Parameters::Parameters(int argc, char* const argv) {
+Parameters::Parameters(int argc, char** argv) {
     
     if (argc == 1) {
         simpleUsage(argv);
@@ -44,28 +127,30 @@ Parameters::Parameters(int argc, char* const argv) {
     
     // i/o parameters:
     read_input = "";            // -s --sequence
-    fastq_file = ""             // -q --fastq-file
-    fasta = "";                 // -f --fasta-reference
+    fastq_file = "";            // -q --fastq-file
+    fasta_reference = "";                 // -f --fasta-reference
     target = "";                // -t --target
+    vcf_file = "";              // -v --vcf-file
     
     outputFile = "";            // -o --bam-output
     
     // operation parameters
-    useFile = FALSE;            // -x --use-file
-    alignReverse = TRUE;        // -r --reverse-complement
+    useFile = false;            // -x --use-file
+    alignReverse = true;        // -r --reverse-complement
     
     int c; // counter for getopt
     
     static struct option long_options[] =
     {
         {"help", no_argument, 0, 'h'},
-        {"sequence", required_argument, 0, 's'}
-        {"fastq-file", required_argument, 0, 'q'}
-        {"fasta-reference", required_argument, 0, 'f'}
-        {"target", required_argument, 0, 't'}
-        {"output-file", required_argument, 0, 'o'}
-        {"use-file", no_argument, 0, 'x'}
-        {"reverse-complement", no_argument, 0, 'r'}
+        {"sequence", required_argument, 0, 's'},
+        {"fastq-file", required_argument, 0, 'q'},
+        {"fasta-reference", required_argument, 0, 'f'},
+        {"target", required_argument, 0, 't'},
+        {"vcf-file", required_argument, 0, 'v'},
+        {"output-file", required_argument, 0, 'o'},
+        {"use-file", no_argument, 0, 'x'},
+        {"reverse-complement", no_argument, 0, 'r'},
         
         {0, 0, 0, 0}
         
@@ -85,26 +170,40 @@ Parameters::Parameters(int argc, char* const argv) {
             case 's':
                 read_input = optarg;
                 break;
+                
             // -q --fastq-file
             case 'q':
                 fastq_file = optarg;
                 break;
+                
             // -f --fasta-reference
             case 'f':
                 fasta_reference = optarg;
                 break;
+                
             // -t --target
             case 't':
                 target = optarg;
                 break;
+                
+            // -v --vcf-file
+            case 'v':
+                target = optarg;
+                break;
+                
             // -o --output-file
             case 'o':
                 outputFile = optarg;
+                break;
+                
             // -x --use-file
             case 'x':
-                useFile = TRUE;
+                useFile = true;
+                break;
+                
             // -r --reverse-complement
-                alignReverse = FALSE;
+                alignReverse = false;
+                break;
 
             // - --help
             case 'h':
@@ -144,7 +243,7 @@ Parameters::Parameters(int argc, char* const argv) {
         exit(1);
     }
     
-    if (useFile == TRUE && fastq_file == "") {
+    if (useFile == true && fastq_file == "") {
         cerr << "Please specify a fastq input file." << endl;
     }
     

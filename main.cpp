@@ -53,14 +53,20 @@ int hashfasta(string fasta_file_name, int hashsize, vector<fasta_entry> &ref_gen
 }
 	
 
-int main (int argc, char * const argv[])		// For the Stand Alone version
+int main (int argc, const char * argv[])		// For the Stand Alone version
 {
 
     
+    Parameters params(argc, (char **)argv);
     
-    Parameters params(argc, *argv);
+    cout << "read: " << params.read_input << endl;
+    //cout << "fastq file:" << params.fastq_file << endl;
+    cout << "fasta reference:" << params.fasta_reference << endl;
+    cout << "vcf file" << params.vcf_file << endl;
+    cout << "target" << params.target << endl;
     
-    cout << params.fastq_file;
+    
+    
     
     
 	//string read = "CTTCTTCTTCTTCTTCTTCTTCTTCCTTCTTCTTCTTCTTCTTCTTCTTC";
@@ -68,8 +74,8 @@ int main (int argc, char * const argv[])		// For the Stand Alone version
 	
 	// Declare the target DAG to align against. 
 	vector<sn*> nlist;
-	//origIndel(nlist);
-	json_example(nlist);
+	origIndel(nlist);
+	//json_example(nlist);
 	
 	
 	// Declere a read object from a fastq file   -> WHAT's the Best Place to do this  <-
