@@ -20,6 +20,7 @@
 #include "jsreader.h"
 #include "seqtools.h"
 #include "parameters.h"
+#include "construct.h"
 #include "vcflib/Variant.h"
 #include "fastahack/Fasta.h"
 
@@ -84,12 +85,12 @@ int main (int argc, const char * argv[])		// For the Stand Alone version
 						     target.length());    
 
 
-    long offset = target.startPos
+    long offset = target.startPos;
 
     // Declare the target DAG to align against.
     vector<sn*> nlist;
 
-    constructDag(nlist, targetSequence, variants, offset);
+    constructDAG(nlist, targetSequence, variants, offset);
     //origIndel(nlist);
     //json_example(nlist);
 

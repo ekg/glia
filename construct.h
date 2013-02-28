@@ -11,8 +11,14 @@
 
 #include <string>
 #include <vector>
+#include "vcflib/Variant.h"
+#include "gliamodels.h"
+
 
 using namespace std;
 
 
-#endif /* defined(CONSTRUCT_H)
+int constructDAG(std::vector<sn*> &nlist, std::string &targetSequence, 
+		 std::vector<vcf::Variant> &variants, long offset);
+
+#endif /* defined(CONSTRUCT_H) */

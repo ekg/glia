@@ -10,6 +10,7 @@
 #include "construct.h"
 
 using namespace std;
+using namespace vcf;
 
 // sn := string-node data structure
 /*
@@ -28,19 +29,19 @@ struct sn {
  */
 
 int constructDAG(vector<sn*> &nlist, string &targetSequence, 
-		 vector<Variants> &variants, long offset) {
+		 vector<Variant> &variants, long offset) {
 
 
   long  current_pos;
-  long prevs_pos = targetSequence.size();
+  long prev_pos = targetSequence.size();
   string right_seq = "";
-  string left_seq = "":
+  string left_seq = "";
   
-for(vector<Variants>::reverse_iterator rit = variants.rbegin(); 
+    for(vector<Variant>::reverse_iterator rit = variants.rbegin(); 
       rit != variants.rend(); ++rit) {
 
     // Construct Right-Node    
-    current_position = rit->position - offset;
+    current_pos = rit->position - offset;
     
     // Var Type changes this
     right_seq = targetSequence.substr(current_pos, (prev_pos - current_pos));
@@ -64,9 +65,9 @@ for(vector<Variants>::reverse_iterator rit = variants.rbegin();
 
     // Fill out Right Node
     right_node->name.append("ref");
-    right_node->name.append(to_string(current_pos));
+    right_node->name.append(std::to_string(current_pos));
 
-    right_node->sequence = right_sequence;
+    right_node->sequence = right_seq;
     right_node->seq_len = right_node->sequence.length();
     right_node->depth = -1;
     
@@ -94,15 +95,9 @@ for(vector<Variants>::reverse_iterator rit = variants.rbegin();
     nlist.push_back(right_node);
     
 
-    }
+    };
   
-  last-node
-
-    
-    
-    
- 
-
+    //last-node
 }
 
 

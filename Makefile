@@ -11,7 +11,8 @@ HEADERS = dump.h \
 	traceback.h \
 	parameters.h \
 	seqtools.h \
-	split.h
+	split.h \
+	construct.h
 
 SOURCES = dump.cpp \
 	examples.cpp \
@@ -27,7 +28,8 @@ SOURCES = dump.cpp \
 	traceback.cpp \
 	parameters.cpp \
 	seqtools.cpp \
-	split.cpp
+	split.cpp \
+	construct.cpp
 
 OBJECTS= $(SOURCES:.cpp=.o)
 
