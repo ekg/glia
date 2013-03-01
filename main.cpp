@@ -61,6 +61,7 @@ int main (int argc, const char * argv[])		// For the Stand Alone version
 
     cout << "vcf file " << params.vcf_file << endl;
     cout << "target " << params.target << endl;
+    cout << endl;
 
     // get sequence of target
     FastaReference reference;
@@ -77,7 +78,7 @@ int main (int argc, const char * argv[])		// For the Stand Alone version
     
     vcffile.setRegion(params.target);
     while (vcffile.getNextVariant(var)) {
-	cerr << var << endl;
+	//cerr << var << endl;
 	if (var.position + var.ref.length() <= target.stopPos) {
 	    variants.push_back(var);
 	}
@@ -88,16 +89,23 @@ int main (int argc, const char * argv[])		// For the Stand Alone version
     }
 
     long offset = target.startPos;
-    cerr << "offset... " << offset << endl;
 
     // Declare the target DAG to align against.
     vector<sn*> nlist;
 
-    constructDAG(nlist, targetSequence, variants, offset);
     //origIndel(nlist);
+
+    constructDAG(nlist, targetSequence, variants, offset);
+    cout << "DAG generated from input variants:" << endl;
+    //displayDAG(nlist.back());
+    for (vector<sn*>::iterator n = nlist.begin(); n != nlist.end(); ++n) {
+	cout << *n << endl;
+    }
+    cout << endl;
+
     //json_example(nlist);
     
-    cerr << "dag is constructed! and includes " << nlist.size() << " nodes" << endl;
+    //cerr << "dag is constructed! and includes " << nlist.size() << " nodes" << endl;
 
     if (params.useFile == false) {
     

@@ -31,7 +31,7 @@ struct cmp_parent_nodes;
 
 /* Main Alignment Algorithm for String and Node */
 int StringNodeAlign(std::string read, int read_length, sn &node,
-		    const char match, const char mism, const char gap);
+		    const int match, const int mism, const int gap);
 
 
 #endif

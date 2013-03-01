@@ -58,7 +58,7 @@ int getDepth(sn* node) {
 
 
 sn* sequenceDagAlign(string sequence, vector<sn*> nlist, int maxdepth,
-		     const char match, const char mism, const char gap) {
+		     const int match, const int mism, const int gap) {
     /* Notes:
      * (1) Map out the data model!
      * (2) Strictly speaking creaeting a new top_node pointer is probably unnecessary
@@ -78,7 +78,6 @@ sn* sequenceDagAlign(string sequence, vector<sn*> nlist, int maxdepth,
 	vector<sn*>::iterator t;									// good place for vector iteration?
 	for (t=nlist.begin(); t!=nlist.end(); ++t) {
 	    if ((*t)->depth == i) {
-		cerr<<"against node"<<(*t)->name<<endl;
 		//jlist.append(node.jsonize());						// NOT PORTED
 		StringNodeAlign(sequence, sequence.length(), **t,
 				match, mism, gap);
@@ -95,7 +94,7 @@ sn* sequenceDagAlign(string sequence, vector<sn*> nlist, int maxdepth,
 
 
 sn* gsw(string read, vector<sn*> nlist,
-	const char match, const char mism, const char gap) {
+	const int match, const int mism, const int gap) {
     /* Create a local POSET and record the poset layer ordering on the Node object.
      * This might not be necessary in the full framework - for example when a reference DAG is already pre-sorted
      * and comes with appropriate depth. This assumes a local unsorted framework. 
@@ -111,12 +110,10 @@ sn* gsw(string read, vector<sn*> nlist,
 	// as long as this isn't an empty node (anchor)
 	// initialize the scoring matrix for this specific read
 	(*t)->initScore(read.size());
-	cerr << "iterating, node " << t - nlist.begin() << " has depth " << (*t)->depth << endl;
     }
 		
     // py: maxdepth = max([node.depth for node in nlist]);
     sort(nlist.begin(), nlist.end(), my_depth_compare);
-    cerr << (*nlist.begin())->depth << endl;
     maxdepth = -1;
     for (t=nlist.begin(); t!=nlist.end(); ++t) {
 	int d = (*nlist.begin())->depth;

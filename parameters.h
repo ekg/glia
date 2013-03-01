@@ -42,9 +42,9 @@ public:
     bool alignReverse;          // -r --reverse-complement
 
     // alignment parameters
-    char match;
-    char mism;
-    char gap;
+    int match;
+    int mism;
+    int gap;
     
     // functions
     Parameters(int argc, char ** argv);

@@ -34,22 +34,8 @@ struct cmp_parent_nodes {
 };
 
 
-
-/* Set Alignment Scores */
-// todo: add gap-extend, consider floats, consider user input */
-
 /*
-const char match = 10;
-const char mism = -10;
-const char gap = -10;
-*/
-
-// const char gap_open = -10
-// const char gap_extend = -2
-
-
-/*
- * INPUTS:  read sequence, read length, node
+ * INPUTS:  read sequence, read length, node, alignment parameters
  * OUTPUTS: alignment
  *
  * TODO:    Accept node pointer instead?
@@ -57,12 +43,12 @@ const char gap = -10;
  * TODO:    Check consistency of char vs int
  *
  */
-int StringNodeAlign(string read, int read_length, sn &node, char match, char mism, char gap) {
+int StringNodeAlign(string read, int read_length, sn &node, int match, int mism, int gap) {
 	/* Main Alignment Algorithm for String and Node */
 	
 	// Initialize variables
-	char dia_score;
-	char dia;
+	int dia_score;
+	int dia;
 	
 	sn* top_parent;					// pointer or not)?
 
@@ -117,7 +103,7 @@ int StringNodeAlign(string read, int read_length, sn &node, char match, char mis
 		}
 	}
 
-	cerr << "set up for the alignment" << endl;
+	//cerr << "set up for the alignment" << endl;
 	
 	/* Do the Alignment */
 	for (int y = 1; y < read_length + 1; y++) {
@@ -147,9 +133,9 @@ int StringNodeAlign(string read, int read_length, sn &node, char match, char mis
 			// cout node.mscore[y-1][x-1];
 			// cout node.mscore[y][x-1];
 
-			char dia_total = matrix[y-1][x-1].score + dia_score;
-			char up_total = matrix[y-1][x].score + gap;
-			char side_total = matrix[y][x-1].score + gap;
+			int dia_total = matrix[y-1][x-1].score + dia_score;
+			int up_total = matrix[y-1][x].score + gap;
+			int side_total = matrix[y][x-1].score + gap;
 			
 			
 			// Compare scores & update matrices (score + arrow)
@@ -196,7 +182,7 @@ int StringNodeAlign(string read, int read_length, sn &node, char match, char mis
 			
 	node.top_score = top_score;
 	node.matrix = matrix;
-	cerr << "done with StringNodeAlign" << endl;
+	//cerr << "done with StringNodeAlign" << endl;
 	return 0;
 }
 

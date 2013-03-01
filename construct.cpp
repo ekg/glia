@@ -34,7 +34,6 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence,
 		 vector<Variant> &variants, long offset) {
 
 
-    long  current_pos;
     long prev_pos = targetSequence.size();
     string p3_ref_seq;
 
@@ -44,19 +43,19 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence,
 	rit != variants.rend(); ++rit) {
 
 	Variant& var = *rit;
+	int current_pos = var.position - offset + var.ref.size();
 
 	// Construct Right-Node    
-	current_pos = var.position - offset;
-    
-	// Var Type changes this
-	p3_ref_seq = targetSequence.substr(current_pos, (prev_pos - current_pos));
-	prev_pos = var.position;
+	p3_ref_seq = targetSequence.substr(current_pos, prev_pos - current_pos);
+
+	// new previous position is at the start of the variant
+	prev_pos = var.position - offset;
 
 	// Construct Right Node
 	sn* p3_ref_node = new sn(
 	    p3_ref_seq
 	    ,
-	    "ref|0|" + var.sequenceName + ":"
+	    "ref|r|" + var.sequenceName + ":"
 	    + convert(var.position + var.ref.size())
 	    + "-"
 	    + convert(var.position
@@ -88,6 +87,9 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence,
 	p3_ref_node->p5.push_back(ref_node);
 	ref_node->p3.push_back(p3_ref_node);
 
+	// store the current ref in the pp3 nodes for connection on next iteration
+	pp3_var_nodes.push_back(ref_node);
+
 	// Fill and connect Allele Nodes to p3_ref_node
 
 	int i = 1;
@@ -110,6 +112,32 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence,
 	    p3_ref_node->p5.push_back(alt_node);
 	}
 
-    };
-  
+    }
+
+    // last node construction and connection
+
+    // Construct Right-Node    
+    p3_ref_seq = targetSequence.substr(0, prev_pos);
+
+    // Construct Right Node
+    sn* p3_ref_node = new sn(
+	p3_ref_seq
+	,
+	"ref|r|" + variants.front().sequenceName + ":"
+	+ convert(offset)
+	+ "-"
+	+ convert(prev_pos + offset));
+
+    // connect to old p3 nodes
+    for (vector<sn*>::iterator n = pp3_var_nodes.begin(); n != pp3_var_nodes.end(); ++n) {
+	p3_ref_node->p3.push_back(*n);
+	(*n)->p5.push_back(p3_ref_node);
+    }
+    pp3_var_nodes.clear();
+
+    // save reference
+    nlist.push_back(p3_ref_node);
+
+    reverse(nlist.begin(), nlist.end());
+
 }

@@ -30,9 +30,9 @@ int getDepth(sn* node);
 
 
 sn* sequenceDagAlign(std::string sequence, std::vector<sn*> nlist, int maxdepth,
-		     const char match, const char mism, const char gap);
+		     const int match, const int mism, const int gap);
 
 sn* gsw(std::string read, std::vector<sn*> nlist,
-	const char match, const char mism, const char gap);
+	const int match, const int mism, const int gap);
 
 #endif

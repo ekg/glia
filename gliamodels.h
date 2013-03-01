@@ -74,6 +74,7 @@ sn(std::string s,
 
 std::ostream& operator<<(std::ostream& o, const sn* s);
 std::ostream& operator<<(std::ostream& o, const ts& t);
+int displayDAG(const sn*);
 
 
 #endif
