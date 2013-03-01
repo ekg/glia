@@ -31,26 +31,29 @@ struct cmp_parent_depths {
 
 
 int getDepth(sn* node) {
-	/* Return the topological order of a node in a DAG
-	 - Check if it has depth, if so don't repeat the backtrack
-	 - Else, check if it has a parent node, if so recurse
-	 - Otherwise declare the node to be a head node 
-	 */
-	
-	int d;										// optimization:  get rid of this
-	if (node->depth == -1) {
-		if (node->p5.empty() == false) {
-			//d = 1 + max( [getDepth(p) for p in node.p5] )
-			sort(node->p5.begin(), node->p5.end(), my_gd_compare);
-			d = node->p5[0]->depth + 1;			// check to see if this is same as .front()
-			node->depth = d;
-			return d;
-		} else {
-			return 1;
-		}
+    /* Return the topological order of a node in a DAG
+       - Check if it has depth, if so don't repeat the backtrack
+       - Else, check if it has a parent node, if so recurse
+       - Otherwise declare the node to be a head node 
+    */
+    
+    int d;										// optimization:  get rid of this
+    if (node->depth == -1) {
+	if (node->p5.empty() == false) {
+	    //d = 1 + max( [getDepth(p) for p in node.p5] )
+	    for (vector<sn*>::iterator n = node->p5.begin() ;n != node->p5.end(); ++n) {
+		getDepth(*n);
+	    }
+	    sort(node->p5.begin(), node->p5.end(), my_gd_compare);
+	    d = node->p5[0]->depth + 1;			// check to see if this is same as .front()
+	    node->depth = d;
+	    return d;
 	} else {
-		return node->depth;
+	    return 1;
 	}
+    } else {
+	return node->depth;
+    }
 }	
 
 

@@ -71,13 +71,13 @@ int origIndel(vector<sn*> &nlist) {
 
 	//vector<sn*> nlist; 
 	
-	cout << "the instance in the function: " << n1->name << n1->sequence << endl;
+	//cout << "the instance in the function: " << n1->name << n1->sequence << endl;
 	
 	nlist.push_back(n1);
 	nlist.push_back(n2);
 	nlist.push_back(n3);
 	
-	cout << "the vector in the function: " << nlist[1]->name << endl;
+	//cout << "the vector in the function: " << nlist[1]->name << endl;
 	
 	return 0;
 }

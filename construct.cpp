@@ -30,7 +30,7 @@ struct sn {
  */
 
 
-int constructDAG(vector<sn*> &nlist, string &targetSequence, 
+int _constructDAG(vector<sn*> &nlist, string &targetSequence, 
 		 vector<Variant> &variants, long offset) {
 
 
@@ -90,6 +90,82 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence,
     
     na1->p5.push_back(left_node);
     na1->p5.push_back(left_node);
+
+    left_node->p3.push_back(na1);
+    left_node->p3.push_back(na2);
+    
+    nlist.push_back(na1);
+    nlist.push_back(na2);
+    nlist.push_back(right_node);
+    
+
+    };
+  
+    //last-node
+}
+
+
+int constructDAG(vector<sn*> &nlist, string &targetSequence, 
+		 vector<Variant> &variants, long offset) {
+
+
+  long current_pos;
+  long prev_pos = targetSequence.size();
+  string right_seq = "";
+  string left_seq = "";
+  
+    for(vector<Variant>::reverse_iterator rit = variants.rbegin(); 
+      rit != variants.rend(); ++rit) {
+
+    // Construct Right-Node    
+    current_pos = rit->position - offset;
+    
+    // Var Type changes this
+    //cerr << "trying to get target from " << current_pos << " of length " << "(" << prev_pos << " - " << current_pos << ")" << endl;
+    right_seq = targetSequence.substr(current_pos, (prev_pos - current_pos));
+    //cerr << "right_seq = " << right_seq << endl;
+    left_seq = targetSequence.substr(0,current_pos);
+    //cerr << "left_seq = " << left_seq << endl;
+    
+    // Construct Right Node
+    sn* right_node;
+    
+    sn* na1;
+    sn* na2;
+
+    sn* left_node;
+
+    right_node = new sn;
+
+    na1 = new sn;
+    na2 = new sn;
+
+    left_node = new sn; 
+
+    // Fill out Right Node
+    right_node->name.append("ref");
+    right_node->name.append(":" + convert(current_pos));
+
+    right_node->sequence = right_seq;
+    right_node->seq_len = right_node->sequence.length();
+    right_node->depth = -1;
+    
+    // Fill out Allele Nodes
+
+    // Fill out Left Nodes
+
+
+
+    // Connect Nodes
+    
+    right_node->p5.push_back(na1);
+    right_node->p5.push_back(na1);
+    
+    na1->p3.push_back(right_node);
+    na2->p3.push_back(right_node);
+    
+    na1->p5.push_back(left_node);
+    na2->p5.push_back(left_node);
 
     left_node->p3.push_back(na1);
     left_node->p3.push_back(na2);

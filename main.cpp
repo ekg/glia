@@ -93,8 +93,8 @@ int main (int argc, const char * argv[])		// For the Stand Alone version
     // Declare the target DAG to align against.
     vector<sn*> nlist;
 
-    constructDAG(nlist, targetSequence, variants, offset);
-    //origIndel(nlist);
+    //constructDAG(nlist, targetSequence, variants, offset);
+    origIndel(nlist);
     //json_example(nlist);
     
     cerr << "dag is constructed! and includes " << nlist.size() << " nodes" << endl;
@@ -109,12 +109,12 @@ int main (int argc, const char * argv[])		// For the Stand Alone version
         << "top score:\t"<<result->top_score.score<<endl;
         
         
-        displayNode(result);
-        displayAlignment(result);
+        //displayNode(result);
+        //displayAlignment(result);
         //displayAlignment(nlist[0]);
         
         mbt trace_report;
-        master_backtrack(result, trace_report);
+	bt backtrace = master_backtrack(result, trace_report);
         
         cout << "x: " << trace_report.x << " y: " << trace_report.y << endl;
         cout << trace_report.cigar << endl;

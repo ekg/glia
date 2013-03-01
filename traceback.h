@@ -13,6 +13,8 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <algorithm>
+#include <sstream>
 
 #include "gliamodels.h"
 #include "nodealign.h"
@@ -37,13 +39,17 @@ struct mbt {
 
 
 // recursive backtrack
-bt backtrack(sn* node, int x, int y, std::string backstr, std::vector<std::string> &node_list);
+bt backtrack(sn* node,
+	     int x, int y,
+	     std::vector<bt>& trace,
+	     std::string& backstr,
+	     std::vector<std::string> &node_list);
 
 // mbt := data structure for trace report
 struct mbt;
 
 // master backtrack
-int master_backtrack(sn* node, mbt &trace_report);
+bt master_backtrack(sn* node, mbt &trace_report);
 
 
 #endif
