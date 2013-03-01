@@ -67,6 +67,8 @@ int displayAlignment(sn* node) {
 	
 	vector<vector<ms> >::iterator y;
 	vector<ms>::iterator x;
+
+	cout << "Node: " << node->name << endl << endl;
 	
 	cout << "Score:"<< endl << "----------" << endl;
 	
@@ -103,7 +105,3 @@ int displayAlignment(sn* node) {
 	cout << endl;
 	return 0;
 }
-	
-	
-
-

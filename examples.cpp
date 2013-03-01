@@ -35,12 +35,11 @@ struct sn {
 int origIndel(vector<sn*> &nlist) {
 	
 	// Initialize Nodes
-	sn* n1;
-	sn* n2;
-	sn* n3;
-	n1 = new sn;
-	n2 = new sn;
-	n3 = new sn;
+	sn* n1 = new sn;
+	sn* n2 = new sn;
+	sn* n3 = new sn;
+	sn* n4 = new sn;
+	sn* n5 = new sn;
 	
 	n1->name = "n1";
 	n1->sequence = "TTGGAT";
@@ -55,19 +54,36 @@ int origIndel(vector<sn*> &nlist) {
 	n2->depth = -1;
 
 	n3->name = "n3";
-	n3->sequence = "ATGGG";
+	n3->sequence = "T";
 	n3->seq_len = n3->sequence.length();
 	n3->depth = -1;
+
+	// this is a continuation of the consensus
+	n4->name = "n4";
+	n4->sequence = "ATGGG";
+	n4->seq_len = n4->sequence.length();
+	n4->depth = -1;
+
+	// this is a continuation of the consensus
+	n5->name = "n5";
+	n5->sequence = "TGCCAT";
+	n5->seq_len = n5->sequence.length();
+	n5->depth = -1;
 	
 	//Connect Nodes
 	n1->p3.push_back(n2);
 	n1->p3.push_back(n3);
 
-	n2->p3.push_back(n3);
-
 	n2->p5.push_back(n1);
 	n3->p5.push_back(n1);
-	n3->p5.push_back(n2);
+
+	n2->p3.push_back(n4);
+	n3->p3.push_back(n4);
+
+	n4->p5.push_back(n2);
+	n4->p5.push_back(n3);
+
+	
 
 	//vector<sn*> nlist; 
 	
@@ -76,6 +92,7 @@ int origIndel(vector<sn*> &nlist) {
 	nlist.push_back(n1);
 	nlist.push_back(n2);
 	nlist.push_back(n3);
+	nlist.push_back(n4);
 	
 	//cout << "the vector in the function: " << nlist[1]->name << endl;
 	

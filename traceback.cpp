@@ -24,7 +24,7 @@ bt master_backtrack(sn* node, mbt &trace_report) {
 
     string cigar;
     string backstr = "";
-    vector<string> node_list;
+    vector<sn*> node_list;
 	
     // Recover starting matrix coordinates from the highest scoring entry
     int x = node->top_score.x;
@@ -43,13 +43,12 @@ bt master_backtrack(sn* node, mbt &trace_report) {
     reverse(node_list.begin(), node_list.end());
     reverse(trace.begin(), trace.end());
 
-    vector<string>::iterator n = node_list.begin();
     vector<bt>::iterator t = trace.begin();
 
     stringstream cigarss;
-    for ( ; t != trace.end() && n != node_list.end(); ++t, ++n) {
+    for ( ; t != trace.end() && t != trace.end(); ++t) {
 	reverse(t->backstr.begin(), t->backstr.end());
-	cigarss << t->x << "," << t->y << ":" << *n << ":" << t->backstr;
+	cigarss << t->x << "," << t->y << ":" << t->node->name << ":" << t->backstr;
 	if ((t+1) != trace.end()) cigarss << "|";
     }
 	
@@ -59,8 +58,8 @@ bt master_backtrack(sn* node, mbt &trace_report) {
     trace_report.cigar = cigarss.str();
 	
     trace_report.node_list = node_list;
-    trace_report.node_name = node_list.back();
-	
+    trace_report.node_name = node_list.back()->name;
+
     return result;
 }
 
@@ -75,7 +74,7 @@ bt master_backtrack(sn* node, mbt &trace_report) {
  */
 
 
-bt backtrack(sn* node, int x, int y, vector<bt>& trace, string& backstr, vector<string> &node_list) {
+bt backtrack(sn* node, int x, int y, vector<bt>& trace, string& backstr, vector<sn*> &node_list) {
     /* (1) Recover score from the node if possible, check for index error
      * (2) If score is 0, return existing cigar, node, position
      * (3) Otherwise,  add the new string, and call the function again!
@@ -108,7 +107,8 @@ bt backtrack(sn* node, int x, int y, vector<bt>& trace, string& backstr, vector<
     /* Read the Arrow Matrix & Iterate over the Backtrace */
     if (score == 0) {
 	// py: backstr = node.name + ':' + backstr;
-	node_list.push_back(node->name);
+	node_list.push_back(node);
+	backtrace.node = node;
 	backtrace.backstr = backstr;
 	trace.push_back(backtrace);
 	return backtrace;
@@ -141,7 +141,8 @@ bt backtrack(sn* node, int x, int y, vector<bt>& trace, string& backstr, vector<
 
 	if (new_node->name != node->name) {   // might be better way to cmp
 	    x = new_node->seq_len;
-	    node_list.push_back(node->name);
+	    node_list.push_back(node);
+	    backtrace.node = node;
 	    backtrace.backstr = backstr;
 	    trace.push_back(backtrace);
 	    backstr.clear();

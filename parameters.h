@@ -41,6 +41,10 @@ public:
     bool useFile;               // -x --fastq-file
     bool alignReverse;          // -r --reverse-complement
 
+    // alignment parameters
+    char match;
+    char mism;
+    char gap;
     
     // functions
     Parameters(int argc, char ** argv);

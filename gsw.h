@@ -29,10 +29,10 @@ Otherwise declare the node to be a head node */
 int getDepth(sn* node);
 
 
-sn* sequenceDagAlign(std::string sequence, std::vector<sn*> nlist, int maxdepth);
+sn* sequenceDagAlign(std::string sequence, std::vector<sn*> nlist, int maxdepth,
+		     const char match, const char mism, const char gap);
 
-
-
-sn* gsw(std::string read, std::vector<sn*> nlist);
+sn* gsw(std::string read, std::vector<sn*> nlist,
+	const char match, const char mism, const char gap);
 
 #endif

@@ -60,6 +60,14 @@ struct sn {
 sn() :  seq_len(0),
 	depth(-1) { }
 
+sn(std::string s,
+   std::string n)
+    : depth(-1)
+    , sequence(s)
+    , name(n) {
+	seq_len = sequence.size();
+    }
+
     void initScore(size_t read_length);
 
 };

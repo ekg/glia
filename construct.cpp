@@ -30,154 +30,86 @@ struct sn {
  */
 
 
-int _constructDAG(vector<sn*> &nlist, string &targetSequence, 
-		 vector<Variant> &variants, long offset) {
-
-
-  long  current_pos;
-  long prev_pos = targetSequence.size();
-  string right_seq = "";
-  string left_seq = "";
-  
-    for(vector<Variant>::reverse_iterator rit = variants.rbegin(); 
-      rit != variants.rend(); ++rit) {
-
-    // Construct Right-Node    
-    current_pos = rit->position - offset;
-    
-    // Var Type changes this
-    //cerr << "trying to get target from " << current_pos << " of length " << "(" << prev_pos << " - " << current_pos << ")" << endl;
-    right_seq = targetSequence.substr(current_pos, (prev_pos - current_pos));
-    //cerr << "right_seq = " << right_seq << endl;
-    left_seq = targetSequence.substr(0,current_pos);
-    //cerr << "left_seq = " << left_seq << endl;
-    
-    // Construct Right Node
-    sn* right_node;
-    
-    sn* na1;
-    sn* na2;
-
-    sn* left_node;
-
-    right_node = new sn;
-
-    na1 = new sn;
-    na2 = new sn;
-
-    left_node = new sn; 
-
-    // Fill out Right Node
-    right_node->name.append("ref");
-    right_node->name.append(":" + convert(current_pos));
-
-    right_node->sequence = right_seq;
-    right_node->seq_len = right_node->sequence.length();
-    right_node->depth = -1;
-    
-    // Fill out Allele Nodes
-
-    // Fill out Left Nodes
-
-
-    // Connect Nodes
-    
-    right_node->p5.push_back(na1);
-    right_node->p5.push_back(na1);
-    
-    na1->p3.push_back(right_node);
-    na2->p3.push_back(right_node);
-    
-    na1->p5.push_back(left_node);
-    na1->p5.push_back(left_node);
-
-    left_node->p3.push_back(na1);
-    left_node->p3.push_back(na2);
-    
-    nlist.push_back(na1);
-    nlist.push_back(na2);
-    nlist.push_back(right_node);
-    
-
-    };
-  
-    //last-node
-}
-
-
 int constructDAG(vector<sn*> &nlist, string &targetSequence, 
 		 vector<Variant> &variants, long offset) {
 
 
-  long current_pos;
-  long prev_pos = targetSequence.size();
-  string right_seq = "";
-  string left_seq = "";
-  
+    long  current_pos;
+    long prev_pos = targetSequence.size();
+    string p3_ref_seq;
+
+    vector<sn*> pp3_var_nodes; // previous p3 nodes
+
     for(vector<Variant>::reverse_iterator rit = variants.rbegin(); 
-      rit != variants.rend(); ++rit) {
+	rit != variants.rend(); ++rit) {
 
-    // Construct Right-Node    
-    current_pos = rit->position - offset;
+	Variant& var = *rit;
+
+	// Construct Right-Node    
+	current_pos = var.position - offset;
     
-    // Var Type changes this
-    //cerr << "trying to get target from " << current_pos << " of length " << "(" << prev_pos << " - " << current_pos << ")" << endl;
-    right_seq = targetSequence.substr(current_pos, (prev_pos - current_pos));
-    //cerr << "right_seq = " << right_seq << endl;
-    left_seq = targetSequence.substr(0,current_pos);
-    //cerr << "left_seq = " << left_seq << endl;
-    
-    // Construct Right Node
-    sn* right_node;
-    
-    sn* na1;
-    sn* na2;
+	// Var Type changes this
+	p3_ref_seq = targetSequence.substr(current_pos, (prev_pos - current_pos));
+	prev_pos = var.position;
 
-    sn* left_node;
+	// Construct Right Node
+	sn* p3_ref_node = new sn(
+	    p3_ref_seq
+	    ,
+	    "ref|0|" + var.sequenceName + ":"
+	    + convert(var.position + var.ref.size())
+	    + "-"
+	    + convert(var.position
+		      + var.ref.size()
+		      + p3_ref_seq.size()));
 
-    right_node = new sn;
+	// connect to old p3 nodes
+	for (vector<sn*>::iterator n = pp3_var_nodes.begin(); n != pp3_var_nodes.end(); ++n) {
+	    p3_ref_node->p3.push_back(*n);
+	    (*n)->p5.push_back(p3_ref_node);
+	}
+	pp3_var_nodes.clear();
 
-    na1 = new sn;
-    na2 = new sn;
+	// construct the ref node
+	sn* ref_node = new sn(
+	    var.ref
+	    ,
+	    "ref|0|" + var.sequenceName + ":"
+	    + convert(var.position)
+	    + "-"
+	    + convert(var.position
+		      + var.ref.size()));
 
-    left_node = new sn; 
+	// stash p3_ and current ref nodes
+	nlist.push_back(p3_ref_node);
+	nlist.push_back(ref_node);
 
-    // Fill out Right Node
-    right_node->name.append("ref");
-    right_node->name.append(":" + convert(current_pos));
+	// connect p3_ref <-> ref
+	p3_ref_node->p5.push_back(ref_node);
+	ref_node->p3.push_back(p3_ref_node);
 
-    right_node->sequence = right_seq;
-    right_node->seq_len = right_node->sequence.length();
-    right_node->depth = -1;
-    
-    // Fill out Allele Nodes
+	// Fill and connect Allele Nodes to p3_ref_node
 
-    // Fill out Left Nodes
-
-
-
-    // Connect Nodes
-    
-    right_node->p5.push_back(na1);
-    right_node->p5.push_back(na1);
-    
-    na1->p3.push_back(right_node);
-    na2->p3.push_back(right_node);
-    
-    na1->p5.push_back(left_node);
-    na2->p5.push_back(left_node);
-
-    left_node->p3.push_back(na1);
-    left_node->p3.push_back(na2);
-    
-    nlist.push_back(na1);
-    nlist.push_back(na2);
-    nlist.push_back(right_node);
-    
+	int i = 1;
+	for (vector<string>::iterator a = var.alt.begin(); a != var.alt.end(); ++a, ++i) {
+	    sn* alt_node = new sn(
+		*a
+		,
+		"alt|" + convert(i) + "|" + var.sequenceName + ":"
+		+ convert(var.position)
+		+ "-"
+		+ convert(var.position
+			  + var.ref.size()));
+	    // save in nlist
+	    nlist.push_back(alt_node);
+	    // retain for connection to ref p3_ref_node of next variant
+	    pp3_var_nodes.push_back(alt_node);
+	    // connect to current p3_ref_node
+	    alt_node->p3.push_back(p3_ref_node);
+	    // and connect the p5 of the p3_ref_node to the alt node
+	    p3_ref_node->p5.push_back(alt_node);
+	}
 
     };
   
-    //last-node
 }
-
-

@@ -38,9 +38,11 @@ struct cmp_parent_nodes {
 /* Set Alignment Scores */
 // todo: add gap-extend, consider floats, consider user input */
 
+/*
 const char match = 10;
 const char mism = -10;
 const char gap = -10;
+*/
 
 // const char gap_open = -10
 // const char gap_extend = -2
@@ -55,7 +57,7 @@ const char gap = -10;
  * TODO:    Check consistency of char vs int
  *
  */
-int StringNodeAlign(string read, int read_length, sn &node) {
+int StringNodeAlign(string read, int read_length, sn &node, char match, char mism, char gap) {
 	/* Main Alignment Algorithm for String and Node */
 	
 	// Initialize variables

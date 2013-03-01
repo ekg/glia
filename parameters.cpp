@@ -136,6 +136,10 @@ Parameters::Parameters(int argc, char** argv) {
     // operation parameters
     useFile = false;            // -x --use-file
     alignReverse = true;        // -r --reverse-complement
+
+    match = 10;
+    mism = -10;
+    gap = -10;
     
     int c; // counter for getopt
     
@@ -150,6 +154,9 @@ Parameters::Parameters(int argc, char** argv) {
         {"output-file", required_argument, 0, 'o'},
         {"use-file", no_argument, 0, 'x'},
         {"reverse-complement", no_argument, 0, 'r'},
+	{"gap", required_argument, 0, 'g'},
+	{"match", required_argument, 0, 'm'},
+	{"mismatch", required_argument, 0, 'M'},
         
         {0, 0, 0, 0}
         
@@ -158,7 +165,7 @@ Parameters::Parameters(int argc, char** argv) {
     while (true) {
         int option_index = 0;
         c = getopt_long(argc, argv,
-                        "hxrs:q:f:t:v:o:",
+                        "hxrs:q:f:t:v:o:g:m:M:",
                         long_options, &option_index);
         
         if (c == -1) // end of options
@@ -204,6 +211,21 @@ Parameters::Parameters(int argc, char** argv) {
                 alignReverse = false;
                 break;
 
+            // -m --match
+            case 'm':
+		match = atoi(optarg);
+                break;
+                
+            // -M --mismatch
+            case 'M':
+	        mism = atoi(optarg);
+                break;
+                
+            // -g --gap
+            case 'g':
+                gap = atoi(optarg); 
+                break;
+                
             // - --help
             case 'h':
                 usage(argv);

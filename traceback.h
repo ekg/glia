@@ -22,19 +22,21 @@
 
 // bt := backtrace return object
 struct bt {
-	int x;
-	int y;
-	std::string backstr;
+    int x;
+    int y;
+    std::string backstr;
+    sn* node;
+bt() : node(NULL) { }
 };
 
 
 // mbt := data structure for trace report
 struct mbt {
-	int x;
-	int y;
-	std::string cigar;
-	std::vector<std::string> node_list;
-	std::string node_name;				// why use outside of context?
+    int x;
+    int y;
+    std::string cigar;
+    std::vector<sn*> node_list;
+    std::string node_name;				// why use outside of context?
 };
 
 
@@ -43,7 +45,7 @@ bt backtrack(sn* node,
 	     int x, int y,
 	     std::vector<bt>& trace,
 	     std::string& backstr,
-	     std::vector<std::string> &node_list);
+	     std::vector<sn*> &node_list);
 
 // mbt := data structure for trace report
 struct mbt;
