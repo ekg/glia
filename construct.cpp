@@ -55,12 +55,14 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence,
 	sn* p3_ref_node = new sn(
 	    p3_ref_seq
 	    ,
-	    "ref|r|" + var.sequenceName + ":"
+	    var.sequenceName
+	    + ":"
 	    + convert(var.position + var.ref.size())
 	    + "-"
 	    + convert(var.position
 		      + var.ref.size()
-		      + p3_ref_seq.size()));
+		      + p3_ref_seq.size())
+	    + ".ref.r");
 
 	// connect to old p3 nodes
 	for (vector<sn*>::iterator n = pp3_var_nodes.begin(); n != pp3_var_nodes.end(); ++n) {
@@ -73,11 +75,13 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence,
 	sn* ref_node = new sn(
 	    var.ref
 	    ,
-	    "ref|0|" + var.sequenceName + ":"
+	    var.sequenceName
+	    + ":"
 	    + convert(var.position)
 	    + "-"
 	    + convert(var.position
-		      + var.ref.size()));
+		      + var.ref.size())
+	    + ".ref.0");
 
 	// stash p3_ and current ref nodes
 	nlist.push_back(p3_ref_node);
@@ -97,11 +101,13 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence,
 	    sn* alt_node = new sn(
 		*a
 		,
-		"alt|" + convert(i) + "|" + var.sequenceName + ":"
+		var.sequenceName
+		+ ":"
 		+ convert(var.position)
 		+ "-"
 		+ convert(var.position
-			  + var.ref.size()));
+			  + var.ref.size())
+		+ ".alt." + convert(i));
 	    // save in nlist
 	    nlist.push_back(alt_node);
 	    // retain for connection to ref p3_ref_node of next variant
@@ -123,10 +129,12 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence,
     sn* p3_ref_node = new sn(
 	p3_ref_seq
 	,
-	"ref|r|" + variants.front().sequenceName + ":"
+	variants.front().sequenceName
+	+ ":"
 	+ convert(offset)
 	+ "-"
-	+ convert(prev_pos + offset));
+	+ convert(prev_pos + offset)
+	+ ".ref.r");
 
     // connect to old p3 nodes
     for (vector<sn*>::iterator n = pp3_var_nodes.begin(); n != pp3_var_nodes.end(); ++n) {

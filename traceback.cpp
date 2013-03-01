@@ -48,7 +48,9 @@ bt master_backtrack(sn* node, mbt &trace_report) {
     stringstream cigarss;
     for ( ; t != trace.end() && t != trace.end(); ++t) {
 	reverse(t->backstr.begin(), t->backstr.end());
-	cigarss << t->x << "," << t->y << ":" << t->node->name << ":" << t->backstr;
+	cigarss << t->node->name << ":"
+		<< t->x << "," << t->y << ";"
+		<< t->backstr;
 	if ((t+1) != trace.end()) cigarss << "|";
     }
 	

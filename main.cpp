@@ -55,13 +55,14 @@ int main (int argc, const char * argv[])		// For the Stand Alone version
     
     Parameters params(argc, (char **)argv);
     
-    cout << "read: " << params.read_input << endl;
-    //cout << "fastq file:" << params.fastq_file << endl;
-    cout << "fasta reference:" << params.fasta_reference << endl;
-
-    cout << "vcf file " << params.vcf_file << endl;
-    cout << "target " << params.target << endl;
-    cout << endl;
+    if (params.debug) {
+	cout << "read: " << params.read_input << endl;
+	//cout << "fastq file:" << params.fastq_file << endl;
+	cout << "fasta reference:" << params.fasta_reference << endl;
+	cout << "vcf file " << params.vcf_file << endl;
+	cout << "target " << params.target << endl;
+	cout << endl;
+    }
 
     // get sequence of target
     FastaReference reference;
@@ -78,7 +79,6 @@ int main (int argc, const char * argv[])		// For the Stand Alone version
     
     vcffile.setRegion(params.target);
     while (vcffile.getNextVariant(var)) {
-	//cerr << var << endl;
 	if (var.position + var.ref.length() <= target.stopPos) {
 	    variants.push_back(var);
 	}
@@ -96,59 +96,77 @@ int main (int argc, const char * argv[])		// For the Stand Alone version
     //origIndel(nlist);
 
     constructDAG(nlist, targetSequence, variants, offset);
-    cout << "DAG generated from input variants:" << endl;
-    //displayDAG(nlist.back());
-    for (vector<sn*>::iterator n = nlist.begin(); n != nlist.end(); ++n) {
-	cout << *n << endl;
-    }
-    cout << endl;
 
-    //json_example(nlist);
-    
-    //cerr << "dag is constructed! and includes " << nlist.size() << " nodes" << endl;
+    if (params.display_dag) {
+	cout << "DAG generated from input variants:" << endl;
+	//displayDAG(nlist.back());
+	for (vector<sn*>::iterator n = nlist.begin(); n != nlist.end(); ++n) {
+	    cout << *n << endl;
+	}
+	cout << endl;
+    }
 
     if (params.useFile == false) {
     
         string read = params.read_input;
-    
-        sn* result = gsw(read, nlist,
-			 params.match, params.mism, params.gap);
-        
-        cout << "End of Alignment:\t" << result->name << "\t"
-        << "top score:\t"<<result->top_score.score<<endl;
-        
-        
+
+        sn* result_F = gsw(read, nlist,
+			   params.match, params.mism, params.gap);
+	int score_F = result_F->top_score.score;
+	sn* result = result_F;
+	string strand = "+";
+
+	// check if the reverse complement provides a better alignment
+	if (params.alignReverse) {
+	    sn* result_R = gsw(reverseComplement(read), nlist,
+			       params.match, params.mism, params.gap);
+	    if (result_R->top_score.score > score_F) {
+		result = result_R;
+		strand = "-";
+	    } else {
+		result = gsw(read, nlist,
+			     params.match, params.mism, params.gap);
+		// TODO don't realign, just save the relevant information both times
+	    }
+	}
+
+	if (params.debug) {
+	    cout << "End of Alignment:\t" << result->name << "\t"
+		 << "top score:\t" << result->top_score.score << endl;
+	}
+
         //displayNode(result);
         //displayAlignment(result);
         //displayAlignment(nlist[0]);
-        
+
         mbt trace_report;
 	bt backtrace = master_backtrack(result, trace_report);
 	vector<sn*>& nodes = trace_report.node_list;
-	for (vector<sn*>::iterator n = nodes.begin();
-	     n != nodes.end(); ++n) {
-	    displayAlignment(*n);
+
+	if (params.display_backtrace) {
+	    for (vector<sn*>::iterator n = nodes.begin();
+		 n != nodes.end(); ++n) {
+		displayAlignment(*n);
+	    }
+	} else if (params.display_all_nodes) {
+	    for (vector<sn*>::iterator n = nlist.begin();
+		 n != nlist.end(); ++n) {
+		displayAlignment(*n);
+	    }
 	}
         
-        cout << "x: " << trace_report.x << " y: " << trace_report.y << endl;
-        cout << trace_report.cigar << endl;
-        
+        //cout << "x: " << trace_report.x << " y: " << trace_report.y << endl;
+        cout << result->top_score.score << " " << strand << " " << trace_report.cigar << endl;
         
     } else {
-        
-        
-        /* Ancient 
-         //string read = "CTTCTTCTTCTTCTTCTTCTTCTTCCTTCTTCTTCTTCTTCTTCTTCTTC";
-         //string read = "ATCGAA";
-         */
         
         // Declere a read object from a fastq file   -> WHAT's the Best Place to do this  <-
         fastq_entry read_q;
         
         // Open FastQ File
         // TODO: use the parameter
-        ifstream filehandle ("test.fastq");		// open fastq file
-        
+        ifstream filehandle (params.fastq_file.c_str());		// open fastq file
+
         // Main input file loop
         if (filehandle.is_open()) {
             while (filehandle.good()) {

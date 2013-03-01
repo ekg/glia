@@ -93,18 +93,38 @@ int levenshteinDistance(const std::string source, const std::string target) {
 
 void Parameters::simpleUsage(char ** argv) {
     cout
-    << "usage: " << argv[0] << " -s [SEQUENCE] -f [REFERENCE] -t [TARGET] -v [VCF-FILE] > [OUTPUT]" << endl
-    << "Please see README at http://www.github.com/denizkural/clia ." << endl
-    << "authors:   Deniz Kural <denizkural@gmail.com>" << endl
-    << "           Erik Garrison <erik.garrison@gmail.com>" << endl;
+	<< "usage: " << argv[0] << " -s [SEQUENCE] -f [REFERENCE] -t [TARGET] -v [VCF-FILE] > [OUTPUT]" << endl
+	<< "Please see README at http://www.github.com/denizkural/clia" << endl
+        << "Use --help to read detailed options." << endl
+	<< "authors:   Deniz Kural <denizkural@gmail.com>" << endl
+	<< "           Erik Garrison <erik.garrison@gmail.com>" << endl;
 }
 
 void Parameters::usage(char** argv) {
     cout
-    << "usage: " << argv[0] << " -s [SEQUENCE] -f [REFERENCE] -t [TARGET] -v [VCF-FILE] > [OUTPUT]" << endl
-    << "Please see README at http://www.github.com/denizkural/clia ." << endl
-    << "authors:   Deniz Kural <denizkural@gmail.com>" << endl
-    << "           Erik Garrison <erik.garrison@gmail.com>" << endl;
+	<< "usage: " << argv[0] << " -s [SEQUENCE] -f [REFERENCE] -t [TARGET] -v [VCF-FILE] > [OUTPUT]" << endl
+	<< "Please see README at http://www.github.com/denizkural/clia" << endl
+	<< "authors:   Deniz Kural <denizkural@gmail.com>" << endl
+	<< "           Erik Garrison <erik.garrison@gmail.com>" << endl
+	<< endl
+	<< "parameters:" << endl
+	<< endl
+	<< "    -h --help                  This dialog." << endl
+	<< "    -s --sequence SEQ          The sequence to align." << endl
+	<< "    -q --fastq-file FILE       The fastq file from which to draw reads" << endl
+	<< "    -f --fasta-reference FILE  The reference sequence for alignment." << endl
+	<< "    -t --target TARGET         Target genomic region for alignment, e.g. chr2:1-20" << endl
+	<< "    -v --vcf-file FILE         The genome DAG, BGZIP'ed (.vcf.gz) and tabix-indexed (.tbi)" << endl
+	<< "    -o --output-file FILE      Write alignments in BAM format to FILE." << endl
+	// -x --use-file
+	<< "    -B --display-backtrace     Write alignment matrix results to stdout." << endl
+	<< "    -N --display-all-nodes     Same as -B but also for nodes which are not traced." << endl
+	<< "    -d --debug                 General debugging output." << endl
+	<< "    -m --match N               The alignment match score (integer, default 10)." << endl
+	<< "    -M --mismatch N            The alignment mismatch score (integer, default -10)." << endl
+	<< "    -g --gap N                 The alignment gap score (integer, default -10)." << endl
+	<< "    -r --reverse-complement    Report the reverse complement if it provides a better alignment." << endl;
+
 }
 
 
@@ -135,11 +155,17 @@ Parameters::Parameters(int argc, char** argv) {
     
     // operation parameters
     useFile = false;            // -x --use-file
-    alignReverse = true;        // -r --reverse-complement
+    alignReverse = false;        // -r --reverse-complement
 
     match = 10;
     mism = -10;
     gap = -10;
+
+    display_dag = false;
+    display_backtrace = false;
+    display_all_nodes = false;
+
+    debug = false;
     
     int c; // counter for getopt
     
@@ -157,7 +183,10 @@ Parameters::Parameters(int argc, char** argv) {
 	{"gap", required_argument, 0, 'g'},
 	{"match", required_argument, 0, 'm'},
 	{"mismatch", required_argument, 0, 'M'},
-        
+	{"display-backtrace", no_argument, 0, 'B'},
+	{"display-all-nodes", no_argument, 0, 'N'},
+	{"display-dag", no_argument, 0, 'D'},
+	{"debug", no_argument, 0, 'd'},
         {0, 0, 0, 0}
         
     };
@@ -165,7 +194,7 @@ Parameters::Parameters(int argc, char** argv) {
     while (true) {
         int option_index = 0;
         c = getopt_long(argc, argv,
-                        "hxrs:q:f:t:v:o:g:m:M:",
+                        "hxrNBDds:q:f:t:v:o:g:m:M:",
                         long_options, &option_index);
         
         if (c == -1) // end of options
@@ -208,8 +237,29 @@ Parameters::Parameters(int argc, char** argv) {
                 break;
                 
             // -r --reverse-complement
-                alignReverse = false;
+	    case 'r':
+                alignReverse = true;
                 break;
+
+            // -N --display-all-nodes
+	    case 'N':
+                display_all_nodes = true;
+		break;
+
+            // -B --display-backtrace
+	    case 'B':
+                display_backtrace = true;
+		break;
+
+            // -D --display-dag
+	    case 'D':
+                display_dag = true;
+		break;
+
+            // -d --debug
+	    case 'd':
+                debug = true;
+		break;
 
             // -m --match
             case 'm':
@@ -226,7 +276,7 @@ Parameters::Parameters(int argc, char** argv) {
                 gap = atoi(optarg); 
                 break;
                 
-            // - --help
+            // -h --help
             case 'h':
                 usage(argv);
                 exit(0);

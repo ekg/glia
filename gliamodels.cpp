@@ -42,6 +42,7 @@ std::ostream& operator<<(std::ostream& o, const ms& m) {
 void sn::initScore(size_t read_length) {
     ms o;
     o.parent = this;
+    matrix.clear();
     matrix.resize(read_length+1, std::vector<ms>(seq_len+1, o));
 }
 

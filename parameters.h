@@ -53,7 +53,13 @@ public:
     
     //reporting
     string commandline;
-    
+
+    bool display_backtrace;
+    bool display_all_nodes;
+    bool display_dag;
+
+    bool debug;
+
 };
 
 
