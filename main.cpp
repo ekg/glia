@@ -110,53 +110,81 @@ int main (int argc, const char * argv[])		// For the Stand Alone version
     
         string read = params.read_input;
 
-        sn* result_F = gsw(read, nlist,
-			   params.match, params.mism, params.gap);
-	int score_F = result_F->top_score.score;
-	sn* result = result_F;
+	sn* result_F;
+	sn* result_R;
+	int score_F=0;
+	int score_R=0;
+	mbt trace_report_F;
+	mbt trace_report_R;
+	bt backtrace_F;
+	bt backtrace_R;
 	string strand = "+";
+	
+        result_F = gsw(read, nlist,
+		       params.match, params.mism, params.gap);
+	score_F = result_F->top_score.score;
+	backtrace_F = master_backtrack(result_F, trace_report_F);
+	vector<sn*>& nodes_F = trace_report_F.node_list;
 
-	// check if the reverse complement provides a better alignment
-	if (params.alignReverse) {
-	    sn* result_R = gsw(reverseComplement(read), nlist,
-			       params.match, params.mism, params.gap);
-	    if (result_R->top_score.score > score_F) {
-		result = result_R;
-		strand = "-";
-	    } else {
-		result = gsw(read, nlist,
-			     params.match, params.mism, params.gap);
-		// TODO don't realign, just save the relevant information both times
+	if (params.display_backtrace) {
+	    cout << "==== forward alignment ====" << endl;
+	    for (vector<sn*>::iterator n = nodes_F.begin();
+		 n != nodes_F.end(); ++n) {
+		displayAlignment(*n);
+	    }
+	} else if (params.display_all_nodes) {
+	    cout << "==== forward alignment ====" << endl;
+	    for (vector<sn*>::iterator n = nlist.begin();
+		 n != nlist.end(); ++n) {
+		displayAlignment(*n);
 	    }
 	}
 
-	if (params.debug) {
-	    cout << "End of Alignment:\t" << result->name << "\t"
-		 << "top score:\t" << result->top_score.score << endl;
+	// check if the reverse complement provides a better alignment
+	if (params.alignReverse) {
+	    result_R = gsw(reverseComplement(read), nlist,
+			   params.match, params.mism, params.gap);
+	    score_R = result_R->top_score.score;
+	    backtrace_R = master_backtrack(result_R, trace_report_R);
+	    vector<sn*>& nodes_R = trace_report_R.node_list;
+	    if (params.display_backtrace) {
+		cout << "==== reverse alignment ====" << endl;
+		for (vector<sn*>::iterator n = nodes_R.begin();
+		     n != nodes_R.end(); ++n) {
+		    displayAlignment(*n);
+		}
+	    } else if (params.display_all_nodes) {
+		cout << "==== reverse alignment ====" << endl;
+		for (vector<sn*>::iterator n = nlist.begin();
+		     n != nlist.end(); ++n) {
+		    displayAlignment(*n);
+		}
+	    }
 	}
 
         //displayNode(result);
         //displayAlignment(result);
         //displayAlignment(nlist[0]);
 
-        mbt trace_report;
-	bt backtrace = master_backtrack(result, trace_report);
-	vector<sn*>& nodes = trace_report.node_list;
-
-	if (params.display_backtrace) {
-	    for (vector<sn*>::iterator n = nodes.begin();
-		 n != nodes.end(); ++n) {
-		displayAlignment(*n);
-	    }
-	} else if (params.display_all_nodes) {
-	    for (vector<sn*>::iterator n = nlist.begin();
-		 n != nlist.end(); ++n) {
-		displayAlignment(*n);
-	    }
+	bt* backtrace; // best backtrace
+	mbt* trace_report;
+	int score;
+	if (score_F > score_R) {
+	    backtrace = &backtrace_F;
+	    trace_report = &trace_report_F;
+	    score = score_F;
+	    strand = "+";
+	} else {
+	    backtrace = &backtrace_R;
+	    trace_report = &trace_report_R;
+	    score = score_R;
+	    strand = "-";
 	}
-        
+
         //cout << "x: " << trace_report.x << " y: " << trace_report.y << endl;
-        cout << result->top_score.score << " " << strand << " " << trace_report.cigar << endl;
+        cout << score << " " << strand
+	     << " seq:" << trace_report->x << " read:" << trace_report->y
+	     << " " << trace_report->cigar << endl;
         
     } else {
         
