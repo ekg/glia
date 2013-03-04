@@ -18,7 +18,7 @@
 using namespace std;
 
 
-int constructDAG(std::vector<sn*> &nlist, std::string &targetSequence, 
+int constructDAG(std::vector<sn*> &nlist, std::string& targetSequence, std::string& sequenceName,
 		 std::vector<vcf::Variant> &variants, long offset);
 
 #endif /* defined(CONSTRUCT_H) */

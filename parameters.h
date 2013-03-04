@@ -40,6 +40,7 @@ public:
     // operation parameters
     bool useFile;               // -x --fastq-file
     bool alignReverse;          // -r --reverse-complement
+    bool realign_bam;
 
     // alignment parameters
     int match;

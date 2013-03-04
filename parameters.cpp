@@ -107,24 +107,32 @@ void Parameters::usage(char** argv) {
 	<< "authors:   Deniz Kural <denizkural@gmail.com>" << endl
 	<< "           Erik Garrison <erik.garrison@gmail.com>" << endl
 	<< endl
-	<< "parameters:" << endl
+	<< "general parameters:" << endl
 	<< endl
 	<< "    -h --help                  This dialog." << endl
-	<< "    -s --sequence SEQ          The sequence to align." << endl
-	<< "    -q --fastq-file FILE       The fastq file from which to draw reads" << endl
+	//<< "    -q --fastq-file FILE       The fastq file from which to draw reads" << endl
 	<< "    -f --fasta-reference FILE  The reference sequence for alignment." << endl
-	<< "    -t --target TARGET         Target genomic region for alignment, e.g. chr2:1-20" << endl
 	<< "    -v --vcf-file FILE         The genome DAG, BGZIP'ed (.vcf.gz) and tabix-indexed (.tbi)" << endl
-	<< "    -o --output-file FILE      Write alignments in BAM format to FILE." << endl
-	// -x --use-file
-	<< "    -B --display-backtrace     Write alignment matrix results to stdout." << endl
-	<< "    -N --display-all-nodes     Same as -B but also for nodes which are not traced." << endl
-	<< "    -d --debug                 General debugging output." << endl
+	//<< "    -o --output-file FILE      Write alignments in BAM format to FILE." << endl
 	<< "    -m --match N               The alignment match score (integer, default 10)." << endl
 	<< "    -M --mismatch N            The alignment mismatch score (integer, default -10)." << endl
 	<< "    -g --gap N                 The alignment gap score (integer, default -10)." << endl
-	<< "    -r --reverse-complement    Report the reverse complement if it provides a better alignment." << endl;
-
+	<< endl
+	<< "single-read alignment:" << endl
+	<< endl
+	<< "    -s --sequence SEQ          The sequence to align." << endl
+	<< "    -t --target TARGET         Target genomic region for alignment, e.g. chr2:1-20" << endl
+	<< "    -B --display-backtrace     Write DAG generated from variants to stdout." << endl
+	<< "    -B --display-backtrace     Write alignment matrix results to stdout." << endl
+	<< "    -N --display-all-nodes     Same as -B but also for nodes which are not traced." << endl
+	<< "    -d --debug                 Enable debugging output." << endl
+	<< "    -r --reverse-complement    Report the reverse complement if it provides a better alignment." << endl
+	<< endl
+	<< "local realignment:" << endl
+	<< endl
+	<< "    -R --realign-bam           Realign the BAM stream on stdin to the VCF file, flatting" << endl
+	<< "                               output into reference-relative alignments where the DAG" << endl
+	<< "                               alignment provides a better match than the reference." << endl;
 }
 
 

@@ -30,7 +30,7 @@ struct sn {
  */
 
 
-int constructDAG(vector<sn*> &nlist, string &targetSequence, 
+int constructDAG(vector<sn*> &nlist, string &targetSequence, string& sequenceName,
 		 vector<Variant> &variants, long offset) {
 
 
@@ -55,7 +55,7 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence,
 	sn* p3_ref_node = new sn(
 	    p3_ref_seq
 	    ,
-	    var.sequenceName
+	    sequenceName
 	    + ":"
 	    + convert(var.position + var.ref.size())
 	    + "-"
@@ -75,7 +75,7 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence,
 	sn* ref_node = new sn(
 	    var.ref
 	    ,
-	    var.sequenceName
+	    sequenceName
 	    + ":"
 	    + convert(var.position)
 	    + "-"
@@ -101,7 +101,7 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence,
 	    sn* alt_node = new sn(
 		*a
 		,
-		var.sequenceName
+		sequenceName
 		+ ":"
 		+ convert(var.position)
 		+ "-"
@@ -129,7 +129,7 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence,
     sn* p3_ref_node = new sn(
 	p3_ref_seq
 	,
-	variants.front().sequenceName
+	sequenceName
 	+ ":"
 	+ convert(offset)
 	+ "-"
