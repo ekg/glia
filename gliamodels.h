@@ -15,6 +15,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include "cigar.h"
 
 // forward declaration of structures
 struct ms;
@@ -58,7 +59,7 @@ struct sn {
 
     // for mapping back into reference coordinates
     long int position;
-    std::string cigar;
+    Cigar cigar;
 
 // initialization
 sn() :  seq_len(0),
@@ -67,7 +68,7 @@ sn() :  seq_len(0),
 sn(std::string s,
    std::string n,
    long int p,
-   std::string c)
+   Cigar c)
     : depth(-1)
     , sequence(s)
     , name(n)

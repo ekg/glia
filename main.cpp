@@ -64,7 +64,8 @@ int hashfasta(string fasta_file_name, int hashsize, vector<fasta_entry> &ref_gen
 
 void countMismatchesAndGaps(
     BamAlignment& alignment,
-    vector<CigarOp>& cigarData,
+    //vector<CigarOp>& cigarData,
+    Cigar& cigar,
     string referenceSequence,
     int& mismatches,
     int& gaps,
@@ -76,10 +77,10 @@ void countMismatchesAndGaps(
 
     int sp = 0;
     int rp = 0;
-    for (vector<CigarOp>::const_iterator c = cigarData.begin();
-         c != cigarData.end(); ++c) {
-        int l = c->Length;
-        char t = c->Type;
+    for (Cigar::const_iterator c = cigar.begin();
+         c != cigar.end(); ++c) {
+        int l = c->length;
+        char t = c->type;
         if (t == 'M') { // match or mismatch
             for (int i = 0; i < l; ++i) {
                 if (alignment.QueryBases.at(rp) != referenceSequence.at(sp)) {
@@ -111,7 +112,13 @@ void countMismatchesAndGaps(
 
 }
 
-void gswalign(vector<sn*>& nlist, string& read, Parameters& params) {
+void gswalign(vector<sn*>& nlist,
+              string& read,
+              Parameters& params,
+              bt& backtrace,
+              mbt& trace_report,
+              int& score,
+              string& strand) {
 
     sn* result_F;
     sn* result_R;
@@ -121,7 +128,6 @@ void gswalign(vector<sn*>& nlist, string& read, Parameters& params) {
     mbt trace_report_R;
     bt backtrace_F;
     bt backtrace_R;
-    string strand = "+";
 	
     result_F = gsw(read, nlist,
                    params.match, params.mism, params.gap);
@@ -166,27 +172,23 @@ void gswalign(vector<sn*>& nlist, string& read, Parameters& params) {
         }
     }
 
-    bt* backtrace; // best backtrace
-    mbt* trace_report;
-    int score;
+    //displayNode(result);
+    //displayAlignment(result);
+    //displayAlignment(nlist[0]);
+
     if (score_F > score_R) {
-        backtrace = &backtrace_F;
-        trace_report = &trace_report_F;
+        backtrace = backtrace_F;
+        trace_report = trace_report_F;
         score = score_F;
         strand = "+";
     } else {
-        backtrace = &backtrace_R;
-        trace_report = &trace_report_R;
+        backtrace = backtrace_R;
+        trace_report = trace_report_R;
         score = score_R;
         strand = "-";
     }
 
-    // flatten into refererce-relative CIGAR
-    cout << score << " " << strand
-         << " seq:" << trace_report->x << " read:" << trace_report->y
-         << " " << trace_report->cigar << endl;
-
-    
+    //cout << "x: " << trace_report.x << " y: " << trace_report.y << endl;
 
 }
 
@@ -240,92 +242,32 @@ void construct_dag_and_align_single_sequence(Parameters& params) {
     }
 
 
+    // run the alignment
+
     string read = params.read_input;
-
-    sn* result_F;
-    sn* result_R;
-    int score_F=0;
-    int score_R=0;
-    mbt trace_report_F;
-    mbt trace_report_R;
-    bt backtrace_F;
-    bt backtrace_R;
-    string strand = "+";
-	
-    result_F = gsw(read, nlist,
-                   params.match, params.mism, params.gap);
-    score_F = result_F->top_score.score;
-    backtrace_F = master_backtrack(result_F, trace_report_F);
-    vector<sn*>& nodes_F = trace_report_F.node_list;
-
-    if (params.display_backtrace) {
-        cout << "==== forward alignment ====" << endl;
-        for (vector<sn*>::iterator n = nodes_F.begin();
-             n != nodes_F.end(); ++n) {
-            displayAlignment(*n, read);
-        }
-    } else if (params.display_all_nodes) {
-        cout << "==== forward alignment ====" << endl;
-        for (vector<sn*>::iterator n = nlist.begin();
-             n != nlist.end(); ++n) {
-            displayAlignment(*n, read);
-        }
-    }
-
-    // check if the reverse complement provides a better alignment
-    if (params.alignReverse) {
-        string readrc = reverseComplement(read);
-        result_R = gsw(readrc, nlist,
-                       params.match, params.mism, params.gap);
-        score_R = result_R->top_score.score;
-        backtrace_R = master_backtrack(result_R, trace_report_R);
-        vector<sn*>& nodes_R = trace_report_R.node_list;
-        if (params.display_backtrace) {
-            cout << "==== reverse alignment ====" << endl;
-            for (vector<sn*>::iterator n = nodes_R.begin();
-                 n != nodes_R.end(); ++n) {
-                displayAlignment(*n, readrc);
-            }
-        } else if (params.display_all_nodes) {
-            cout << "==== reverse alignment ====" << endl;
-            for (vector<sn*>::iterator n = nlist.begin();
-                 n != nlist.end(); ++n) {
-                displayAlignment(*n, readrc);
-            }
-        }
-    }
-
-    //displayNode(result);
-    //displayAlignment(result);
-    //displayAlignment(nlist[0]);
-
-    bt* backtrace; // best backtrace
-    mbt* trace_report;
+    bt backtrace;
+    mbt trace_report;
     int score;
-    if (score_F > score_R) {
-        backtrace = &backtrace_F;
-        trace_report = &trace_report_F;
-        score = score_F;
-        strand = "+";
-    } else {
-        backtrace = &backtrace_R;
-        trace_report = &trace_report_R;
-        score = score_R;
-        strand = "-";
-    }
+    string strand;
+    gswalign(nlist,
+             read,
+             params,
+             backtrace,
+             trace_report,
+             score,
+             strand);
 
-    //cout << "x: " << trace_report.x << " y: " << trace_report.y << endl;
     cout << score << " " << strand
-         << " seq:" << trace_report->x << " read:" << trace_report->y
-         << " " << trace_report->cigar << endl;
+         << " seq:" << trace_report.x << " read:" << trace_report.y
+         << " " << trace_report.cigar << endl;
 
     if (params.display_alignment) {
         string refseq;
-        for (vector<sn*>::iterator n = trace_report->node_list.begin();
-             n != trace_report->node_list.end(); ++n) {
+        for (vector<sn*>::iterator n = trace_report.node_list.begin();
+             n != trace_report.node_list.end(); ++n) {
             refseq.append((*n)->sequence);
         }
-        refseq = refseq.substr(trace_report->x, read.size());
+        refseq = refseq.substr(trace_report.x, read.size());
         cout << refseq << endl;
         if (strand == "+") {
             cout << read << endl;
@@ -333,7 +275,6 @@ void construct_dag_and_align_single_sequence(Parameters& params) {
             cout << reverseComplement(read) << endl;
         }
     }
-        
 }
 
 bool shouldRealign(BamAlignment& alignment, string& ref, long int offset, Parameters& params) {
@@ -453,7 +394,23 @@ void realign_bam(Parameters& params) {
 
             try {
 
-                // all the work goes here..
+                Cigar cigar;
+                string read = params.read_input;
+                bt backtrace;
+                mbt trace_report;
+                int score;
+                string strand;
+                gswalign(nlist,
+                         read,
+                         params,
+                         backtrace,
+                         trace_report,
+                         score,
+                         strand);
+
+                cout << score << " " << strand
+                     << " seq:" << trace_report.x << " read:" << trace_report.y
+                     << " " << trace_report.cigar << endl;
 
             } catch (...) {
                 cerr << "exception when realigning " << alignment.Name

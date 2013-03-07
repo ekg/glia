@@ -50,7 +50,7 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence, string& sequenceNam
             ,
             var.position + var.ref.size() // 1-based?
             ,
-            convert(p3_ref_seq.size()) + "M" // cigar
+            Cigar(convert(p3_ref_seq.size()) + "M") // cigar
             );
 
         // connect to old p3 nodes
@@ -74,7 +74,7 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence, string& sequenceNam
             ,
             var.position // 1-based?
             ,
-            convert(var.ref.size()) + "M" // cigar
+            Cigar(convert(var.ref.size()) + "M") // cigar
             );
 
         // stash p3_ and current ref nodes
@@ -95,7 +95,7 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence, string& sequenceNam
 
         int i = 1;
         for (vector<string>::iterator a = var.alt.begin(); a != var.alt.end(); ++a, ++i) {
-            string cigar = variantCigar(vavs[*a]);
+            Cigar cigar(vavs[*a]);
             sn* alt_node = new sn(
                 *a
                 ,
@@ -139,7 +139,7 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence, string& sequenceNam
         ,
         offset
         ,
-        convert(prev_pos - offset) + "M"
+        Cigar(convert(prev_pos - offset) + "M")
         );
 
     // connect to old p3 nodes
@@ -154,38 +154,4 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence, string& sequenceNam
 
     reverse(nlist.begin(), nlist.end());
 
-}
-
-
-// generates cigar from allele parsed by parsedAlternates
-string variantCigar(vector<VariantAllele>& vav) {
-    string cigar;
-    pair<int, string> element;
-    for (vector<VariantAllele>::iterator v = vav.begin(); v != vav.end(); ++v) {
-        VariantAllele& va = *v;
-        if (va.ref != va.alt) {
-            if (element.second == "M") {
-                cigar += convert(element.first) + element.second;
-                element.second = ""; element.first = 0;
-            }
-            if (va.ref.size() == va.alt.size()) {
-                cigar += convert(va.ref.size()) + "M";
-            } else if (va.ref.size() > va.alt.size()) {
-                cigar += convert(va.ref.size() - va.alt.size()) + "D";
-            } else {
-                cigar += convert(va.alt.size() - va.ref.size()) + "I";
-            }
-        } else {
-            if (element.second == "M") {
-                element.first += va.ref.size();
-            } else {
-                element = make_pair(va.ref.size(), "M");
-            }
-        }
-    }
-    if (element.second == "M") {
-        cigar += convert(element.first) + element.second;
-    }
-    element.second = ""; element.first = 0;
-    return cigar;
 }
