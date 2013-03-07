@@ -11,20 +11,22 @@
 
 std::ostream& operator<<(std::ostream& o, const sn* s) {
     if (s) {
-	o << (void*)s << ";"
-	  << s->name << ":"
-	  << s->sequence << ";"
-	  << s->top_score << ";"
-	  << s->depth << ";";
-	o << "p5:";
-	for (std::vector<sn*>::const_iterator n = s->p5.begin(); n != s->p5.end(); ++n) {
-	    o << (*n)->name << (n+1 == s->p5.end() ? "" : ",");
-	}
-	o << ";";
-	o << "p3:";
-	for (std::vector<sn*>::const_iterator n = s->p3.begin(); n != s->p3.end(); ++n) {
-	    o << (*n)->name << (n+1 == s->p3.end() ? "" : ",");
-	}
+        o << (void*)s << ";"
+          << s->name << ","
+          << s->position << ","
+          << s->cigar << ":"
+          << s->sequence << ";"
+          << s->top_score << ";"
+          << s->depth << ";";
+        o << "p5:";
+        for (std::vector<sn*>::const_iterator n = s->p5.begin(); n != s->p5.end(); ++n) {
+            o << (*n)->name << (n+1 == s->p5.end() ? "" : ",");
+        }
+        o << ";";
+        o << "p3:";
+        for (std::vector<sn*>::const_iterator n = s->p3.begin(); n != s->p3.end(); ++n) {
+            o << (*n)->name << (n+1 == s->p3.end() ? "" : ",");
+        }
     }
     return o;
 }
@@ -49,6 +51,6 @@ void sn::initScore(size_t read_length) {
 int displayDAG(const sn* s) {
     std::cout << s << std::endl;
     for (std::vector<sn*>::const_iterator n = s->p3.begin(); n != s->p3.end(); ++n) {
-	displayDAG(*n);
+        displayDAG(*n);
     }
 }

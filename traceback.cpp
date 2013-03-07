@@ -98,59 +98,59 @@ bt backtrack(sn* node, int x, int y, vector<bt>& trace, string& backstr, vector<
 	
     // Look for the score in the given coordinates. Try&Catch included for debugging. 
     try {
-	score = node->matrix[y][x].score;
+        score = node->matrix[y][x].score;
     }
     catch (exception& e) {
-	cout<<"Standard Exception: "<<e.what()<<endl;
-	cout<<"INDEX ERROR: "<<node->name<<x<<y<<score<<backstr<<endl;
+        cout<<"Standard Exception: "<<e.what()<<endl;
+        cout<<"INDEX ERROR: "<<node->name<<x<<y<<score<<backstr<<endl;
     }
 	
 	
     /* Read the Arrow Matrix & Iterate over the Backtrace */
     if (score == 0) {
-	// py: backstr = node.name + ':' + backstr;
-	node_list.push_back(node);
-	backtrace.node = node;
-	backtrace.backstr = backstr;
-	trace.push_back(backtrace);
-	return backtrace;
+        // py: backstr = node.name + ':' + backstr;
+        node_list.push_back(node);
+        backtrace.node = node;
+        backtrace.backstr = backstr;
+        trace.push_back(backtrace);
+        return backtrace;
 
     } else {
-	arrow = node->matrix[y][x].arrow;	  // TODO: check about pointers  ??
-	if (arrow == 'm') {
-	    // py: backstr = "M" + backstr
-	    backstr.append("M");
-	    x = x - 1;
-	    y = y - 1;
-	} else if (arrow == 'x') {
-	    // py: backstr = "X" + backstr
-	    backstr.append("X");
-	    x = x - 1;
-	    y = y - 1;
-	} else if (arrow == 'u') {
-	    // py: backstr = 'D' + backstr
-	    backstr.append("D");
-	    y = y - 1;
-	} else if (arrow == 's') {
-	    // py: backstr = 'I' + backstr
-	    backstr.append("I");
-	    x = x - 1;
-	} else {
-	    cout<<"BackTrace Error: Unknown Type";     // add proper error checking
-	}
+        arrow = node->matrix[y][x].arrow;	  // TODO: check about pointers  ??
+        if (arrow == 'm') {
+            // py: backstr = "M" + backstr
+            backstr.append("M");
+            x = x - 1;
+            y = y - 1;
+        } else if (arrow == 'x') {
+            // py: backstr = "X" + backstr
+            backstr.append("X");
+            x = x - 1;
+            y = y - 1;
+        } else if (arrow == 'u') {
+            // py: backstr = 'D' + backstr
+            backstr.append("D");
+            y = y - 1;
+        } else if (arrow == 's') {
+            // py: backstr = 'I' + backstr
+            backstr.append("I");
+            x = x - 1;
+        } else {
+            cout<<"BackTrace Error: Unknown Type";     // add proper error checking
+        }
 		
-	sn* new_node = node->matrix[y][x].parent;
+        sn* new_node = node->matrix[y][x].parent;
 
-	if (new_node->name != node->name) {   // might be better way to cmp
-	    x = new_node->seq_len;
-	    node_list.push_back(node);
-	    backtrace.node = node;
-	    backtrace.backstr = backstr;
-	    trace.push_back(backtrace);
-	    backstr.clear();
-	}
+        if (new_node->name != node->name) {   // might be better way to cmp
+            x = new_node->seq_len;
+            node_list.push_back(node);
+            backtrace.node = node;
+            backtrace.backstr = backstr;
+            trace.push_back(backtrace);
+            backstr.clear();
+        }
 		
-	return backtrack(new_node, x, y, trace, backstr, node_list);
+        return backtrack(new_node, x, y, trace, backstr, node_list);
     }
 }
 

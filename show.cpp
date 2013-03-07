@@ -62,8 +62,7 @@ int displayNode(sn* node) {
 
 
 
-int displayAlignment(sn* node) {
-	
+int displayAlignment(sn* node, string& read) {
 	
 	vector<vector<ms> >::iterator y;
 	vector<ms>::iterator x;
@@ -71,9 +70,15 @@ int displayAlignment(sn* node) {
 	cout << "Node: " << node->name << endl << endl;
 	
 	cout << "Score:"<< endl << "----------" << endl;
-	
+
+    cout << "\t\t";
+    for (string::iterator s = node->sequence.begin(); s != node->sequence.end(); ++s) {
+        cout << "\t" << *s;
+    }
+    cout << endl;
+
 	for (y = node->matrix.begin(); y != node->matrix.end(); ++y) {
-		cout << "\t";
+		cout << "\t" << read[y-node->matrix.begin()-1] << "\t";
 		for (x = (*y).begin(); x != (*y).end();  ++x) {
 		    cout << x->score << "\t";
 		}

@@ -39,20 +39,20 @@ int getDepth(sn* node) {
     
     int d;										// optimization:  get rid of this
     if (node->depth == -1) {
-	if (node->p5.empty() == false) {
-	    //d = 1 + max( [getDepth(p) for p in node.p5] )
-	    for (vector<sn*>::iterator n = node->p5.begin() ;n != node->p5.end(); ++n) {
-		getDepth(*n);
-	    }
-	    sort(node->p5.begin(), node->p5.end(), my_gd_compare);
-	    d = node->p5[0]->depth + 1;			// check to see if this is same as .front()
-	    node->depth = d;
-	    return d;
-	} else {
-	    return 1;
-	}
+        if (node->p5.empty() == false) {
+            //d = 1 + max( [getDepth(p) for p in node.p5] )
+            for (vector<sn*>::iterator n = node->p5.begin() ;n != node->p5.end(); ++n) {
+                getDepth(*n);
+            }
+            sort(node->p5.begin(), node->p5.end(), my_gd_compare);
+            d = node->p5[0]->depth + 1;			// check to see if this is same as .front()
+            node->depth = d;
+            return d;
+        } else {
+            return 1;
+        }
     } else {
-	return node->depth;
+        return node->depth;
     }
 }	
 
@@ -74,19 +74,19 @@ sn* sequenceDagAlign(string sequence, vector<sn*> nlist, int maxdepth,
     sn* top_node = NULL;
 
     for (int i = 1; i < maxdepth + 1; i++) {						// why 1, +1? 
-	// py: for node in [x for x in nlist if x.depth == i] {     // random order where orders are equal?
-	vector<sn*>::iterator t;									// good place for vector iteration?
-	for (t=nlist.begin(); t!=nlist.end(); ++t) {
-	    if ((*t)->depth == i) {
-		//jlist.append(node.jsonize());						// NOT PORTED
-		StringNodeAlign(sequence, sequence.length(), **t,
-				match, mism, gap);
-		if ((*t)->top_score.score > top_score) {
-		    top_node = (*t);
-		    top_score = (*t)->top_score.score;
-		}
-	    }
-	}
+        // py: for node in [x for x in nlist if x.depth == i] {     // random order where orders are equal?
+        vector<sn*>::iterator t;									// good place for vector iteration?
+        for (t=nlist.begin(); t!=nlist.end(); ++t) {
+            if ((*t)->depth == i) {
+                //jlist.append(node.jsonize());						// NOT PORTED
+                StringNodeAlign(sequence, sequence.length(), **t,
+                                match, mism, gap);
+                if ((*t)->top_score.score > top_score) {
+                    top_node = (*t);
+                    top_score = (*t)->top_score.score;
+                }
+            }
+        }
     }
     // Note that top score is not returned, but just used internally. 
     return top_node;
@@ -106,18 +106,18 @@ sn* gsw(string read, vector<sn*> nlist,
      */
     vector<sn*>::iterator t;
     for (t=nlist.begin(); t!=nlist.end(); ++t) {
-	(*t)->depth = getDepth(*t);
-	// as long as this isn't an empty node (anchor)
-	// initialize the scoring matrix for this specific read
-	(*t)->initScore(read.size());
+        (*t)->depth = getDepth(*t);
+        // as long as this isn't an empty node (anchor)
+        // initialize the scoring matrix for this specific read
+        (*t)->initScore(read.size());
     }
 		
     // py: maxdepth = max([node.depth for node in nlist]);
     sort(nlist.begin(), nlist.end(), my_depth_compare);
     maxdepth = -1;
     for (t=nlist.begin(); t!=nlist.end(); ++t) {
-	int d = (*nlist.begin())->depth;
-	if (d > maxdepth) maxdepth = d;
+        int d = (*nlist.begin())->depth;
+        if (d > maxdepth) maxdepth = d;
     }
 
     /* Submits the read & each node in the correct sequence to the block-GSW algorithm:
@@ -131,7 +131,7 @@ sn* gsw(string read, vector<sn*> nlist,
 
     //Calls the above function to actually perform alignment
     sn* result = sequenceDagAlign(read, nlist, maxdepth,
-				  match, mism, gap);
+                                  match, mism, gap);
 	
     //alignment = nodealign.master_backtrack(result);
     

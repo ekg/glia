@@ -42,6 +42,9 @@ public:
     bool alignReverse;          // -r --reverse-complement
     bool realign_bam;
 
+    // realignment parameters
+    int dag_window_size;
+
     // alignment parameters
     int match;
     int mism;
@@ -58,6 +61,7 @@ public:
     bool display_backtrace;
     bool display_all_nodes;
     bool display_dag;
+    bool display_alignment;
 
     bool debug;
 

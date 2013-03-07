@@ -125,6 +125,7 @@ void Parameters::usage(char** argv) {
 	<< "    -B --display-backtrace     Write DAG generated from variants to stdout." << endl
 	<< "    -B --display-backtrace     Write alignment matrix results to stdout." << endl
 	<< "    -N --display-all-nodes     Same as -B but also for nodes which are not traced." << endl
+	<< "    -P --display-alignment     Print sequence from DAG and read sequence." << endl
 	<< "    -d --debug                 Enable debugging output." << endl
 	<< "    -r --reverse-complement    Report the reverse complement if it provides a better alignment." << endl
 	<< endl
@@ -165,6 +166,8 @@ Parameters::Parameters(int argc, char** argv) {
     useFile = false;            // -x --use-file
     alignReverse = false;        // -r --reverse-complement
 
+    dag_window_size = 1000;
+
     match = 10;
     mism = -10;
     gap = -10;
@@ -172,6 +175,7 @@ Parameters::Parameters(int argc, char** argv) {
     display_dag = false;
     display_backtrace = false;
     display_all_nodes = false;
+    display_alignment = false;
 
     debug = false;
     

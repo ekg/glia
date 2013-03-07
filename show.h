@@ -22,7 +22,7 @@
 
 int displayNode(sn* node);
 
-int displayAlignment(sn* node);
+int displayAlignment(sn* node, std::string& read);
 
 
 

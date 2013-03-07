@@ -6,6 +6,7 @@ HEADERS = dump.h \
 	gliamodels.h \
 	gsw.h \
 	matrices.h \
+	main.h \
 	nodealign.h \
 	show.h \
 	traceback.h \
@@ -37,16 +38,16 @@ BINS = clia
 
 all: $(OBJECTS) $(BINS)
 
-CXX = g++
-CXXFLAGS = -O3 -D_FILE_OFFSET_BITS=64
-INCLUDES = 
-LDFLAGS =
-LIBS = -lz -lm -L./ -Lvcflib/tabixpp/ -L$(BAMTOOLS_ROOT)/lib -ltabix
-
 BAMTOOLS_ROOT=bamtools
 BAMTOOLS_LIB_DIR=bamtools/lib
-FASTAHACK = fastahack/Fasta.o
 
+CXX = g++
+CXXFLAGS = -O3 -D_FILE_OFFSET_BITS=64
+INCLUDES = -I$(BAMTOOLS_ROOT)/include
+LDFLAGS =
+LIBS = -lz -lm -L./ -Lvcflib/tabixpp/ -lbamtools -ltabix
+
+FASTAHACK = fastahack/Fasta.o
 VCFLIB = vcflib/tabixpp/tabix.o \
 	vcflib/tabixpp/bgzf.o \
 	vcflib/smithwaterman/SmithWatermanGotoh.o \
@@ -85,10 +86,10 @@ $(VCFLIB):
 # clia build
 
 %.o: %.cpp %.h
-	$(CXX) -c -o $@ $(*F).cpp $(INCLUDES) $(LDFLAGS) $(CXXFLAGS)
+	$(CXX) -c $(*F).cpp -o $@ $(INCLUDES) $(LDFLAGS) $(CXXFLAGS)
 
 $(BINS): $(BIN_SOURCES) $(OBJECTS) $(SOURCES) $(HEADERS) libbamtools.a $(FASTAHACK) jsoncpp.o $(VCFLIB)
-	$(CXX) $(OBJECTS) $(VCFLIB) -o $@ $(INCLUDES) $(FASTAHACK) $(LDFLAGS) $(CXXFLAGS) $(LIBS)
+	$(CXX) -o $@ $(INCLUDES) $(FASTAHACK) $(VCFLIB) $(OBJECTS) $(LDFLAGS) $(CXXFLAGS) $(LIBS)
 
 clean:
 	rm -f $(BINS) $(OBJECTS)

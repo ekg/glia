@@ -49,23 +49,31 @@ ms() :  score(0),
 struct sn {
     std::string sequence;
     std::string name;
-    std::vector<sn*> p5;			// now this will be sn pointers
-    std::vector<sn*> p3;			// now this will be sn pointers
+    std::vector<sn*> p5;
+    std::vector<sn*> p3;
     int seq_len;
     ts top_score;
     std::vector<std::vector<ms> > matrix;
-    int depth;			        // leave uninitialized? NO!!!!!!!!
+    int depth;
+
+    // for mapping back into reference coordinates
+    long int position;
+    std::string cigar;
 
 // initialization
 sn() :  seq_len(0),
 	depth(-1) { }
 
 sn(std::string s,
-   std::string n)
+   std::string n,
+   long int p,
+   std::string c)
     : depth(-1)
     , sequence(s)
-    , name(n) {
-	seq_len = sequence.size();
+    , name(n)
+	, position(p)
+    , cigar(c) {
+	    seq_len = sequence.size();
     }
 
     void initScore(size_t read_length);
@@ -75,6 +83,5 @@ sn(std::string s,
 std::ostream& operator<<(std::ostream& o, const sn* s);
 std::ostream& operator<<(std::ostream& o, const ts& t);
 int displayDAG(const sn*);
-
 
 #endif
