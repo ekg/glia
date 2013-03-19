@@ -60,6 +60,7 @@ struct sn {
     // for mapping back into reference coordinates
     long int position;
     Cigar cigar;
+    bool isref;
 
 // initialization
 sn() :  seq_len(0),
@@ -75,6 +76,7 @@ sn(std::string s,
 	, position(p)
     , cigar(c) {
 	    seq_len = sequence.size();
+        isref = cigar.isReference(); // if in reference coordinates
     }
 
     void initScore(size_t read_length);

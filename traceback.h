@@ -18,6 +18,7 @@
 
 #include "gliamodels.h"
 #include "nodealign.h"
+#include "cigar.h"
 
 
 // bt := backtrace return object
@@ -25,6 +26,7 @@ struct bt {
     int x;
     int y;
     std::string backstr;
+    Cigar cigar;
     sn* node;
 bt() : node(NULL) { }
 };
@@ -34,18 +36,25 @@ bt() : node(NULL) { }
 struct mbt {
     int x;
     int y;
-    std::string cigar;
+    std::string gcigar; // graph cigar
+    Cigar fcigar; // flattened to reference
     std::vector<sn*> node_list;
     std::string node_name;				// why use outside of context?
 };
 
 
 // recursive backtrack
-bt backtrack(sn* node,
+bt graphbacktrack(sn* node,
 	     int x, int y,
 	     std::vector<bt>& trace,
 	     std::string& backstr,
 	     std::vector<sn*> &node_list);
+
+bt flatbacktrack(sn* node,
+                 int x, int y,
+                 std::vector<bt>& trace,
+                 Cigar& cigar,
+                 std::vector<sn*> &node_list);
 
 // mbt := data structure for trace report
 struct mbt;

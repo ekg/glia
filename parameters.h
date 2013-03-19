@@ -64,6 +64,7 @@ public:
     bool display_alignment;
 
     bool debug;
+    bool dry_run;
 
 };
 

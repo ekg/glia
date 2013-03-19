@@ -122,7 +122,7 @@ void Parameters::usage(char** argv) {
 	<< endl
 	<< "    -s --sequence SEQ          The sequence to align." << endl
 	<< "    -t --target TARGET         Target genomic region for alignment, e.g. chr2:1-20" << endl
-	<< "    -B --display-backtrace     Write DAG generated from variants to stdout." << endl
+	<< "    -D --display-dag           Write DAG generated from variants to stdout." << endl
 	<< "    -B --display-backtrace     Write alignment matrix results to stdout." << endl
 	<< "    -N --display-all-nodes     Same as -B but also for nodes which are not traced." << endl
 	<< "    -P --display-alignment     Print sequence from DAG and read sequence." << endl
@@ -133,7 +133,10 @@ void Parameters::usage(char** argv) {
 	<< endl
 	<< "    -R --realign-bam           Realign the BAM stream on stdin to the VCF file, flatting" << endl
 	<< "                               output into reference-relative alignments where the DAG" << endl
-	<< "                               alignment provides a better match than the reference." << endl;
+	<< "                               alignment provides a better match than the reference." << endl
+    << "    -w --realignment-window    Number of bp of window to assemble from VCF for realignment." << endl
+	<< "    -X --dry-run               If realigning, don't output BAM (helps for debugging)." << endl;
+
 }
 
 
@@ -166,7 +169,7 @@ Parameters::Parameters(int argc, char** argv) {
     useFile = false;            // -x --use-file
     alignReverse = false;        // -r --reverse-complement
 
-    dag_window_size = 1000;
+    dag_window_size = 1500;
 
     match = 10;
     mism = -10;
@@ -178,6 +181,9 @@ Parameters::Parameters(int argc, char** argv) {
     display_alignment = false;
 
     debug = false;
+    dry_run = false;
+
+    realign_bam = false;
     
     int c; // counter for getopt
     
@@ -192,13 +198,16 @@ Parameters::Parameters(int argc, char** argv) {
         {"output-file", required_argument, 0, 'o'},
         {"use-file", no_argument, 0, 'x'},
         {"reverse-complement", no_argument, 0, 'r'},
-	{"gap", required_argument, 0, 'g'},
-	{"match", required_argument, 0, 'm'},
-	{"mismatch", required_argument, 0, 'M'},
-	{"display-backtrace", no_argument, 0, 'B'},
-	{"display-all-nodes", no_argument, 0, 'N'},
-	{"display-dag", no_argument, 0, 'D'},
-	{"debug", no_argument, 0, 'd'},
+        {"gap", required_argument, 0, 'g'},
+        {"match", required_argument, 0, 'm'},
+        {"mismatch", required_argument, 0, 'M'},
+        {"display-backtrace", no_argument, 0, 'B'},
+        {"display-all-nodes", no_argument, 0, 'N'},
+        {"display-dag", no_argument, 0, 'D'},
+        {"debug", no_argument, 0, 'd'},
+        {"dry-run", no_argument, 0, 'X'},
+        {"realign-bam", no_argument, 0, 'R'},
+        {"realignment-window", required_argument, 0, 'w'},
         {0, 0, 0, 0}
         
     };
@@ -206,7 +215,7 @@ Parameters::Parameters(int argc, char** argv) {
     while (true) {
         int option_index = 0;
         c = getopt_long(argc, argv,
-                        "hxrNBDds:q:f:t:v:o:g:m:M:",
+                        "hxrXNBDRds:q:f:t:v:o:g:m:M:w:",
                         long_options, &option_index);
         
         if (c == -1) // end of options
@@ -214,108 +223,123 @@ Parameters::Parameters(int argc, char** argv) {
 
         switch (c) {
             // -s --sequence
-            case 's':
-                read_input = optarg;
-                break;
+        case 's':
+            read_input = optarg;
+            break;
                 
             // -q --fastq-file
-            case 'q':
-                fastq_file = optarg;
-                break;
+        case 'q':
+            fastq_file = optarg;
+            break;
                 
             // -f --fasta-reference
-            case 'f':
-                fasta_reference = optarg;
-                break;
+        case 'f':
+            fasta_reference = optarg;
+            break;
                 
             // -t --target
-            case 't':
-                target = optarg;
-                break;
+        case 't':
+            target = optarg;
+            break;
                 
             // -v --vcf-file
-            case 'v':
-                vcf_file = optarg;
-                break;
+        case 'v':
+            vcf_file = optarg;
+            break;
                 
             // -o --output-file
-            case 'o':
-                outputFile = optarg;
-                break;
+        case 'o':
+            outputFile = optarg;
+            break;
                 
             // -x --use-file
-            case 'x':
-                useFile = true;
-                break;
+        case 'x':
+            useFile = true;
+            break;
                 
             // -r --reverse-complement
 	    case 'r':
-                alignReverse = true;
-                break;
+            alignReverse = true;
+            break;
 
             // -N --display-all-nodes
 	    case 'N':
-                display_all_nodes = true;
-		break;
+            display_all_nodes = true;
+            break;
 
             // -B --display-backtrace
 	    case 'B':
-                display_backtrace = true;
-		break;
+            display_backtrace = true;
+            break;
+
+            // -X --dry-run
+	    case 'X':
+            dry_run = true;
+            break;
 
             // -D --display-dag
 	    case 'D':
-                display_dag = true;
-		break;
+            display_dag = true;
+            break;
 
             // -d --debug
 	    case 'd':
-                debug = true;
-		break;
+            debug = true;
+            break;
 
             // -m --match
-            case 'm':
-		match = atoi(optarg);
-                break;
+        case 'm':
+            match = atoi(optarg);
+            break;
                 
             // -M --mismatch
-            case 'M':
+        case 'M':
 	        mism = atoi(optarg);
-                break;
+            break;
                 
             // -g --gap
-            case 'g':
-                gap = atoi(optarg); 
-                break;
+        case 'g':
+            gap = atoi(optarg); 
+            break;
+
+            // -R --realign-bam
+        case 'R':
+            realign_bam = true;
+            break;
+
+            // -w --realignment-window
+        case 'w':
+            dag_window_size = atoi(optarg);
+            break;
                 
             // -h --help
-            case 'h':
-                usage(argv);
-                exit(0);
-                break;
+        case 'h':
+            usage(argv);
+            exit(0);
+            break;
                 
-            case '?': // print a suggestion about the most-likely long option which the argument matches
-            {
-                string bad_arg(argv[optind - 1]);
-                option* opt = &long_options[0];
-                option* closest_opt = opt;
-                int shortest_distance = levenshteinDistance(opt->name, bad_arg);
-                ++opt;
-                while (opt->name != 0) {
-                    int distance = levenshteinDistance(opt->name, bad_arg);
-                    if (distance < shortest_distance) {
-                        shortest_distance = distance;
-                        closest_opt = opt;
-                    }
-                    ++opt;
+        case '?': // print a suggestion about the most-likely long option which the argument matches
+        {
+            string bad_arg(argv[optind - 1]);
+            option* opt = &long_options[0];
+            option* closest_opt = opt;
+            int shortest_distance = levenshteinDistance(opt->name, bad_arg);
+            ++opt;
+            while (opt->name != 0) {
+                int distance = levenshteinDistance(opt->name, bad_arg);
+                if (distance < shortest_distance) {
+                    shortest_distance = distance;
+                    closest_opt = opt;
                 }
-                cerr << "did you mean --" << closest_opt->name << " ?" << endl;
-                exit(1);
+                ++opt;
             }
-                break;
+            cerr << "did you mean --" << closest_opt->name << " ?" << endl;
+            exit(1);
+        }
+        break;
 
-            default:
-                abort ();
+        default:
+            abort ();
         }
     }
     

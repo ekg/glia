@@ -17,6 +17,14 @@ using namespace vcf;
 int constructDAG(vector<sn*> &nlist, string &targetSequence, string& sequenceName,
                  vector<Variant> &variants, long offset) {
 
+    /*
+    cout << "constructing DAG over "
+         << targetSequence.size()
+         << " and " << variants.size()
+         << " variants with offset " << offset << endl;
+
+    cout << "target:\t" << targetSequence << endl;
+    */
 
     long prev_pos = targetSequence.size();
     string p3_ref_seq;
@@ -139,7 +147,7 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence, string& sequenceNam
         ,
         offset
         ,
-        Cigar(convert(prev_pos - offset) + "M")
+        Cigar(convert(prev_pos) + "M")
         );
 
     // connect to old p3 nodes

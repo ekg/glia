@@ -128,7 +128,7 @@ void gswalign(vector<sn*>& nlist,
     mbt trace_report_R;
     bt backtrace_F;
     bt backtrace_R;
-	
+
     result_F = gsw(read, nlist,
                    params.match, params.mism, params.gap);
     score_F = result_F->top_score.score;
@@ -259,7 +259,7 @@ void construct_dag_and_align_single_sequence(Parameters& params) {
 
     cout << score << " " << strand
          << " seq:" << trace_report.x << " read:" << trace_report.y
-         << " " << trace_report.cigar << endl;
+         << " " << trace_report.gcigar << " " << trace_report.fcigar << endl;
 
     if (params.display_alignment) {
         string refseq;
@@ -297,6 +297,7 @@ void realign_bam(Parameters& params) {
         exit(1);
     }
 
+    suppress_output = true;
     BamWriter writer;
     if (!suppress_output && !writer.Open("stdout", reader.GetHeaderText(), reader.GetReferenceData())) {
         cerr << "could not open stdout for writing" << endl;
@@ -334,7 +335,7 @@ void realign_bam(Parameters& params) {
     //         flatten read into reference space (for now just output alleles from VCF un-spanned insertions)
     //     write read to queue for streaming re-sorting (some positional change will occur)
 
-    long int dag_start_position = 0;
+    long int dag_start_position = 1;
     string currentSeqname;
     string ref;
     vector<sn*> nlist; // the DAG container
@@ -355,21 +356,25 @@ void realign_bam(Parameters& params) {
             currentSeqname = seqname;
 
             // recenter DAG
-            long int dag_start_position = dag_start_position + dag_window_size/2;
-            ref = reference.getSubSequence(seqname, dag_start_position, dag_window_size);
+            if (!nlist.empty()) {
+                dag_start_position = dag_start_position + dag_window_size/2;
+            }
+
+            // TODO get sequence length and use to bound noted window size (edge case)
+            ref = reference.getSubSequence(seqname, dag_start_position - 1, dag_window_size); // 0/1 conversion
 
             // get variants for new DAG
             vector<Variant> variants;
             if (!vcffile.setRegion(currentSeqname,
                                    dag_start_position,
-                                   dag_start_position + dag_window_size)) {
+                                   dag_start_position + ref.size())) {
                 cerr << "could not set region on VCF file to " << currentSeqname << ":"
-                     << dag_start_position << "-" << dag_start_position + dag_window_size
+                     << dag_start_position << "-" << dag_start_position + ref.size()
                      << endl;
                 exit(1);
             } else {
                 while (vcffile.getNextVariant(var)) {
-                    if (var.position + var.ref.length() <= dag_start_position + dag_window_size) {
+                    if (var.position + var.ref.length() <= dag_start_position + ref.size()) {
                         variants.push_back(var);
                     }
                 }
@@ -386,7 +391,18 @@ void realign_bam(Parameters& params) {
                          ref,
                          currentSeqname,
                          variants,
-                         dag_start_position + dag_window_size);
+                         dag_start_position);
+
+            if (params.display_dag) {
+                cout << "DAG generated from input variants over "
+                     << seqname << ":" << dag_start_position << "-" << dag_window_size
+                     << endl;
+                //displayDAG(nlist.back());
+                for (vector<sn*>::iterator n = nlist.begin(); n != nlist.end(); ++n) {
+                    cout << *n << endl;
+                }
+                cout << endl;
+            }
 
         }
 
@@ -395,7 +411,7 @@ void realign_bam(Parameters& params) {
             try {
 
                 Cigar cigar;
-                string read = params.read_input;
+                string read = alignment.QueryBases;
                 bt backtrace;
                 mbt trace_report;
                 int score;
@@ -408,9 +424,12 @@ void realign_bam(Parameters& params) {
                          score,
                          strand);
 
-                cout << score << " " << strand
-                     << " seq:" << trace_report.x << " read:" << trace_report.y
-                     << " " << trace_report.cigar << endl;
+                if (params.dry_run) {
+                    cout << read << endl;
+                    cout << score << " " << strand
+                         << " seq:" << trace_report.x << " read:" << trace_report.y
+                         << " " << trace_report.gcigar << " " << trace_report.fcigar << endl;
+                }
 
             } catch (...) {
                 cerr << "exception when realigning " << alignment.Name
@@ -430,8 +449,8 @@ void realign_bam(Parameters& params) {
                     if (p->first > maxOutputPos) {
                         break; // no more to do
                     } else {
-                        for (vector<BamAlignment>::iterator a = p->second.begin(); a != p->second.end(); ++a)
-                            writer.SaveAlignment(*a);
+                        //for (vector<BamAlignment>::iterator a = p->second.begin(); a != p->second.end(); ++a)
+                            //writer.SaveAlignment(*a);
                     }
                 }
                 if (p != alignmentSortQueue.begin())

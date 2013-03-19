@@ -30,16 +30,35 @@ int Cigar::refLen(void) {
     return len;
 }
 
+bool Cigar::isReference(void) {
+    if (size() == 1 && front().type == 'M') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 void Cigar::append(const Cigar& c) {
     Cigar::const_iterator i = c.begin();
     // check end, if equivalent to this end, extend
-    while (back().type == i->type && i != c.end()) {
-        back().length += i->length;
-        ++i;
+    if (!empty()) {
+        while (back().type == i->type && i != c.end()) {
+            back().length += i->length;
+            ++i;
+        }
+        while (i != c.end()) {
+            push_back(*i);
+            ++i;
+        }
+    } else {
+        *this = c;
     }
-    while (i != c.end()) {
-        push_back(*i);
-    }
+}
+
+string Cigar::str(void) {
+    stringstream ss;
+    ss << *this;
+    return ss.str();
 }
 
 Cigar::Cigar(const string& cigarStr) {
@@ -65,6 +84,10 @@ Cigar::Cigar(const string& cigarStr) {
     if (!number.empty() && !type.empty()) {
         push_back(CigarElement(atoi(number.c_str()), type[0]));
     }
+}
+
+Cigar::Cigar(int i, char t) {
+    push_back(CigarElement(i, t));
 }
 
 Cigar::Cigar(vector<VariantAllele>& vav) {
@@ -102,4 +125,12 @@ Cigar::Cigar(vector<BamTools::CigarOp>& cigarData) {
     for (vector<BamTools::CigarOp>::iterator o = cigarData.begin(); o != cigarData.end(); ++o) {
         push_back(CigarElement(o->Length, o->Type));
     }
+}
+
+Cigar join(vector<Cigar>& cigars) {
+    Cigar result;
+    for (vector<Cigar>::iterator c = cigars.begin(); c != cigars.end(); ++c) {
+        result.append(*c);
+    }
+    return result;
 }
