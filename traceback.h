@@ -40,6 +40,7 @@ struct mbt {
     Cigar fcigar; // flattened to reference
     std::vector<sn*> node_list;
     std::string node_name;				// why use outside of context?
+    sn* node; // start node
 };
 
 

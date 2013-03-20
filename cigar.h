@@ -29,6 +29,7 @@ struct Cigar : vector<CigarElement> {
     Cigar(const string& cigarStr);
     Cigar(vector<VariantAllele>& vav);
     Cigar(vector<BamTools::CigarOp>& cigarData);
+    void toCigarData(vector<BamTools::CigarOp>& cigarData);
 };
 
 std::ostream& operator<<(std::ostream& o, const CigarElement& e);

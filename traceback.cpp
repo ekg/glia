@@ -75,7 +75,8 @@ bt master_backtrack(sn* node, mbt &trace_report) {
     trace_report.gcigar = gcigarss.str();
 	
     trace_report.node_list = node_list;
-    trace_report.node_name = node_list.back()->name;
+    trace_report.node_name = node_list.front()->name;
+    trace_report.node = node_list.front();
 
     return flatresult;
 }
@@ -236,6 +237,7 @@ bt flatbacktrack(sn* node, int x, int y, vector<bt>& trace, Cigar& cigar, vector
             if (node->isref) { // if we're in the reference coordinate space
                 backtrace.cigar = cigar;
             } else {
+                // YO  TODO... FLATTEN INSERTIONS into read space (append to the read)
                 backtrace.cigar = node->cigar;
                 reverse(backtrace.cigar.begin(), backtrace.cigar.end()); // re-reverse
             }

@@ -134,3 +134,13 @@ Cigar join(vector<Cigar>& cigars) {
     }
     return result;
 }
+
+void Cigar::toCigarData(vector<BamTools::CigarOp>& cigarData) {
+    cigarData.clear();
+    for (Cigar::iterator c = begin(); c != end(); ++c) {
+        BamTools::CigarOp op;
+        op.Type = c->type;
+        op.Length = c->length;
+        cigarData.push_back(op);
+    }
+}

@@ -297,9 +297,8 @@ void realign_bam(Parameters& params) {
         exit(1);
     }
 
-    suppress_output = true;
     BamWriter writer;
-    if (!suppress_output && !writer.Open("stdout", reader.GetHeaderText(), reader.GetReferenceData())) {
+    if (!params.dry_run && !writer.Open("stdout", reader.GetHeaderText(), reader.GetReferenceData())) {
         cerr << "could not open stdout for writing" << endl;
         exit(1);
     }
@@ -429,6 +428,15 @@ void realign_bam(Parameters& params) {
                     cout << score << " " << strand
                          << " seq:" << trace_report.x << " read:" << trace_report.y
                          << " " << trace_report.gcigar << " " << trace_report.fcigar << endl;
+                } else {
+                    // XXX todo, add softclips!
+                    if (strand == "+") {
+                        alignment.SetIsReverseStrand(false);
+                    } else {
+                        alignment.SetIsReverseStrand(true);
+                    }
+                    alignment.Position = (trace_report.node->position - 1) + trace_report.x;
+                    trace_report.fcigar.toCigarData(alignment.CigarData);
                 }
 
             } catch (...) {
@@ -439,7 +447,7 @@ void realign_bam(Parameters& params) {
             }
         }
 
-        if (!suppress_output) {
+        if (!params.dry_run) {
             alignmentSortQueue[alignment.Position].push_back(alignment);
             // ensure correct order if alignments move
             if (initialAlignmentPosition > (unsigned int) flanking_window) {
@@ -449,8 +457,8 @@ void realign_bam(Parameters& params) {
                     if (p->first > maxOutputPos) {
                         break; // no more to do
                     } else {
-                        //for (vector<BamAlignment>::iterator a = p->second.begin(); a != p->second.end(); ++a)
-                            //writer.SaveAlignment(*a);
+                        for (vector<BamAlignment>::iterator a = p->second.begin(); a != p->second.end(); ++a)
+                            writer.SaveAlignment(*a);
                     }
                 }
                 if (p != alignmentSortQueue.begin())
@@ -458,6 +466,14 @@ void realign_bam(Parameters& params) {
             }
         }
 
+    }
+
+    if (!params.dry_run) {
+        map<long unsigned int, vector<BamAlignment> >::iterator p = alignmentSortQueue.begin();
+        for ( ; p != alignmentSortQueue.end(); ++p) {
+            for (vector<BamAlignment>::iterator a = p->second.begin(); a != p->second.end(); ++a)
+                writer.SaveAlignment(*a);
+        }
     }
 
 }
