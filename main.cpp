@@ -21,6 +21,7 @@
 #include "seqtools.h"
 #include "parameters.h"
 #include "construct.h"
+#include "utility.h"
 #include "vcflib/Variant.h"
 #include "fastahack/Fasta.h"
 
@@ -32,14 +33,6 @@ using namespace std;
 using namespace vcf;
 using namespace BamTools;
 
-
-short qualityChar2ShortInt(char c) {
-    return static_cast<short>(c) - 33;
-}
-
-char shortInt2QualityChar(short i) {
-    return static_cast<char>(i + 33);
-}
 
 // TODO: Move to GHASH   <-done?
 int hashfasta(string fasta_file_name, int hashsize, vector<fasta_entry> &ref_genome) {	
@@ -114,6 +107,7 @@ void countMismatchesAndGaps(
 
 void gswalign(vector<sn*>& nlist,
               string& read,
+              string& qualities,
               Parameters& params,
               bt& backtrace,
               mbt& trace_report,
@@ -132,7 +126,7 @@ void gswalign(vector<sn*>& nlist,
     result_F = gsw(read, nlist,
                    params.match, params.mism, params.gap);
     score_F = result_F->top_score.score;
-    backtrace_F = master_backtrack(result_F, trace_report_F);
+    backtrace_F = master_backtrack(result_F, trace_report_F, read, qualities);
     vector<sn*>& nodes_F = trace_report_F.node_list;
 
     if (params.display_backtrace) {
@@ -152,10 +146,12 @@ void gswalign(vector<sn*>& nlist,
     // check if the reverse complement provides a better alignment
     if (params.alignReverse) {
         string readrc = reverseComplement(read);
+        string qualitiesrc = qualities;
+        reverse(qualitiesrc.begin(), qualitiesrc.end());
         result_R = gsw(readrc, nlist,
                        params.match, params.mism, params.gap);
         score_R = result_R->top_score.score;
-        backtrace_R = master_backtrack(result_R, trace_report_R);
+        backtrace_R = master_backtrack(result_R, trace_report_R, readrc, qualitiesrc);
         vector<sn*>& nodes_R = trace_report_R.node_list;
         if (params.display_backtrace) {
             cout << "==== reverse alignment ====" << endl;
@@ -245,12 +241,14 @@ void construct_dag_and_align_single_sequence(Parameters& params) {
     // run the alignment
 
     string read = params.read_input;
+    string qualities(read.size(), shortInt2QualityChar(30));
     bt backtrace;
     mbt trace_report;
     int score;
     string strand;
     gswalign(nlist,
              read,
+             qualities,
              params,
              backtrace,
              trace_report,
@@ -411,12 +409,14 @@ void realign_bam(Parameters& params) {
 
                 Cigar cigar;
                 string read = alignment.QueryBases;
+                string qualities = alignment.Qualities;
                 bt backtrace;
                 mbt trace_report;
                 int score;
                 string strand;
                 gswalign(nlist,
                          read,
+                         qualities,
                          params,
                          backtrace,
                          trace_report,
@@ -424,18 +424,65 @@ void realign_bam(Parameters& params) {
                          strand);
 
                 if (params.dry_run) {
-                    cout << read << endl;
+                    if (strand == "-") {
+                        read = reverseComplement(trace_report.read);
+                    }
+                    cout << read << endl
+                         << trace_report.read << endl;
                     cout << score << " " << strand
                          << " seq:" << trace_report.x << " read:" << trace_report.y
                          << " " << trace_report.gcigar << " " << trace_report.fcigar << endl;
                 } else {
-                    // XXX todo, add softclips!
-                    if (strand == "+") {
-                        alignment.SetIsReverseStrand(false);
-                    } else {
+                    // XXX todo, add softclips!q
+                    if (strand == "-") {
+                        read = reverseComplement(trace_report.read);
+                    }
+                    /*
+                    cerr << read << endl
+                         << trace_report.read << endl;
+                    cerr << score << " " << strand
+                         << " seq:" << trace_report.x << " read:" << trace_report.y
+                         << " " << trace_report.gcigar << " " << trace_report.fcigar << endl;
+                    */
+                    // TODO the qualities are not on the right side of the read
+                    if (strand == "-") {
+                        // if we're realigning, this is always true unless we swapped strands
                         alignment.SetIsReverseStrand(true);
+                        alignment.QueryBases = reverseComplement(trace_report.read);
+                        alignment.Qualities = trace_report.qualities;
+                        reverse(alignment.Qualities.begin(), alignment.Qualities.end()); // reverse qualities
+                    } else {
+                        // nothing to do for forward strand---
+                        // BAM is already 5'-3' except for reverse strand flag
+                        alignment.QueryBases = trace_report.read;
+                        alignment.Qualities = trace_report.qualities;
                     }
                     alignment.Position = (trace_report.node->position - 1) + trace_report.x;
+
+                    // check if somehow we've ended up with an indel at the ends
+                    // if so, grab the reference sequence right beyond it and add
+                    // a single match to the cigar, allowing variant detection methods
+                    // to run on the results without internal modification
+                    Cigar& cigar = trace_report.fcigar;
+                    if (cigar.front().isIndel()) {
+                        alignment.Position -= 1;
+                        string refBase = reference.getSubSequence(seqname, alignment.Position, 1);
+                        alignment.QueryBases.insert(0, refBase);
+                        alignment.Qualities.insert(0, string(1, shortInt2QualityChar(30)));
+                        Cigar newCigar("1M");
+                        newCigar.append(trace_report.fcigar);
+                        trace_report.fcigar = newCigar;
+                    }
+                    if (cigar.back().isIndel()) {
+                        string refBase = reference.getSubSequence(seqname,
+                                                                  alignment.Position
+                                                                  + trace_report.fcigar.refLen(),
+                                                                  1);
+                        trace_report.fcigar.append(Cigar("1M"));
+                        alignment.QueryBases.append(refBase);
+                        alignment.Qualities.append(string(1, shortInt2QualityChar(30)));
+                    }
+
                     trace_report.fcigar.toCigarData(alignment.CigarData);
                 }
 
@@ -457,16 +504,16 @@ void realign_bam(Parameters& params) {
                     if (p->first > maxOutputPos) {
                         break; // no more to do
                     } else {
-                        for (vector<BamAlignment>::iterator a = p->second.begin(); a != p->second.end(); ++a)
+                        for (vector<BamAlignment>::iterator a = p->second.begin(); a != p->second.end(); ++a) {
                             writer.SaveAlignment(*a);
+                        }
                     }
                 }
                 if (p != alignmentSortQueue.begin())
                     alignmentSortQueue.erase(alignmentSortQueue.begin(), p);
             }
         }
-
-    }
+    } // end GetNextAlignment loop
 
     if (!params.dry_run) {
         map<long unsigned int, vector<BamAlignment> >::iterator p = alignmentSortQueue.begin();

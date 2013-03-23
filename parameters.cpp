@@ -125,7 +125,7 @@ void Parameters::usage(char** argv) {
 	<< "    -D --display-dag           Write DAG generated from variants to stdout." << endl
 	<< "    -B --display-backtrace     Write alignment matrix results to stdout." << endl
 	<< "    -N --display-all-nodes     Same as -B but also for nodes which are not traced." << endl
-	<< "    -P --display-alignment     Print sequence from DAG and read sequence." << endl
+        //<< "    -P --display-alignment     Print sequence from DAG and read sequence." << endl
 	<< "    -d --debug                 Enable debugging output." << endl
 	<< "    -r --reverse-complement    Report the reverse complement if it provides a better alignment." << endl
 	<< endl

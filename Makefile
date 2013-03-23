@@ -14,7 +14,8 @@ HEADERS = dump.h \
 	seqtools.h \
 	split.h \
 	construct.h \
-	cigar.h
+	cigar.h \
+	utility.h
 
 SOURCES = dump.cpp \
 	examples.cpp \
@@ -32,7 +33,8 @@ SOURCES = dump.cpp \
 	seqtools.cpp \
 	split.cpp \
 	construct.cpp \
-	cigar.cpp
+	cigar.cpp \
+	utility.cpp
 
 OBJECTS= $(SOURCES:.cpp=.o)
 

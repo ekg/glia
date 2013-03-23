@@ -19,6 +19,7 @@
 #include "gliamodels.h"
 #include "nodealign.h"
 #include "cigar.h"
+#include "utility.h"
 
 
 // bt := backtrace return object
@@ -39,8 +40,13 @@ struct mbt {
     std::string gcigar; // graph cigar
     Cigar fcigar; // flattened to reference
     std::vector<sn*> node_list;
-    std::string node_name;				// why use outside of context?
+    std::string node_name;
     sn* node; // start node
+    // when flattening, we might want to pull in sequence from
+    // nodes which are only partly overlapped, and then append it
+    // to our alignments.  these hold such sequence when it exists.
+    std::string read; // modified, possibly flattened read
+    std::string qualities; // modified, possibly flattened quality bases
 };
 
 
@@ -55,13 +61,14 @@ bt flatbacktrack(sn* node,
                  int x, int y,
                  std::vector<bt>& trace,
                  Cigar& cigar,
-                 std::vector<sn*> &node_list);
+                 std::vector<sn*> &node_list,
+                 mbt& trace_report);
 
 // mbt := data structure for trace report
 struct mbt;
 
 // master backtrack
-bt master_backtrack(sn* node, mbt &trace_report);
+bt master_backtrack(sn* node, mbt &trace_report, std::string& read, std::string& qualities);
 
 
 #endif

@@ -8,6 +8,20 @@ void CigarElement::clear(void) {
     type = '\0';
 }
 
+bool CigarElement::isInsertion(void) {
+    if (type == 'I') return true;
+    else return false;
+}
+
+bool CigarElement::isDeletion(void) {
+    if (type == 'D') return true;
+    else return false;
+}
+
+bool CigarElement::isIndel(void) {
+    return isInsertion() || isDeletion();
+}
+
 std::ostream& operator<<(std::ostream& o, const CigarElement& e) {
     o << e.length << e.type;
     return o;
@@ -30,6 +44,16 @@ int Cigar::refLen(void) {
     return len;
 }
 
+int Cigar::readLen(void) {
+    int len = 0;
+    for (Cigar::const_iterator c = begin(); c != end(); ++c) {
+        if (c->type == 'M' || c->type == 'I' || c->type == 'X') {
+            len += c->length;
+        }
+    }
+    return len;
+}
+
 bool Cigar::isReference(void) {
     if (size() == 1 && front().type == 'M') {
         return true;
@@ -40,8 +64,11 @@ bool Cigar::isReference(void) {
 
 void Cigar::append(const Cigar& c) {
     Cigar::const_iterator i = c.begin();
+    // if the cigar is not length 0,
     // check end, if equivalent to this end, extend
-    if (!empty()) {
+    if (c.size() == 1 && c.front().length == 0) {
+        // do nothing
+    } else if (!empty()) {
         while (back().type == i->type && i != c.end()) {
             back().length += i->length;
             ++i;

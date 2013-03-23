@@ -15,6 +15,9 @@ struct CigarElement {
     int length;
     char type;
     void clear(void);
+    bool isInsertion();
+    bool isDeletion();
+    bool isIndel();
 CigarElement() : length(0), type('M') { }
 CigarElement(int l, char t) : length(l), type(t) { }
 };
@@ -22,6 +25,7 @@ CigarElement(int l, char t) : length(l), type(t) { }
 struct Cigar : vector<CigarElement> {
     void append(const Cigar& c);
     int refLen(void);
+    int readLen(void);
     bool isReference(void);
     string str(void);
     Cigar(void) { }

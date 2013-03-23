@@ -19,13 +19,16 @@ using namespace std;
  * (3) Get rid of intermediary x,y re-assignment
  */
 
-bt master_backtrack(sn* node, mbt &trace_report) {
+bt master_backtrack(sn* node, mbt &trace_report, string& read, string& qualities) {
     // Declare CIGAR string
 
     string gcigar;
     Cigar fcigar;
     string backstr = "";
     vector<sn*> node_list;
+
+    trace_report.read = read; // copy for possible modification
+    trace_report.qualities = qualities;
 	
     // Recover starting matrix coordinates from the highest scoring entry
     int x = node->top_score.x;
@@ -49,16 +52,30 @@ bt master_backtrack(sn* node, mbt &trace_report) {
 	
     trace.clear();
     node_list.clear();
-    
-    bt flatresult = flatbacktrack(node, x, y, trace, fcigar, node_list);
+
+    /*
+    if (!node->isref) {
+        cerr << 3 << endl;
+        cerr << node->sequence << " size " << node->sequence.size() << " " << x << endl;
+        if (node->sequence.size() > x) {
+            trace_report.implied_p3  = node->sequence.substr(x-1);
+        }
+        cerr << 4 << endl;
+    }
+    */
+    bt flatresult = flatbacktrack(node, x, y, trace, fcigar, node_list, trace_report);
     reverse(node_list.begin(), node_list.end());
     reverse(trace.begin(), trace.end());
+    int softclipsAfter = read.length() - y;;
+    int softclipsBefore = trace.front().y;
     t = trace.begin();
     Cigar fmcigar;
+    fmcigar.append(Cigar(softclipsBefore, 'S'));
     for ( ; t != trace.end() && t != trace.end(); ++t) {
         reverse(t->cigar.begin(), t->cigar.end());
         fmcigar.append(t->cigar);
     }
+    fmcigar.append(Cigar(softclipsAfter, 'S'));
 	
     // cout << "gcigar: " << result.backstr << endl;
 	
@@ -146,11 +163,11 @@ bt graphbacktrack(sn* node, int x, int y, vector<bt>& trace, string& backstr, ve
             y = y - 1;
         } else if (arrow == 'u') {
             // py: backstr = 'D' + backstr
-            backstr.append("D");
+            backstr.append("I");
             y = y - 1;
         } else if (arrow == 's') {
             // py: backstr = 'I' + backstr
-            backstr.append("I");
+            backstr.append("D");
             x = x - 1;
         } else {
             cout<<"BackTrace Error: Unknown Type";     // add proper error checking
@@ -171,7 +188,8 @@ bt graphbacktrack(sn* node, int x, int y, vector<bt>& trace, string& backstr, ve
 }
 
 
-bt flatbacktrack(sn* node, int x, int y, vector<bt>& trace, Cigar& cigar, vector<sn*> &node_list) {
+bt flatbacktrack(sn* node, int x, int y, vector<bt>& trace, Cigar& cigar,
+                 vector<sn*> &node_list, mbt& trace_report) {
 	
     // Declare and initialize backtrack data Structure
     // When inside the bottom of recursing stack, this also reassigns final results
@@ -200,8 +218,20 @@ bt flatbacktrack(sn* node, int x, int y, vector<bt>& trace, Cigar& cigar, vector
         if (node->isref) { // if we're in the reference coordinate space
             backtrace.cigar = cigar;
         } else {
+            /*
+            cout << "end using cigar " << cigar << " would insert sequence from "
+                 << 0 << " of " << node->sequence.size() << "bp in "
+                 << endl << node << endl << " to " << y << " of "
+                 << cigar.readLen() << "bp in read " << trace_report.read << endl;
+            */
+            backtrace.x = 0; // matches to start of variant now
+            trace_report.read.replace(y, cigar.readLen(), node->sequence);
             backtrace.cigar = node->cigar;
             reverse(backtrace.cigar.begin(), backtrace.cigar.end()); // re-reverse
+            trace_report.qualities.replace(y, cigar.readLen(),
+                                           string(node->sequence.size(), shortInt2QualityChar(30)));
+            //trace_report.read.replace(y, backtrace.cigar.readLen(), node->sequence.substr(0, x));
+            // and 1bp of reference before the implied divergent sequence
         }
         trace.push_back(backtrace);
         cigar.clear();
@@ -219,10 +249,10 @@ bt flatbacktrack(sn* node, int x, int y, vector<bt>& trace, Cigar& cigar, vector
             x = x - 1;
             y = y - 1;
         } else if (arrow == 'u') {
-            cigar.append(Cigar(1,'D'));
+            cigar.append(Cigar(1,'I'));
             y = y - 1;
         } else if (arrow == 's') {
-            cigar.append(Cigar(1,'I'));
+            cigar.append(Cigar(1,'D'));
             x = x - 1;
         } else {
             cout<<"BackTrace Error: Unknown Type";     // add proper error checking
@@ -231,21 +261,47 @@ bt flatbacktrack(sn* node, int x, int y, vector<bt>& trace, Cigar& cigar, vector
         sn* new_node = node->matrix[y][x].parent;
 
         if (new_node->name != node->name) {   // might be better way to cmp
-            x = new_node->seq_len;
-            node_list.push_back(node);
-            backtrace.node = node;
             if (node->isref) { // if we're in the reference coordinate space
                 backtrace.cigar = cigar;
             } else {
-                // YO  TODO... FLATTEN INSERTIONS into read space (append to the read)
-                backtrace.cigar = node->cigar;
+                // YO  TODO... FLATTEN INSERTIONS into read space
+                // TOOD you need the start of the traceback...  the coordinates of the score max in x and y
+                if (node_list.empty()) {
+                    /*
+                    cout << "begin using cigar " << cigar << " would insert sequence from "
+                         << 0 << " of " << node->sequence.size() << "bp in "
+                         << endl << node << endl << " to " << y << " of "
+                         << cigar.readLen() << "bp in read " << trace_report.read << endl;
+                    */
+                    trace_report.read.replace(y, cigar.readLen(), node->sequence);
+                    trace_report.qualities.replace(y, cigar.readLen(),
+                                                   string(node->sequence.size(), shortInt2QualityChar(30)));
+                    backtrace.cigar = node->cigar;
+                } else {
+                    /*
+                    cout << "using cigar " << cigar << " would insert sequence from "
+                         << x << " of " << cigar.refLen() << "bp in "
+                         << endl << node << endl << " to " << y << " of "
+                         << cigar.readLen() << "bp in read " << trace_report.read << endl;
+                    */
+                    trace_report.read.replace(y, cigar.readLen(), node->sequence.substr(x, cigar.refLen()));
+                    trace_report.qualities.replace(y, cigar.readLen(),
+                                                   string(cigar.refLen(), shortInt2QualityChar(30)));
+                    backtrace.cigar = node->cigar;
+                }
+                //trace_report.read.replace(y, backtrace.cigar.readLen(), node->sequence.substr(x));
+                // and 1bp of reference before the implied divergent sequence
+                //trace_report.read.append(node->sequence.substr(0, x));
                 reverse(backtrace.cigar.begin(), backtrace.cigar.end()); // re-reverse
             }
+            x = new_node->seq_len;
+            node_list.push_back(node);
+            backtrace.node = node;
             trace.push_back(backtrace);
             cigar.clear();
         }
 
-        return flatbacktrack(new_node, x, y, trace, cigar, node_list);
+        return flatbacktrack(new_node, x, y, trace, cigar, node_list, trace_report);
     }
 }
 
