@@ -135,6 +135,8 @@ void Parameters::usage(char** argv) {
 	<< "                               output into reference-relative alignments where the DAG" << endl
 	<< "                               alignment provides a better match than the reference." << endl
     << "    -w --realignment-window    Number of bp of window to assemble from VCF for realignment." << endl
+    << "    -S --soft-clip-qsum N      If sum of qualities of soft clipped bases is > N, realign." << endl
+    << "    -Q --mismatch-qsum N       If sum of qualities of mismatched bases is > N, realign." << endl
 	<< "    -X --dry-run               If realigning, don't output BAM (helps for debugging)." << endl;
 
 }
@@ -184,6 +186,8 @@ Parameters::Parameters(int argc, char** argv) {
     dry_run = false;
 
     realign_bam = false;
+    softclip_qsum_limit = 10000000;
+    mismatch_qsum_limit = 10000000;
     
     int c; // counter for getopt
     
@@ -207,6 +211,8 @@ Parameters::Parameters(int argc, char** argv) {
         {"debug", no_argument, 0, 'd'},
         {"dry-run", no_argument, 0, 'X'},
         {"realign-bam", no_argument, 0, 'R'},
+        {"soft-clip-qsum", required_argument, 0, 'S'},
+        {"mismatch-qsum", required_argument, 0, 'Q'},
         {"realignment-window", required_argument, 0, 'w'},
         {0, 0, 0, 0}
         
@@ -215,7 +221,7 @@ Parameters::Parameters(int argc, char** argv) {
     while (true) {
         int option_index = 0;
         c = getopt_long(argc, argv,
-                        "hxrXNBDRds:q:f:t:v:o:g:m:M:w:",
+                        "hxrXNBDRds:q:f:t:v:o:g:m:M:w:Q:S:",
                         long_options, &option_index);
         
         if (c == -1) // end of options
@@ -305,6 +311,14 @@ Parameters::Parameters(int argc, char** argv) {
             // -R --realign-bam
         case 'R':
             realign_bam = true;
+            break;
+
+        case 'Q':
+            mismatch_qsum_limit = atoi(optarg);
+            break;
+
+        case 'S':
+            softclip_qsum_limit = atoi(optarg);
             break;
 
             // -w --realignment-window

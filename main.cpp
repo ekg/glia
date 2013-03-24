@@ -22,6 +22,7 @@
 #include "parameters.h"
 #include "construct.h"
 #include "utility.h"
+#include "alignmentstats.h"
 #include "vcflib/Variant.h"
 #include "fastahack/Fasta.h"
 
@@ -53,56 +54,6 @@ int hashfasta(string fasta_file_name, int hashsize, vector<fasta_entry> &ref_gen
 	}
 	
 	return 0;
-}
-
-void countMismatchesAndGaps(
-    BamAlignment& alignment,
-    //vector<CigarOp>& cigarData,
-    Cigar& cigar,
-    string referenceSequence,
-    int& mismatches,
-    int& gaps,
-    int& gapslen,
-    int& softclips,
-    int& mismatchQsum,
-    int& softclipQsum
-    ) {
-
-    int sp = 0;
-    int rp = 0;
-    for (Cigar::const_iterator c = cigar.begin();
-         c != cigar.end(); ++c) {
-        int l = c->length;
-        char t = c->type;
-        if (t == 'M') { // match or mismatch
-            for (int i = 0; i < l; ++i) {
-                if (alignment.QueryBases.at(rp) != referenceSequence.at(sp)) {
-                    ++mismatches;
-                    mismatchQsum += qualityChar2ShortInt(alignment.Qualities.at(rp));
-                }
-                ++sp;
-                ++rp;
-            }
-        } else if (t == 'D') { // deletion
-            ++gaps;
-            gapslen += l;
-            sp += l;  // update reference sequence position
-        } else if (t == 'I') { // insertion
-            ++gaps;
-            gapslen += l;
-            rp += l;  // update read position
-        } else if (t == 'S') { // soft clip, clipped sequence present in the read not matching the reference
-            softclips += l;
-            for (int i = 0; i < l; ++i) {
-                softclipQsum += qualityChar2ShortInt(alignment.Qualities.at(rp));
-                ++rp;
-            }
-        } else if (t == 'H') { // hard clip on the read, clipped sequence is not present in the read
-        } else if (t == 'N') { // skipped region in the reference not present in read, aka splice
-            sp += l;
-        }
-    }
-
 }
 
 void gswalign(vector<sn*>& nlist,
@@ -275,8 +226,21 @@ void construct_dag_and_align_single_sequence(Parameters& params) {
     }
 }
 
-bool shouldRealign(BamAlignment& alignment, string& ref, long int offset, Parameters& params) {
-    return true;
+bool shouldRealign(BamAlignment& alignment,
+                   string& ref,
+                   long int offset,
+                   Parameters& params,
+                   AlignmentStats& stats) {
+
+    if (!alignment.IsMapped()) return true;
+    Cigar cigar(alignment.CigarData);
+    countMismatchesAndGaps(alignment, cigar, ref, stats);
+    if (stats.mismatch_qsum > params.mismatch_qsum_limit
+        || stats.softclip_qsum > params.softclip_qsum_limit) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 void realign_bam(Parameters& params) {
@@ -337,7 +301,12 @@ void realign_bam(Parameters& params) {
     string ref;
     vector<sn*> nlist; // the DAG container
 
+    int total_reads = 0;
+    int total_realigned = 0;
+
     while (reader.GetNextAlignment(alignment)) {
+
+        ++total_reads;
 
         long unsigned int initialAlignmentPosition = alignment.Position;
         string& seqname = referenceIDToName[alignment.RefID];
@@ -403,7 +372,19 @@ void realign_bam(Parameters& params) {
 
         }
 
-        if (!alignment.IsMapped() || shouldRealign(alignment, ref, dag_start_position, params)) {
+        AlignmentStats stats_before;
+
+        if (shouldRealign(alignment, ref, dag_start_position, params, stats_before)) {
+
+            ++total_realigned;
+
+            if (params.debug) {
+                if (alignment.IsMapped()) {
+                    cerr << "realigning with " << stats_before.softclip_qsum << "Q in softclips" << endl;
+                } else {
+                    cerr << "realigning because not mapped" << endl;
+                }
+            }
 
             try {
 
@@ -458,6 +439,10 @@ void realign_bam(Parameters& params) {
                         alignment.Qualities = trace_report.qualities;
                     }
                     alignment.Position = (trace_report.node->position - 1) + trace_report.x;
+                    alignment.SetIsMapped(true);
+                    if (!alignment.MapQuality) {
+                        alignment.MapQuality = 20;
+                    }
 
                     // check if somehow we've ended up with an indel at the ends
                     // if so, grab the reference sequence right beyond it and add
@@ -522,6 +507,9 @@ void realign_bam(Parameters& params) {
                 writer.SaveAlignment(*a);
         }
     }
+
+    cerr << "total reads:\t" << total_reads << endl;
+    cerr << "realigned:\t" << total_realigned << endl;
 
 }
 

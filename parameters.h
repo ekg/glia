@@ -66,6 +66,9 @@ public:
     bool debug;
     bool dry_run;
 
+    int mismatch_qsum_limit;
+    int softclip_qsum_limit;
+
 };
 
 

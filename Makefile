@@ -15,7 +15,8 @@ HEADERS = dump.h \
 	split.h \
 	construct.h \
 	cigar.h \
-	utility.h
+	utility.h \
+	alignmentstats.h
 
 SOURCES = dump.cpp \
 	examples.cpp \
@@ -34,7 +35,8 @@ SOURCES = dump.cpp \
 	split.cpp \
 	construct.cpp \
 	cigar.cpp \
-	utility.cpp
+	utility.cpp \
+	alignmentstats.cpp
 
 OBJECTS= $(SOURCES:.cpp=.o)
 
