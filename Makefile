@@ -40,7 +40,7 @@ SOURCES = dump.cpp \
 
 OBJECTS= $(SOURCES:.cpp=.o)
 
-BINS = clia
+BINS = glia
 
 all: $(OBJECTS) $(BINS)
 
@@ -89,7 +89,7 @@ $(FASTAHACK):
 $(VCFLIB):
 	cd vcflib && $(MAKE)
 
-# clia build
+# glia build
 
 %.o: %.cpp %.h
 	$(CXX) -c $(*F).cpp -o $@ $(INCLUDES) $(LDFLAGS) $(CXXFLAGS)
@@ -103,7 +103,7 @@ clean:
 	cd bamtools/build && $(MAKE) clean
 	rm libbamtools.a
 
-clean-clia:
+clean-glia:
 	rm -f $(BINS) $(OBJECTS)
 
 .PHONY: clean all
