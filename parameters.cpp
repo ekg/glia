@@ -135,8 +135,13 @@ void Parameters::usage(char** argv) {
 	<< "                               output into reference-relative alignments where the DAG" << endl
 	<< "                               alignment provides a better match than the reference." << endl
     << "    -w --realignment-window    Number of bp of window to assemble from VCF for realignment." << endl
-    << "    -S --soft-clip-qsum N      If sum of qualities of soft clipped bases is > N, realign." << endl
-    << "    -Q --mismatch-qsum N       If sum of qualities of mismatched bases is > N, realign." << endl
+    << "    -S --soft-clip-qsum-threshold N"  << endl
+    << "                               If sum of qualities of soft clipped bases is > N, realign." << endl
+    << "    -Q --mismatch-qsum-threshold N" << endl
+    << "                               If sum of qualities of mismatched bases is > N, realign." << endl
+    << "    -Z --soft-clip-qsum-max N  Accept realignment if qsum of softclips is < N." << endl
+    << "    -E --mismatch-qsum-max N   Accept realignment if qsom of mismatches is < N." << endl
+    << "    -G --gap-count-max N       Accept realignment if number of gaps is < N." << endl
 	<< "    -X --dry-run               If realigning, don't output BAM (helps for debugging)." << endl;
 
 }
@@ -186,8 +191,11 @@ Parameters::Parameters(int argc, char** argv) {
     dry_run = false;
 
     realign_bam = false;
-    softclip_qsum_limit = 10000000;
-    mismatch_qsum_limit = 10000000;
+    softclip_qsum_threshold = 10000000;
+    mismatch_qsum_threshold = 10000000;
+    softclip_qsum_max = 10000000;
+    mismatch_qsum_max = 10000000;
+    gap_count_max = 10000000;
     
     int c; // counter for getopt
     
@@ -211,8 +219,11 @@ Parameters::Parameters(int argc, char** argv) {
         {"debug", no_argument, 0, 'd'},
         {"dry-run", no_argument, 0, 'X'},
         {"realign-bam", no_argument, 0, 'R'},
-        {"soft-clip-qsum", required_argument, 0, 'S'},
-        {"mismatch-qsum", required_argument, 0, 'Q'},
+        {"soft-clip-qsum-threshold", required_argument, 0, 'S'},
+        {"mismatch-qsum-threshold", required_argument, 0, 'Q'},
+        {"soft-clip-qsum-max", required_argument, 0, 'Z'},
+        {"mismatch-qsum-max", required_argument, 0, 'E'},
+        {"gap-count-max", required_argument, 0, 'G'},
         {"realignment-window", required_argument, 0, 'w'},
         {0, 0, 0, 0}
         
@@ -221,7 +232,7 @@ Parameters::Parameters(int argc, char** argv) {
     while (true) {
         int option_index = 0;
         c = getopt_long(argc, argv,
-                        "hxrXNBDRds:q:f:t:v:o:g:m:M:w:Q:S:",
+                        "hxrXNBDRds:q:f:t:v:o:g:m:M:w:Q:S:Z:E:G:",
                         long_options, &option_index);
         
         if (c == -1) // end of options
@@ -314,11 +325,23 @@ Parameters::Parameters(int argc, char** argv) {
             break;
 
         case 'Q':
-            mismatch_qsum_limit = atoi(optarg);
+            mismatch_qsum_threshold = atoi(optarg);
             break;
 
         case 'S':
-            softclip_qsum_limit = atoi(optarg);
+            softclip_qsum_threshold = atoi(optarg);
+            break;
+
+        case 'Z':
+            softclip_qsum_max = atoi(optarg);
+            break;
+
+        case 'E':
+            mismatch_qsum_max = atoi(optarg);
+            break;
+
+        case 'G':
+            gap_count_max = atoi(optarg);
             break;
 
             // -w --realignment-window

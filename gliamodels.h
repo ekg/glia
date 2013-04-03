@@ -17,6 +17,7 @@
 #include <iostream>
 #include "cigar.h"
 
+
 // forward declaration of structures
 struct ms;
 struct ts;
@@ -85,6 +86,6 @@ sn(std::string s,
 
 std::ostream& operator<<(std::ostream& o, const sn* s);
 std::ostream& operator<<(std::ostream& o, const ts& t);
-int displayDAG(const sn*);
+int displayDAG(const sn* s);
 
 #endif

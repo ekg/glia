@@ -74,6 +74,8 @@ void gswalign(vector<sn*>& nlist,
     bt backtrace_F;
     bt backtrace_R;
 
+    if (params.debug) cerr << "aligning forward" << endl;
+
     result_F = gsw(read, nlist,
                    params.match, params.mism, params.gap);
     score_F = result_F->top_score.score;
@@ -96,6 +98,7 @@ void gswalign(vector<sn*>& nlist,
 
     // check if the reverse complement provides a better alignment
     if (params.alignReverse) {
+        if (params.debug) cerr << "aligning reverse" << endl;
         string readrc = reverseComplement(read);
         string qualitiesrc = qualities;
         reverse(qualitiesrc.begin(), qualitiesrc.end());
@@ -206,7 +209,9 @@ void construct_dag_and_align_single_sequence(Parameters& params) {
              score,
              strand);
 
-    cout << score << " " << strand
+    cout << score << " " << strand << " "
+         << (trace_report.node->position - 1) + trace_report.x << " "
+         << trace_report.fcigar
          << " seq:" << trace_report.x << " read:" << trace_report.y
          << " " << trace_report.gcigar << " " << trace_report.fcigar << endl;
 
@@ -235,11 +240,28 @@ bool shouldRealign(BamAlignment& alignment,
     if (!alignment.IsMapped()) return true;
     Cigar cigar(alignment.CigarData);
     countMismatchesAndGaps(alignment, cigar, ref, stats);
-    if (stats.mismatch_qsum > params.mismatch_qsum_limit
-        || stats.softclip_qsum > params.softclip_qsum_limit) {
+    if (stats.mismatch_qsum > params.mismatch_qsum_threshold
+        || stats.softclip_qsum > params.softclip_qsum_threshold) {
         return true;
     } else {
         return false;
+    }
+}
+
+bool acceptRealignment(BamAlignment& alignment,
+                       string& ref,
+                       long int offset,
+                       Parameters& params,
+                       AlignmentStats& stats) {
+
+    Cigar cigar(alignment.CigarData);
+    countMismatchesAndGaps(alignment, cigar, ref, stats);
+    if (stats.mismatch_qsum > params.mismatch_qsum_max
+        || stats.softclip_qsum > params.softclip_qsum_max
+        || stats.gaps > params.gap_count_max) {
+        return false;
+    } else {
+        return true;
     }
 }
 
@@ -284,7 +306,6 @@ void realign_bam(Parameters& params) {
     Variant var(vcffile);
 
     BamAlignment alignment;
-    int flanking_window = dag_window_size/2; // streaming sort half the dag window size
     map<long unsigned int, vector<BamAlignment> > alignmentSortQueue;
 
     // get alignment
@@ -303,12 +324,19 @@ void realign_bam(Parameters& params) {
 
     int total_reads = 0;
     int total_realigned = 0;
+    int total_improved = 0;
+    bool emptyDAG = false; // if the dag is constructed over empty sequence
+                           // such as when realigning reads mapped to all-N sequence
 
     while (reader.GetNextAlignment(alignment)) {
 
         ++total_reads;
 
+        BamAlignment originalAlignment = alignment;
         long unsigned int initialAlignmentPosition = alignment.Position;
+        //if (dag_start_position == 1) {
+        //    dag_start_position = min(1, (int)initialAlignmentPosition - dag_window_size/2);
+        //}
         string& seqname = referenceIDToName[alignment.RefID];
 
         // should we construct a new DAG?  do so when 3/4 of the way through the current one
@@ -324,6 +352,8 @@ void realign_bam(Parameters& params) {
             // recenter DAG
             if (!nlist.empty()) {
                 dag_start_position = dag_start_position + dag_window_size/2;
+            } else {
+                dag_start_position = alignment.Position - dag_window_size/2;
             }
 
             // TODO get sequence length and use to bound noted window size (edge case)
@@ -370,15 +400,23 @@ void realign_bam(Parameters& params) {
                 cout << endl;
             }
 
+            if (nlist.size() == 1 && allN(nlist.front()->sequence)) {
+                emptyDAG = true;
+            } else {
+                emptyDAG = false;
+            }
+
         }
 
         AlignmentStats stats_before;
+        bool was_mapped = alignment.IsMapped();
 
-        if (shouldRealign(alignment, ref, dag_start_position, params, stats_before)) {
+        if (!emptyDAG && shouldRealign(alignment, ref, dag_start_position, params, stats_before)) {
 
             ++total_realigned;
 
             if (params.debug) {
+                cerr << "realigning: " << alignment.QueryBases << endl;
                 if (alignment.IsMapped()) {
                     cerr << "realigning with " << stats_before.softclip_qsum << "Q in softclips" << endl;
                 } else {
@@ -405,16 +443,20 @@ void realign_bam(Parameters& params) {
                          strand);
 
                 if (params.dry_run) {
+
                     if (strand == "-") {
                         read = reverseComplement(trace_report.read);
                     }
                     cout << read << endl
                          << trace_report.read << endl;
-                    cout << score << " " << strand
+                    cout << score << " " << strand << " "
+                         << (trace_report.node->position - 1) + trace_report.x << " "
+                         << trace_report.fcigar
                          << " seq:" << trace_report.x << " read:" << trace_report.y
                          << " " << trace_report.gcigar << " " << trace_report.fcigar << endl;
+
                 } else {
-                    // XXX todo, add softclips!q
+
                     if (strand == "-") {
                         read = reverseComplement(trace_report.read);
                     }
@@ -469,6 +511,20 @@ void realign_bam(Parameters& params) {
                     }
 
                     trace_report.fcigar.toCigarData(alignment.CigarData);
+
+                    AlignmentStats stats_after;
+                    countMismatchesAndGaps(alignment, trace_report.fcigar, ref, stats_after);
+                    if ((!was_mapped || stats_before.softclip_qsum >= stats_after.softclip_qsum)
+                        && acceptRealignment(alignment, ref, dag_start_position, params, stats_after)) {
+
+                        // keep the alignment
+                        // TODO require threshold of softclips to keep alignment (or count of gaps, mismatches,...)
+                        ++total_improved;
+                    } else {
+                        // reset to old version of alignment
+                        alignment = originalAlignment;
+                    }
+
                 }
 
             } catch (...) {
@@ -482,20 +538,19 @@ void realign_bam(Parameters& params) {
         if (!params.dry_run) {
             alignmentSortQueue[alignment.Position].push_back(alignment);
             // ensure correct order if alignments move
-            if (initialAlignmentPosition > (unsigned int) flanking_window) {
-                long unsigned int maxOutputPos = initialAlignmentPosition - flanking_window;
-                map<long unsigned int, vector<BamAlignment> >::iterator p = alignmentSortQueue.begin();
-                for ( ; p != alignmentSortQueue.end(); ++p) {
-                    if (p->first > maxOutputPos) {
-                        break; // no more to do
-                    } else {
-                        for (vector<BamAlignment>::iterator a = p->second.begin(); a != p->second.end(); ++a) {
-                            writer.SaveAlignment(*a);
-                        }
+            long unsigned int maxOutputPos = initialAlignmentPosition - dag_window_size;
+            map<long unsigned int, vector<BamAlignment> >::iterator p = alignmentSortQueue.begin();
+            for ( ; p != alignmentSortQueue.end(); ++p) {
+                if (p->first > maxOutputPos) {
+                    break; // no more to do
+                } else {
+                    for (vector<BamAlignment>::iterator a = p->second.begin(); a != p->second.end(); ++a) {
+                        writer.SaveAlignment(*a);
                     }
                 }
-                if (p != alignmentSortQueue.begin())
-                    alignmentSortQueue.erase(alignmentSortQueue.begin(), p);
+            }
+            if (p != alignmentSortQueue.begin()) {
+                alignmentSortQueue.erase(alignmentSortQueue.begin(), p);
             }
         }
     } // end GetNextAlignment loop
@@ -508,8 +563,11 @@ void realign_bam(Parameters& params) {
         }
     }
 
+    writer.Close();
+
     cerr << "total reads:\t" << total_reads << endl;
     cerr << "realigned:\t" << total_realigned << endl;
+    cerr << "improved:\t" << total_improved << endl;
 
 }
 

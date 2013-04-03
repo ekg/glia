@@ -66,8 +66,14 @@ public:
     bool debug;
     bool dry_run;
 
-    int mismatch_qsum_limit;
-    int softclip_qsum_limit;
+    // trigger realignment
+    int mismatch_qsum_threshold;
+    int softclip_qsum_threshold;
+
+    // accept realignment only if <
+    int mismatch_qsum_max;
+    int softclip_qsum_max;
+    int gap_count_max;
 
 };
 

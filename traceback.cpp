@@ -123,6 +123,12 @@ bt graphbacktrack(sn* node, int x, int y, vector<bt>& trace, string& backstr, ve
     // When inside the bottom of recursing stack, this also reassigns final results
     bt backtrace;
 
+    /*
+    cerr << "graphbacktrack " << node << " "
+         << x << " " << y << " " << trace.size() << " "
+         << backstr << " " << node_list.size() << endl;
+    */
+
     backtrace.x = x;
     backtrace.y = y;
 	
@@ -172,6 +178,7 @@ bt graphbacktrack(sn* node, int x, int y, vector<bt>& trace, string& backstr, ve
         } else {
             cout<<"BackTrace Error: Unknown Type";     // add proper error checking
         }
+
         sn* new_node = node->matrix[y][x].parent;
 
         if (new_node->name != node->name) {   // might be better way to cmp
@@ -182,7 +189,7 @@ bt graphbacktrack(sn* node, int x, int y, vector<bt>& trace, string& backstr, ve
             trace.push_back(backtrace);
             backstr.clear();
         }
-		
+
         return graphbacktrack(new_node, x, y, trace, backstr, node_list);
     }
 }

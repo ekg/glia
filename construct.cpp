@@ -61,14 +61,7 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence, string& sequenceNam
             Cigar(convert(p3_ref_seq.size()) + "M") // cigar
             );
 
-        // connect to old p3 nodes
-        for (vector<sn*>::iterator n = pp3_var_nodes.begin(); n != pp3_var_nodes.end(); ++n) {
-            p3_ref_node->p3.push_back(*n);
-            (*n)->p5.push_back(p3_ref_node);
-        }
-        pp3_var_nodes.clear();
-
-        // construct the ref node
+        // construct the ref node of variant
         sn* ref_node = new sn(
             var.ref
             ,
@@ -85,13 +78,40 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence, string& sequenceNam
             Cigar(convert(var.ref.size()) + "M") // cigar
             );
 
+        // TODO cleanup 0M reference hacks
+
         // stash p3_ and current ref nodes
-        nlist.push_back(p3_ref_node);
+
+        // if we have a 0M reference node, we need to attach the pp3 nodes
+        // to the current ref and alt nodes and ignore this node.
+        // this boolean tells us when.
+        bool zero_length_p3_ref = p3_ref_node->cigar.refLen() == 0;
+
+        if (!zero_length_p3_ref) {
+            nlist.push_back(p3_ref_node);
+        }
         nlist.push_back(ref_node);
 
+        // connect to old p3 nodes
+        for (vector<sn*>::iterator n = pp3_var_nodes.begin(); n != pp3_var_nodes.end(); ++n) {
+            p3_ref_node->p3.push_back(*n);
+            if (!zero_length_p3_ref) {
+                (*n)->p5.push_back(p3_ref_node);
+            }
+        }
+        pp3_var_nodes.clear();
+
         // connect p3_ref <-> ref
-        p3_ref_node->p5.push_back(ref_node);
-        ref_node->p3.push_back(p3_ref_node);
+        if (zero_length_p3_ref) {
+            // if 0-length, transfer connections across
+            for (vector<sn*>::iterator p = p3_ref_node->p3.begin(); p != p3_ref_node->p3.end(); ++p) {
+                (*p)->p5.push_back(ref_node);
+                ref_node->p3.push_back(*p);
+            }
+        } else {
+            p3_ref_node->p5.push_back(ref_node);
+            ref_node->p3.push_back(p3_ref_node);
+        }
 
         // store the current ref in the pp3 nodes for connection on next iteration
         pp3_var_nodes.push_back(ref_node);
@@ -123,10 +143,18 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence, string& sequenceNam
             nlist.push_back(alt_node);
             // retain for connection to ref p3_ref_node of next variant
             pp3_var_nodes.push_back(alt_node);
-            // connect to current p3_ref_node
-            alt_node->p3.push_back(p3_ref_node);
-            // and connect the p5 of the p3_ref_node to the alt node
-            p3_ref_node->p5.push_back(alt_node);
+            if (!zero_length_p3_ref) {
+                // connect to current p3_ref_node
+                alt_node->p3.push_back(p3_ref_node);
+                // and connect the p5 of the p3_ref_node to the alt node
+                p3_ref_node->p5.push_back(alt_node);
+            } else {
+                for (vector<sn*>::iterator p = p3_ref_node->p3.begin();
+                     p != p3_ref_node->p3.end(); ++p) {
+                    (*p)->p5.push_back(alt_node);
+                    alt_node->p3.push_back(*p);
+                }
+            }
         }
 
     }
@@ -150,15 +178,18 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence, string& sequenceNam
         Cigar(convert(prev_pos) + "M")
         );
 
-    // connect to old p3 nodes
-    for (vector<sn*>::iterator n = pp3_var_nodes.begin(); n != pp3_var_nodes.end(); ++n) {
-        p3_ref_node->p3.push_back(*n);
-        (*n)->p5.push_back(p3_ref_node);
+    bool zero_length_p3_ref = p3_ref_node->cigar.refLen() == 0;
+    if (!zero_length_p3_ref) { // save only if there is sequence data
+        // connect to old p3 nodes
+        for (vector<sn*>::iterator n = pp3_var_nodes.begin(); n != pp3_var_nodes.end(); ++n) {
+            p3_ref_node->p3.push_back(*n);
+            (*n)->p5.push_back(p3_ref_node);
+        }
+        pp3_var_nodes.clear();
+        
+        // save reference
+        nlist.push_back(p3_ref_node);
     }
-    pp3_var_nodes.clear();
-
-    // save reference
-    nlist.push_back(p3_ref_node);
 
     reverse(nlist.begin(), nlist.end());
 
