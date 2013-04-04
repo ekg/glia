@@ -237,6 +237,7 @@ bool shouldRealign(BamAlignment& alignment,
                    Parameters& params,
                    AlignmentStats& stats) {
 
+    if (allN(alignment.QueryBases)) return false;
     if (!alignment.IsMapped()) return true;
     Cigar cigar(alignment.CigarData);
     countMismatchesAndGaps(alignment, cigar, ref, stats);
