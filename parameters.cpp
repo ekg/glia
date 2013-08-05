@@ -131,9 +131,17 @@ void Parameters::usage(char** argv) {
 	<< endl
 	<< "local realignment:" << endl
 	<< endl
-	<< "    -R --realign-bam           Realign the BAM stream on stdin to the VCF file, flatting" << endl
-	<< "                               output into reference-relative alignments where the DAG" << endl
-	<< "                               alignment provides a better match than the reference." << endl
+	<< "    -R --realign-bam           Realign the BAM stream on stdin to the VCF file, adjusting" << endl
+    << "                               position and flattening alignments back into the reference space" << endl
+    << "                               where realignment to the graph provides better quality." << endl
+        /*
+	<< "    -R --realign-bam           Realign the BAM stream on stdin to the VCF file, adjusting" << endl
+    << "                               position and adding a graph cigar tag (@GC) to alignments which" << endl
+    << "                               have been aligned to the variant graph." << endl
+    << "    -F --flatten-alignments    Flatten output into reference-relative alignments where the DAG" << endl
+	<< "                               alignment provides a better match than the reference.  Use this" << endl
+    << "                               if you want to use alignment-based variant detectors on the output." << endl
+        */
     << "    -w --realignment-window    Number of bp of window to assemble from VCF for realignment." << endl
     << "    -S --soft-clip-qsum-threshold N"  << endl
     << "                               If sum of qualities of soft clipped bases is > N, realign." << endl
@@ -225,6 +233,7 @@ Parameters::Parameters(int argc, char** argv) {
         {"mismatch-qsum-max", required_argument, 0, 'E'},
         {"gap-count-max", required_argument, 0, 'G'},
         {"realignment-window", required_argument, 0, 'w'},
+        {"flatten-alignments", no_argument, 0, 'F'},
         {0, 0, 0, 0}
         
     };
@@ -232,7 +241,7 @@ Parameters::Parameters(int argc, char** argv) {
     while (true) {
         int option_index = 0;
         c = getopt_long(argc, argv,
-                        "hxrXNBDRds:q:f:t:v:o:g:m:M:w:Q:S:Z:E:G:",
+                        "hxrXNBDFRds:q:f:t:v:o:g:m:M:w:Q:S:Z:E:G:",
                         long_options, &option_index);
         
         if (c == -1) // end of options
@@ -322,6 +331,10 @@ Parameters::Parameters(int argc, char** argv) {
             // -R --realign-bam
         case 'R':
             realign_bam = true;
+            break;
+
+        case 'F':
+            flatten_alignments = true;
             break;
 
         case 'Q':

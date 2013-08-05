@@ -225,12 +225,14 @@ bt flatbacktrack(sn* node, int x, int y, vector<bt>& trace, Cigar& cigar,
         if (node->isref) { // if we're in the reference coordinate space
             backtrace.cigar = cigar;
         } else {
+
             /*
-            cout << "end using cigar " << cigar << " would insert sequence from "
+            cerr << "end using cigar " << cigar << " would insert sequence from "
                  << 0 << " of " << node->sequence.size() << "bp in "
                  << endl << node << endl << " to " << y << " of "
                  << cigar.readLen() << "bp in read " << trace_report.read << endl;
             */
+
             backtrace.x = 0; // matches to start of variant now
             trace_report.read.replace(y, cigar.readLen(), node->sequence);
             backtrace.cigar = node->cigar;

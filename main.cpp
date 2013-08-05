@@ -240,9 +240,14 @@ bool shouldRealign(BamAlignment& alignment,
     if (allN(alignment.QueryBases)) return false;
     if (!alignment.IsMapped()) return true;
     Cigar cigar(alignment.CigarData);
-    countMismatchesAndGaps(alignment, cigar, ref, stats);
+    countMismatchesAndGaps(alignment, cigar, ref, offset, stats);
     if (stats.mismatch_qsum > params.mismatch_qsum_threshold
         || stats.softclip_qsum > params.softclip_qsum_threshold) {
+        if (params.debug) {
+            cerr << "realigning because read " << alignment.Name << " meets mismatch (" << stats.mismatch_qsum << " vs. "
+                 << params.mismatch_qsum_threshold << ") or softclip ("
+                 << stats.softclip_qsum << " vs. " << params.softclip_qsum_threshold << ") thresholds" << endl;
+        }
         return true;
     } else {
         return false;
@@ -256,7 +261,7 @@ bool acceptRealignment(BamAlignment& alignment,
                        AlignmentStats& stats) {
 
     Cigar cigar(alignment.CigarData);
-    countMismatchesAndGaps(alignment, cigar, ref, stats);
+    countMismatchesAndGaps(alignment, cigar, ref, offset, stats);
     if (stats.mismatch_qsum > params.mismatch_qsum_max
         || stats.softclip_qsum > params.softclip_qsum_max
         || stats.gaps > params.gap_count_max) {
@@ -484,7 +489,7 @@ void realign_bam(Parameters& params) {
                     alignment.Position = (trace_report.node->position - 1) + trace_report.x;
                     alignment.SetIsMapped(true);
                     if (!alignment.MapQuality) {
-                        alignment.MapQuality = 20;
+                        alignment.MapQuality = 20; // horrible hack...
                     }
 
                     // check if somehow we've ended up with an indel at the ends
@@ -514,7 +519,7 @@ void realign_bam(Parameters& params) {
                     trace_report.fcigar.toCigarData(alignment.CigarData);
 
                     AlignmentStats stats_after;
-                    countMismatchesAndGaps(alignment, trace_report.fcigar, ref, stats_after);
+                    countMismatchesAndGaps(alignment, trace_report.fcigar, ref, dag_start_position, stats_after);
                     if ((!was_mapped || stats_before.softclip_qsum >= stats_after.softclip_qsum)
                         && acceptRealignment(alignment, ref, dag_start_position, params, stats_after)) {
 
@@ -533,6 +538,8 @@ void realign_bam(Parameters& params) {
                      << " at position " << referenceIDToName[alignment.RefID]
                      << ":" << alignment.Position
                      << " " << alignment.QueryBases << endl;
+                // reset to original alignment
+                alignment = originalAlignment;
             }
         }
 
@@ -564,6 +571,7 @@ void realign_bam(Parameters& params) {
         }
     }
 
+    reader.Close();
     writer.Close();
 
     cerr << "total reads:\t" << total_reads << endl;

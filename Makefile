@@ -100,8 +100,8 @@ $(BINS): $(BIN_SOURCES) $(OBJECTS) $(SOURCES) $(HEADERS) libbamtools.a $(FASTAHA
 clean:
 	rm -f $(BINS) $(OBJECTS)
 	cd fastahack && $(MAKE) clean
-	cd bamtools/build && $(MAKE) clean
 	rm libbamtools.a
+	cd bamtools/build && $(MAKE) clean
 
 clean-glia:
 	rm -f $(BINS) $(OBJECTS)

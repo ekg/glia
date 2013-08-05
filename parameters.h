@@ -41,6 +41,7 @@ public:
     bool useFile;               // -x --fastq-file
     bool alignReverse;          // -r --reverse-complement
     bool realign_bam;
+    bool flatten_alignments;
 
     // realignment parameters
     int dag_window_size;

@@ -4,12 +4,15 @@
 void countMismatchesAndGaps(
     BamAlignment& alignment,
     Cigar& cigar,
-    string referenceSequence,
+    string& referenceSequence,
+    long int& referenceStart,
     AlignmentStats& stats
     ) {
 
-    int sp = 0;
+    int sp = alignment.Position - referenceStart + 1;
     int rp = 0;
+    //cerr << "ref : " << referenceSequence << endl;
+    //cerr << "read: " << string(sp, ' ') << alignment.QueryBases << endl;
     for (Cigar::const_iterator c = cigar.begin();
          c != cigar.end(); ++c) {
         int l = c->length;

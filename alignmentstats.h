@@ -25,6 +25,7 @@ AlignmentStats(void)
 void countMismatchesAndGaps(
     BamAlignment& alignment,
     Cigar& cigar,
-    string referenceSequence,
+    string& referenceSequence,
+    long int& referenceStart,
     AlignmentStats& stats);
 
