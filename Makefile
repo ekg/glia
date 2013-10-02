@@ -51,17 +51,18 @@ CXX = g++
 CXXFLAGS = -O3 -D_FILE_OFFSET_BITS=64
 INCLUDES = -I$(BAMTOOLS_ROOT)/include -Ivcflib/src -Ivcflib/
 LDFLAGS =
-LIBS = -lz -lm -L./ -Lvcflib/ -Lvcflib/tabixpp/ -lbamtools -ltabix
+LIBS = -L./ -Lvcflib/ -Lvcflib/tabixpp/ -lbamtools -ltabix -lz -lm
 
 FASTAHACK = fastahack/Fasta.o
-VCFLIB = vcflib/tabixpp/tabix.o \
-	vcflib/tabixpp/bgzf.o \
-	vcflib/smithwaterman/SmithWatermanGotoh.o \
-	vcflib/smithwaterman/disorder.c \
-	vcflib/smithwaterman/LeftAlign.o \
-	vcflib/smithwaterman/Repeats.o \
-	vcflib/smithwaterman/IndelAllele.o \
-	vcflib/src/Variant.o
+VCFLIB = 	vcflib/src/Variant.o
+VCFLIB_OBS = vcflib/tabixpp/tabix.o \
+			vcflib/tabixpp/bgzf.o \
+			vcflib/smithwaterman/SmithWatermanGotoh.o \
+			vcflib/smithwaterman/disorder.c \
+			vcflib/smithwaterman/LeftAlign.o \
+			vcflib/smithwaterman/Repeats.o \
+			vcflib/smithwaterman/IndelAllele.o \
+
 
 #SSW = ssw.o ssw_cpp.o
 
@@ -86,7 +87,7 @@ libbamtools.a:
 $(FASTAHACK):
 	cd fastahack && $(MAKE)
 
-$(VCFLIB):
+$(VCFLIB): libbamtools.a
 	cd vcflib && $(MAKE)
 
 # glia build
@@ -94,13 +95,13 @@ $(VCFLIB):
 %.o: %.cpp %.h $(VCFLIB)
 	$(CXX) -c $(*F).cpp -o $@ $(INCLUDES) $(LDFLAGS) $(CXXFLAGS)
 
-$(BINS): $(OBJECTS) $(SOURCES) $(HEADERS) libbamtools.a $(FASTAHACK) jsoncpp.o $(VCFLIB)
-	$(CXX) -o $@ $(INCLUDES) $(FASTAHACK) $(VCFLIB) $(OBJECTS) $(LDFLAGS) $(CXXFLAGS) $(LIBS)
+$(BINS): $(OBJECTS) $(SOURCES) $(HEADERS) $(FASTAHACK) jsoncpp.o $(VCFLIB) libbamtools.a
+	$(CXX) -o $@ $(INCLUDES) $(FASTAHACK) $(VCFLIB) $(VCFLIB_OBS) $(OBJECTS) $(LDFLAGS) $(CXXFLAGS) $(LIBS)
 
 clean:
 	rm -f $(BINS) $(OBJECTS)
 	cd fastahack && $(MAKE) clean
-	rm libbamtools.a
+	rm -f libbamtools.a
 	cd bamtools/build && $(MAKE) clean
 
 clean-glia:
