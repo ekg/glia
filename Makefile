@@ -49,7 +49,7 @@ BAMTOOLS_LIB_DIR=bamtools/lib
 
 CXX = g++
 CXXFLAGS = -O3 -D_FILE_OFFSET_BITS=64
-INCLUDES = -I$(BAMTOOLS_ROOT)/include
+INCLUDES = -I$(BAMTOOLS_ROOT)/include -Ivcflib/src -Ivcflib/
 LDFLAGS =
 LIBS = -lz -lm -L./ -Lvcflib/tabixpp/ -lbamtools -ltabix
 
@@ -61,7 +61,7 @@ VCFLIB = vcflib/tabixpp/tabix.o \
 	vcflib/smithwaterman/LeftAlign.o \
 	vcflib/smithwaterman/Repeats.o \
 	vcflib/smithwaterman/IndelAllele.o \
-	vcflib/Variant.o
+	vcflib/src/Variant.o
 
 #SSW = ssw.o ssw_cpp.o
 
@@ -94,7 +94,7 @@ $(VCFLIB):
 %.o: %.cpp %.h
 	$(CXX) -c $(*F).cpp -o $@ $(INCLUDES) $(LDFLAGS) $(CXXFLAGS)
 
-$(BINS): $(BIN_SOURCES) $(OBJECTS) $(SOURCES) $(HEADERS) libbamtools.a $(FASTAHACK) jsoncpp.o $(VCFLIB)
+$(BINS): $(OBJECTS) $(SOURCES) $(HEADERS) libbamtools.a $(FASTAHACK) jsoncpp.o $(VCFLIB)
 	$(CXX) -o $@ $(INCLUDES) $(FASTAHACK) $(VCFLIB) $(OBJECTS) $(LDFLAGS) $(CXXFLAGS) $(LIBS)
 
 clean:

@@ -23,7 +23,7 @@
 #include "construct.h"
 #include "utility.h"
 #include "alignmentstats.h"
-#include "vcflib/Variant.h"
+#include "Variant.h"
 #include "fastahack/Fasta.h"
 
 #include "api/BamReader.h"
@@ -333,15 +333,21 @@ void realign_bam(Parameters& params) {
     int total_improved = 0;
     bool emptyDAG = false; // if the dag is constructed over empty sequence
                            // such as when realigning reads mapped to all-N sequence
+    if (params.debug) {
+        cerr << "about to start processing alignments" << endl;
+    }
 
     while (reader.GetNextAlignment(alignment)) {
+        if (params.debug) {
+            cerr << "processing alignment " << alignment.Name << ":" << alignment.Position << endl;
+        }
 
         ++total_reads;
 
         BamAlignment originalAlignment = alignment;
         long unsigned int initialAlignmentPosition = alignment.Position;
         //if (dag_start_position == 1) {
-        //    dag_start_position = min(1, (int)initialAlignmentPosition - dag_window_size/2);
+        //    dag_start_position = max(1, (int)initialAlignmentPosition - dag_window_size/2);
         //}
         string& seqname = referenceIDToName[alignment.RefID];
 
@@ -363,7 +369,9 @@ void realign_bam(Parameters& params) {
             }
 
             // TODO get sequence length and use to bound noted window size (edge case)
-            ref = reference.getSubSequence(seqname, dag_start_position - 1, dag_window_size); // 0/1 conversion
+            ref = reference.getSubSequence(seqname,
+                                           max((long int) 0, dag_start_position - 1),
+                                           dag_window_size); // 0/1 conversion
 
             // get variants for new DAG
             vector<Variant> variants;
@@ -376,7 +384,9 @@ void realign_bam(Parameters& params) {
                 exit(1);
             } else {
                 while (vcffile.getNextVariant(var)) {
-                    if (var.position + var.ref.length() <= dag_start_position + ref.size()) {
+                    if (params.debug) cerr << "getting variant " << var << endl;
+                    if (var.position + var.ref.length() <= dag_start_position + ref.size()
+                        && var.position >= dag_start_position) {
                         variants.push_back(var);
                     }
                 }
@@ -388,6 +398,9 @@ void realign_bam(Parameters& params) {
             }
             nlist.clear();
 
+
+            cerr << dag_start_position << endl;
+            if (params.debug) { cerr << "constructing DAG" << endl; }
             // and build the DAG
             constructDAG(nlist,
                          ref,
@@ -395,7 +408,7 @@ void realign_bam(Parameters& params) {
                          variants,
                          dag_start_position);
 
-            if (params.display_dag) {
+            if (params.display_dag || params.debug) {
                 cout << "DAG generated from input variants over "
                      << seqname << ":" << dag_start_position << "-" << dag_window_size
                      << endl;

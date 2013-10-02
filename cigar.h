@@ -5,7 +5,7 @@
 #include <utility>
 #include <sstream>
 #include <vector>
-#include "vcflib/Variant.h"
+#include "Variant.h"
 #include "api/BamAux.h"  // CigarOp for conversion
 
 using namespace std;

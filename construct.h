@@ -11,7 +11,7 @@
 
 #include <string>
 #include <vector>
-#include "vcflib/Variant.h"
+#include "Variant.h"
 #include "gliamodels.h"
 #include "cigar.h"
 

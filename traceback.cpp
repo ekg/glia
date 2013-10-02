@@ -42,6 +42,7 @@ bt master_backtrack(sn* node, mbt &trace_report, string& read, string& qualities
     reverse(trace.begin(), trace.end());
     vector<bt>::iterator t = trace.begin();
     stringstream gcigarss;
+    //vector<GraphAlignment> galignment;
     for ( ; t != trace.end() && t != trace.end(); ++t) {
         reverse(t->backstr.begin(), t->backstr.end());
         gcigarss << t->node->name << ":"

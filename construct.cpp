@@ -18,12 +18,12 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence, string& sequenceNam
                  vector<Variant> &variants, long offset) {
 
     /*
-    cout << "constructing DAG over "
+    cerr << "constructing DAG over "
          << targetSequence.size()
          << " and " << variants.size()
          << " variants with offset " << offset << endl;
 
-    cout << "target:\t" << targetSequence << endl;
+    cerr << "target:\t" << targetSequence << endl;
     */
 
     long prev_pos = targetSequence.size();
@@ -35,10 +35,15 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence, string& sequenceNam
         rit != variants.rend(); ++rit) {
 
         Variant& var = *rit;
-        int current_pos = var.position - offset + var.ref.size();
+        int current_pos = (long int) var.position - (long int) offset + var.ref.size();
 
-        // Construct Right-Node    
+        // Construct Right-Node
+        cerr << "substr... " << endl;
+        cerr << "current_pos " << current_pos << endl
+             << "prev_pos " << prev_pos << endl
+             << "prev_pos - current_pos " << prev_pos - current_pos << endl;
         p3_ref_seq = targetSequence.substr(current_pos, prev_pos - current_pos);
+        cerr << "made it" << endl;
 
         // new previous position is at the start of the variant
         prev_pos = var.position - offset;
