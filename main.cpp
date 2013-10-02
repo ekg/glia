@@ -399,7 +399,6 @@ void realign_bam(Parameters& params) {
             nlist.clear();
 
 
-            cerr << dag_start_position << endl;
             if (params.debug) { cerr << "constructing DAG" << endl; }
             // and build the DAG
             constructDAG(nlist,
