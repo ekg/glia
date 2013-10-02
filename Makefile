@@ -51,7 +51,7 @@ CXX = g++
 CXXFLAGS = -O3 -D_FILE_OFFSET_BITS=64
 INCLUDES = -I$(BAMTOOLS_ROOT)/include -Ivcflib/src -Ivcflib/
 LDFLAGS =
-LIBS = -lz -lm -L./ -Lvcflib/tabixpp/ -lbamtools -ltabix
+LIBS = -lz -lm -L./ -Lvcflib/ -Lvcflib/tabixpp/ -lbamtools -ltabix
 
 FASTAHACK = fastahack/Fasta.o
 VCFLIB = vcflib/tabixpp/tabix.o \
@@ -91,7 +91,7 @@ $(VCFLIB):
 
 # glia build
 
-%.o: %.cpp %.h
+%.o: %.cpp %.h $(VCFLIB)
 	$(CXX) -c $(*F).cpp -o $@ $(INCLUDES) $(LDFLAGS) $(CXXFLAGS)
 
 $(BINS): $(OBJECTS) $(SOURCES) $(HEADERS) libbamtools.a $(FASTAHACK) jsoncpp.o $(VCFLIB)
