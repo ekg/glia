@@ -312,7 +312,7 @@ void realign_bam(Parameters& params) {
     Variant var(vcffile);
 
     BamAlignment alignment;
-    map<long unsigned int, vector<BamAlignment> > alignmentSortQueue;
+    map<long int, vector<BamAlignment> > alignmentSortQueue;
 
     // get alignment
     // assemble DAG in region around alignment
@@ -384,7 +384,7 @@ void realign_bam(Parameters& params) {
                 exit(1);
             } else {
                 while (vcffile.getNextVariant(var)) {
-                    if (params.debug) cerr << "getting variant " << var << endl;
+                    if (params.debug) cerr << "getting variant at " << var.sequenceName << ":" << var.position << endl;
                     if (var.position + var.ref.length() <= dag_start_position + ref.size()
                         && var.position >= dag_start_position) {
                         variants.push_back(var);
@@ -558,8 +558,8 @@ void realign_bam(Parameters& params) {
         if (!params.dry_run) {
             alignmentSortQueue[alignment.Position].push_back(alignment);
             // ensure correct order if alignments move
-            long unsigned int maxOutputPos = initialAlignmentPosition - dag_window_size;
-            map<long unsigned int, vector<BamAlignment> >::iterator p = alignmentSortQueue.begin();
+            long int maxOutputPos = initialAlignmentPosition - dag_window_size;
+            map<long int, vector<BamAlignment> >::iterator p = alignmentSortQueue.begin();
             for ( ; p != alignmentSortQueue.end(); ++p) {
                 if (p->first > maxOutputPos) {
                     break; // no more to do
@@ -576,7 +576,7 @@ void realign_bam(Parameters& params) {
     } // end GetNextAlignment loop
 
     if (!params.dry_run) {
-        map<long unsigned int, vector<BamAlignment> >::iterator p = alignmentSortQueue.begin();
+        map<long int, vector<BamAlignment> >::iterator p = alignmentSortQueue.begin();
         for ( ; p != alignmentSortQueue.end(); ++p) {
             for (vector<BamAlignment>::iterator a = p->second.begin(); a != p->second.end(); ++a)
                 writer.SaveAlignment(*a);

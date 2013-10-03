@@ -11,12 +11,24 @@ void countMismatchesAndGaps(
 
     int sp = alignment.Position - referenceStart + 1;
     int rp = 0;
-    //cerr << "ref : " << referenceSequence << endl;
-    //cerr << "read: " << string(sp, ' ') << alignment.QueryBases << endl;
+    //cerr << "ref  : " << referenceSequence << endl;
+    /*
+    cerr << "read : " << alignment.QueryBases << endl;
+    cerr << "quals: " << alignment.Qualities << endl;
+    cerr << "cigar: ";
     for (Cigar::const_iterator c = cigar.begin();
          c != cigar.end(); ++c) {
         int l = c->length;
         char t = c->type;
+        cerr << l << t;
+    }
+    cerr << endl;
+    */
+    for (Cigar::const_iterator c = cigar.begin();
+         c != cigar.end(); ++c) {
+        int l = c->length;
+        char t = c->type;
+        //cerr << l << t << " " << sp << " " << rp << endl;
         if (t == 'M') { // match or mismatch
             for (int i = 0; i < l; ++i) {
                 if (alignment.QueryBases.at(rp) != referenceSequence.at(sp)) {
