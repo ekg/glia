@@ -148,7 +148,9 @@ void Parameters::usage(char** argv) {
         << "    -E --mismatch-qsum-max N   Accept realignment if qsom of mismatches is < N." << endl
         << "    -G --gap-count-max N       Accept realignment if number of gaps is < N." << endl
         << "    -X --dry-run               If realigning, don't output BAM (helps for debugging)." << endl
-        << "    -O --only-realigned        Emit only realigned records (debugging)." << endl;
+        << "    -O --only-realigned        Emit only realigned records (debugging)." << endl
+        << "    -n --flatten-flank N       Use this many bp of dummy sequence when flattening large" << endl
+        << "                               insertions into reference coordinates (default: 2)" << endl;
 }
 
 
@@ -202,6 +204,9 @@ Parameters::Parameters(int argc, char** argv) {
     softclip_qsum_max = 10000000;
     mismatch_qsum_max = 10000000;
     gap_count_max = 10000000;
+
+    flatten_alignments = true;
+    flatten_flank = 2;
     
     int c; // counter for getopt
     
@@ -233,6 +238,7 @@ Parameters::Parameters(int argc, char** argv) {
         {"realignment-window", required_argument, 0, 'w'},
         {"flatten-alignments", no_argument, 0, 'F'},
         {"only-realigned", no_argument, 0, 'O'},
+        {"flatten-flank", required_argument, 0, 'n'},
         {0, 0, 0, 0}
         
     };
@@ -240,7 +246,7 @@ Parameters::Parameters(int argc, char** argv) {
     while (true) {
         int option_index = 0;
         c = getopt_long(argc, argv,
-                        "hxrXONBDFRds:q:f:t:v:o:g:m:M:w:Q:S:Z:E:G:",
+                        "hxrXONBDFRds:q:f:t:v:o:g:m:M:w:Q:S:Z:E:G:n:",
                         long_options, &option_index);
         
         if (c == -1) // end of options
@@ -338,6 +344,10 @@ Parameters::Parameters(int argc, char** argv) {
 
         case 'F':
             flatten_alignments = true;
+            break;
+
+        case 'n':
+            flatten_flank = atoi(optarg);
             break;
 
         case 'Q':

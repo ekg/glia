@@ -42,6 +42,7 @@ public:
     bool alignReverse;          // -r --reverse-complement
     bool realign_bam;
     bool flatten_alignments;
+    int flatten_flank;
 
     // realignment parameters
     int dag_window_size;

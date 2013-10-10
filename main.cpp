@@ -512,10 +512,11 @@ void realign_bam(Parameters& params) {
                     // to run on the results without internal modification
                     Cigar& cigar = trace_report.fcigar;
 
+                    int flankSize = params.flatten_flank;
                     if (cigar.front().isIndel() ||
                         (cigar.front().isSoftclip() && cigar.at(1).isIndel())) {
-                        alignment.Position -= 1;
-                        string refBase = reference.getSubSequence(seqname, alignment.Position, 1);
+                        alignment.Position -= flankSize;
+                        string refBase = reference.getSubSequence(seqname, alignment.Position, flankSize);
                         if (cigar.front().isSoftclip()) {
                             alignment.QueryBases.erase(alignment.QueryBases.begin(),
                                                        alignment.QueryBases.begin()+cigar.front().length);
@@ -524,8 +525,8 @@ void realign_bam(Parameters& params) {
                             cigar.erase(cigar.begin());
                         }
                         alignment.QueryBases.insert(0, refBase);
-                        alignment.Qualities.insert(0, string(1, shortInt2QualityChar(30)));
-                        Cigar newCigar("1M");
+                        alignment.Qualities.insert(0, string(flankSize, shortInt2QualityChar(30)));
+                        Cigar newCigar; newCigar.push_back(CigarElement(flankSize, 'M'));
                         newCigar.append(trace_report.fcigar);
                         trace_report.fcigar = newCigar;
                     }
@@ -534,7 +535,7 @@ void realign_bam(Parameters& params) {
                         string refBase = reference.getSubSequence(seqname,
                                                                   alignment.Position
                                                                   + trace_report.fcigar.refLen(),
-                                                                  1);
+                                                                  flankSize);
                         if (cigar.back().isSoftclip()) {
                             alignment.QueryBases.erase(alignment.QueryBases.end()-cigar.back().length,
                                                        alignment.QueryBases.end());
@@ -542,9 +543,10 @@ void realign_bam(Parameters& params) {
                                                       alignment.Qualities.end());
                             cigar.pop_back();
                         }
-                        trace_report.fcigar.append(Cigar("1M"));
+                        Cigar newCigar; newCigar.push_back(CigarElement(flankSize, 'M'));
+                        trace_report.fcigar.append(newCigar);
                         alignment.QueryBases.append(refBase);
-                        alignment.Qualities.append(string(1, shortInt2QualityChar(30)));
+                        alignment.Qualities.append(string(flankSize, shortInt2QualityChar(30)));
                     }
 
                     trace_report.fcigar.toCigarData(alignment.CigarData);
