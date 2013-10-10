@@ -9,13 +9,15 @@ void CigarElement::clear(void) {
 }
 
 bool CigarElement::isInsertion(void) {
-    if (type == 'I') return true;
-    else return false;
+    return type == 'I';
 }
 
 bool CigarElement::isDeletion(void) {
-    if (type == 'D') return true;
-    else return false;
+    return type == 'D';
+}
+
+bool CigarElement::isSoftclip(void) {
+    return type == 'S';
 }
 
 bool CigarElement::isIndel(void) {

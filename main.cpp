@@ -428,6 +428,7 @@ void realign_bam(Parameters& params) {
 
         AlignmentStats stats_before;
         bool was_mapped = alignment.IsMapped();
+        bool has_realigned = false;
 
         if (!emptyDAG && shouldRealign(alignment, ref, dag_start_position, params, stats_before)) {
 
@@ -462,9 +463,9 @@ void realign_bam(Parameters& params) {
 
                 if (params.dry_run) {
 
-                    if (strand == "-") {
-                        read = reverseComplement(trace_report.read);
-                    }
+                    //if (strand == "-" && !alignment.IsMapped()) {
+                    //    read = reverseComplement(trace_report.read);
+                    //}
                     cout << read << endl
                          << trace_report.read << endl;
                     cout << score << " " << strand << " "
@@ -475,23 +476,24 @@ void realign_bam(Parameters& params) {
 
                 } else {
 
+                    /*
                     if (strand == "-") {
                         read = reverseComplement(trace_report.read);
                     }
-                    /*
-                    cerr << read << endl
-                         << trace_report.read << endl;
-                    cerr << score << " " << strand
-                         << " seq:" << trace_report.x << " read:" << trace_report.y
-                         << " " << trace_report.gcigar << " " << trace_report.fcigar << endl;
+                      cerr << read << endl
+                      << trace_report.read << endl;
+                      cerr << score << " " << strand
+                      << " seq:" << trace_report.x << " read:" << trace_report.y
+                      << " " << trace_report.gcigar << " " << trace_report.fcigar << endl;
                     */
                     // TODO the qualities are not on the right side of the read
-                    if (strand == "-") {
+                    if (strand == "-" && alignment.IsMapped()) {
                         // if we're realigning, this is always true unless we swapped strands
                         alignment.SetIsReverseStrand(true);
-                        alignment.QueryBases = reverseComplement(trace_report.read);
+                        //alignment.QueryBases = reverseComplement(trace_report.read);
+                        alignment.QueryBases = trace_report.read;
                         alignment.Qualities = trace_report.qualities;
-                        reverse(alignment.Qualities.begin(), alignment.Qualities.end()); // reverse qualities
+                        //reverse(alignment.Qualities.begin(), alignment.Qualities.end()); // reverse qualities
                     } else {
                         // nothing to do for forward strand---
                         // BAM is already 5'-3' except for reverse strand flag
@@ -509,20 +511,37 @@ void realign_bam(Parameters& params) {
                     // a single match to the cigar, allowing variant detection methods
                     // to run on the results without internal modification
                     Cigar& cigar = trace_report.fcigar;
-                    if (cigar.front().isIndel()) {
+
+                    if (cigar.front().isIndel() ||
+                        (cigar.front().isSoftclip() && cigar.at(1).isIndel())) {
                         alignment.Position -= 1;
                         string refBase = reference.getSubSequence(seqname, alignment.Position, 1);
+                        if (cigar.front().isSoftclip()) {
+                            alignment.QueryBases.erase(alignment.QueryBases.begin(),
+                                                       alignment.QueryBases.begin()+cigar.front().length);
+                            alignment.Qualities.erase(alignment.Qualities.begin(),
+                                                       alignment.Qualities.begin()+cigar.front().length);
+                            cigar.erase(cigar.begin());
+                        }
                         alignment.QueryBases.insert(0, refBase);
                         alignment.Qualities.insert(0, string(1, shortInt2QualityChar(30)));
                         Cigar newCigar("1M");
                         newCigar.append(trace_report.fcigar);
                         trace_report.fcigar = newCigar;
                     }
-                    if (cigar.back().isIndel()) {
+                    if (cigar.back().isIndel() ||
+                        (cigar.back().isSoftclip() && cigar.at(cigar.size()-2).isIndel())) {
                         string refBase = reference.getSubSequence(seqname,
                                                                   alignment.Position
                                                                   + trace_report.fcigar.refLen(),
                                                                   1);
+                        if (cigar.back().isSoftclip()) {
+                            alignment.QueryBases.erase(alignment.QueryBases.end()-cigar.back().length,
+                                                       alignment.QueryBases.end());
+                            alignment.Qualities.erase(alignment.Qualities.end()-cigar.back().length,
+                                                      alignment.Qualities.end());
+                            cigar.pop_back();
+                        }
                         trace_report.fcigar.append(Cigar("1M"));
                         alignment.QueryBases.append(refBase);
                         alignment.Qualities.append(string(1, shortInt2QualityChar(30)));
@@ -538,8 +557,10 @@ void realign_bam(Parameters& params) {
                         // keep the alignment
                         // TODO require threshold of softclips to keep alignment (or count of gaps, mismatches,...)
                         ++total_improved;
+                        has_realigned = true;
                     } else {
                         // reset to old version of alignment
+                        has_realigned = false;
                         alignment = originalAlignment;
                     }
 
@@ -551,12 +572,15 @@ void realign_bam(Parameters& params) {
                      << ":" << alignment.Position
                      << " " << alignment.QueryBases << endl;
                 // reset to original alignment
+                has_realigned = false;
                 alignment = originalAlignment;
             }
         }
 
         if (!params.dry_run) {
-            alignmentSortQueue[alignment.Position].push_back(alignment);
+            if (!params.only_realigned || has_realigned) {
+                alignmentSortQueue[alignment.Position].push_back(alignment);
+            }
             // ensure correct order if alignments move
             long int maxOutputPos = initialAlignmentPosition - dag_window_size;
             map<long int, vector<BamAlignment> >::iterator p = alignmentSortQueue.begin();

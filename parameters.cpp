@@ -102,56 +102,53 @@ void Parameters::simpleUsage(char ** argv) {
 
 void Parameters::usage(char** argv) {
     cout
-	<< "usage: " << argv[0] << " -s [SEQUENCE] -f [REFERENCE] -t [TARGET] -v [VCF-FILE] > [OUTPUT]" << endl
-	<< "Please see README at http://www.github.com/denizkural/clia" << endl
-	<< "authors:   Deniz Kural <denizkural@gmail.com>" << endl
-	<< "           Erik Garrison <erik.garrison@gmail.com>" << endl
-	<< endl
-	<< "general parameters:" << endl
-	<< endl
-	<< "    -h --help                  This dialog." << endl
-	//<< "    -q --fastq-file FILE       The fastq file from which to draw reads" << endl
-	<< "    -f --fasta-reference FILE  The reference sequence for alignment." << endl
-	<< "    -v --vcf-file FILE         The genome DAG, BGZIP'ed (.vcf.gz) and tabix-indexed (.tbi)" << endl
-	//<< "    -o --output-file FILE      Write alignments in BAM format to FILE." << endl
-	<< "    -m --match N               The alignment match score (integer, default 10)." << endl
-	<< "    -M --mismatch N            The alignment mismatch score (integer, default -10)." << endl
-	<< "    -g --gap N                 The alignment gap score (integer, default -10)." << endl
-	<< endl
-	<< "single-read alignment:" << endl
-	<< endl
-	<< "    -s --sequence SEQ          The sequence to align." << endl
-	<< "    -t --target TARGET         Target genomic region for alignment, e.g. chr2:1-20" << endl
-	<< "    -D --display-dag           Write DAG generated from variants to stdout." << endl
-	<< "    -B --display-backtrace     Write alignment matrix results to stdout." << endl
-	<< "    -N --display-all-nodes     Same as -B but also for nodes which are not traced." << endl
+        << "usage: " << argv[0] << " -s [SEQUENCE] -f [REFERENCE] -t [TARGET] -v [VCF-FILE] > [OUTPUT]" << endl
+        << "Please see README at http://www.github.com/denizkural/clia" << endl
+        << "authors:   Deniz Kural <denizkural@gmail.com>" << endl
+        << "           Erik Garrison <erik.garrison@gmail.com>" << endl
+        << endl
+        << "general parameters:" << endl
+        << endl
+        << "    -h --help                  This dialog." << endl
+        //<< "    -q --fastq-file FILE       The fastq file from which to draw reads" << endl
+        << "    -f --fasta-reference FILE  The reference sequence for alignment." << endl
+        << "    -v --vcf-file FILE         The genome DAG, BGZIP'ed (.vcf.gz) and tabix-indexed (.tbi)" << endl
+        //<< "    -o --output-file FILE      Write alignments in BAM format to FILE." << endl
+        << "    -m --match N               The alignment match score (integer, default 10)." << endl
+        << "    -M --mismatch N            The alignment mismatch score (integer, default -10)." << endl
+        << "    -g --gap N                 The alignment gap score (integer, default -10)." << endl
+        << endl
+        << "single-read alignment:" << endl
+        << endl
+        << "    -s --sequence SEQ          The sequence to align." << endl
+        << "    -t --target TARGET         Target genomic region for alignment, e.g. chr2:1-20" << endl
+        << "    -D --display-dag           Write DAG generated from variants to stdout." << endl
+        << "    -B --display-backtrace     Write alignment matrix results to stdout." << endl
+        << "    -N --display-all-nodes     Same as -B but also for nodes which are not traced." << endl
         //<< "    -P --display-alignment     Print sequence from DAG and read sequence." << endl
-	<< "    -d --debug                 Enable debugging output." << endl
-	<< "    -r --reverse-complement    Report the reverse complement if it provides a better alignment." << endl
-	<< endl
-	<< "local realignment:" << endl
-	<< endl
-	<< "    -R --realign-bam           Realign the BAM stream on stdin to the VCF file, adjusting" << endl
-    << "                               position and flattening alignments back into the reference space" << endl
-    << "                               where realignment to the graph provides better quality." << endl
-        /*
-	<< "    -R --realign-bam           Realign the BAM stream on stdin to the VCF file, adjusting" << endl
-    << "                               position and adding a graph cigar tag (@GC) to alignments which" << endl
-    << "                               have been aligned to the variant graph." << endl
-    << "    -F --flatten-alignments    Flatten output into reference-relative alignments where the DAG" << endl
-	<< "                               alignment provides a better match than the reference.  Use this" << endl
-    << "                               if you want to use alignment-based variant detectors on the output." << endl
+        << "    -d --debug                 Enable debugging output." << endl
+        << "    -r --reverse-complement    Report the reverse complement if it provides a better alignment." << endl
+        << endl
+        << "local realignment:" << endl
+        << endl
+        << "    -R --realign-bam           Realign the BAM stream on stdin to the VCF file, adjusting" << endl
+        << "                               position and flattening alignments back into the reference space" << endl
+        << "                               where realignment to the graph provides better quality." << endl
+/*
+          << "    -F --flatten-alignments    Flatten output into reference-relative alignments where the DAG" << endl
+          << "                               alignment provides a better match than the reference.  Use this" << endl
+          << "                               if you want to use alignment-based variant detectors on the output." << endl
         */
-    << "    -w --realignment-window    Number of bp of window to assemble from VCF for realignment." << endl
-    << "    -S --soft-clip-qsum-threshold N"  << endl
-    << "                               If sum of qualities of soft clipped bases is > N, realign." << endl
-    << "    -Q --mismatch-qsum-threshold N" << endl
-    << "                               If sum of qualities of mismatched bases is > N, realign." << endl
-    << "    -Z --soft-clip-qsum-max N  Accept realignment if qsum of softclips is < N." << endl
-    << "    -E --mismatch-qsum-max N   Accept realignment if qsom of mismatches is < N." << endl
-    << "    -G --gap-count-max N       Accept realignment if number of gaps is < N." << endl
-	<< "    -X --dry-run               If realigning, don't output BAM (helps for debugging)." << endl;
-
+        << "    -w --realignment-window    Number of bp of window to assemble from VCF for realignment." << endl
+        << "    -S --soft-clip-qsum-threshold N"  << endl
+        << "                               If sum of qualities of soft clipped bases is > N, realign." << endl
+        << "    -Q --mismatch-qsum-threshold N" << endl
+        << "                               If sum of qualities of mismatched bases is > N, realign." << endl
+        << "    -Z --soft-clip-qsum-max N  Accept realignment if qsum of softclips is < N." << endl
+        << "    -E --mismatch-qsum-max N   Accept realignment if qsom of mismatches is < N." << endl
+        << "    -G --gap-count-max N       Accept realignment if number of gaps is < N." << endl
+        << "    -X --dry-run               If realigning, don't output BAM (helps for debugging)." << endl
+        << "    -O --only-realigned        Emit only realigned records (debugging)." << endl;
 }
 
 
@@ -197,6 +194,7 @@ Parameters::Parameters(int argc, char** argv) {
 
     debug = false;
     dry_run = false;
+    only_realigned = false;
 
     realign_bam = false;
     softclip_qsum_threshold = 10000000;
@@ -234,6 +232,7 @@ Parameters::Parameters(int argc, char** argv) {
         {"gap-count-max", required_argument, 0, 'G'},
         {"realignment-window", required_argument, 0, 'w'},
         {"flatten-alignments", no_argument, 0, 'F'},
+        {"only-realigned", no_argument, 0, 'O'},
         {0, 0, 0, 0}
         
     };
@@ -241,7 +240,7 @@ Parameters::Parameters(int argc, char** argv) {
     while (true) {
         int option_index = 0;
         c = getopt_long(argc, argv,
-                        "hxrXNBDFRds:q:f:t:v:o:g:m:M:w:Q:S:Z:E:G:",
+                        "hxrXONBDFRds:q:f:t:v:o:g:m:M:w:Q:S:Z:E:G:",
                         long_options, &option_index);
         
         if (c == -1) // end of options
@@ -301,6 +300,10 @@ Parameters::Parameters(int argc, char** argv) {
             // -X --dry-run
 	    case 'X':
             dry_run = true;
+            break;
+
+        case 'O':
+            only_realigned = true;
             break;
 
             // -D --display-dag

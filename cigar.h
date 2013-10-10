@@ -18,6 +18,7 @@ struct CigarElement {
     bool isInsertion();
     bool isDeletion();
     bool isIndel();
+    bool isSoftclip();
 CigarElement() : length(0), type('M') { }
 CigarElement(int l, char t) : length(l), type(t) { }
 };
