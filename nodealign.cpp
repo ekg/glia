@@ -44,7 +44,7 @@ struct cmp_parent_nodes {
  * TODO:    Check consistency of char vs int
  *
  */
-int StringNodeAlign(string read, int read_length, sn &node, int match, int mism, int gap) {
+int StringNodeAlign(string& read, int read_length, sn &node, int match, int mism, int gap) {
     /* Main Alignment Algorithm for String and Node */
 	
     // Initialize variables
@@ -197,9 +197,3 @@ int StringNodeAlign(string read, int read_length, sn &node, int match, int mism,
     //cerr << "done with StringNodeAlign" << endl;
     return 0;
 }
-
-
-
-	
-	
-	

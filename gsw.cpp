@@ -59,26 +59,14 @@ int getDepth(sn* node) {
 
 sn* sequenceDagAlign(string sequence, vector<sn*> nlist, int maxdepth,
 		     const int match, const int mism, const int gap) {
-    /* Notes:
-     * (1) Map out the data model!
-     * (2) Strictly speaking creaeting a new top_node pointer is probably unnecessary
-     * (3) Not done: "choose by property", and a good way of iterating through DAG,
-     *     TODO: I suspect the proper way is to define an iterator on a DAG struct (should be fun)
-     */
-	
-    //Creates an empty dictionary that is a collection of JSON objects produced by the nodes in the DAG
-    // jlist = []
 
-    // declare & initialize variables
     int top_score = 0;
     sn* top_node = NULL;
 
-    for (int i = 1; i < maxdepth + 1; i++) {						// why 1, +1? 
-        // py: for node in [x for x in nlist if x.depth == i] {     // random order where orders are equal?
+    for (int i = 1; i < maxdepth + 1; ++i) {						// why 1, +1? 
         vector<sn*>::iterator t;									// good place for vector iteration?
         for (t=nlist.begin(); t!=nlist.end(); ++t) {
             if ((*t)->depth == i) {
-                //jlist.append(node.jsonize());						// NOT PORTED
                 StringNodeAlign(sequence, sequence.length(), **t,
                                 match, mism, gap);
                 if ((*t)->top_score.score > top_score) {
@@ -101,9 +89,6 @@ sn* gsw(string read, vector<sn*> nlist,
      */
     int maxdepth;
 
-    /* py: for node in nlist:
-     *       node.depth = getDepth(node)
-     */
     vector<sn*>::iterator t;
     for (t=nlist.begin(); t!=nlist.end(); ++t) {
         (*t)->depth = getDepth(*t);
@@ -112,7 +97,6 @@ sn* gsw(string read, vector<sn*> nlist,
         (*t)->initScore(read.size());
     }
 		
-    // py: maxdepth = max([node.depth for node in nlist]);
     sort(nlist.begin(), nlist.end(), my_depth_compare);
     maxdepth = -1;
     for (t=nlist.begin(); t!=nlist.end(); ++t) {
@@ -135,13 +119,6 @@ sn* gsw(string read, vector<sn*> nlist,
 	
     //alignment = nodealign.master_backtrack(result);
     
-
-    // py: print(json.dumps(result[1],indent=2));
-    // py: cProfile.run('for i in range(10): sdagal(read, nlist, maxdepth)');
-
-    // py: utils.mgrPrint(nlist, read);
-    // py: print result.id, result.top_score;
-    // py: print alignment;
 
     return result;
 }

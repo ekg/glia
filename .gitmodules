@@ -7,3 +7,6 @@
 [submodule "bamtools"]
 	path = bamtools
 	url = git://github.com/pezmaster31/bamtools.git
+[submodule "rapidjson"]
+	path = rapidjson
+	url = https://github.com/kennytm/rapidjson.git
