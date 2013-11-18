@@ -35,27 +35,6 @@ using namespace std;
 using namespace BamTools;
 
 
-// TODO: Move to GHASH   <-done?
-int hashfasta(string fasta_file_name, int hashsize, vector<fasta_entry> &ref_genome) {	
-
-	load_fasta_file(fasta_file_name, ref_genome);
-	
-	vector<fasta_entry>::iterator t;
-       
-	for (t = ref_genome.begin(); t != ref_genome.end(); ++t) {
-		cout << t->name << endl;
-		//cout << t->sequence << endl;
-		hashcontig(*t, t->kmer_hash, hashsize);
-		cout << t->name << " ...hash complete" << endl;
-	
-		sortContigHash(t->kmer_hash);
-		cout << t->name << " ...sort complete" << endl;
-				
-	}
-	
-	return 0;
-}
-
 void gswalign(vector<sn*>& nlist,
               string& read,
               string& qualities,

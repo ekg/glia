@@ -1,6 +1,5 @@
 HEADERS = dump.h \
 	examples.h \
-	fastq.h \
 	getSeeds.h \
 	ghash.h \
 	gliamodels.h \
@@ -20,7 +19,6 @@ HEADERS = dump.h \
 
 SOURCES = dump.cpp \
 	examples.cpp \
-	fastq.cpp \
 	getSeeds.cpp \
 	ghash.cpp \
 	gliamodels.cpp \
