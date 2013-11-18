@@ -11,11 +11,11 @@
 #include "convert.h"
 
 using namespace std;
-using namespace vcf;
+//using namespace vcf;
 
 
 int constructDAG(vector<sn*> &nlist, string &targetSequence, string& sequenceName,
-                 vector<Variant> &variants, long offset) {
+                 vector<vcf::Variant> &variants, long offset) {
 
     /*
     cerr << "constructing DAG over "
@@ -31,10 +31,10 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence, string& sequenceNam
 
     vector<sn*> pp3_var_nodes; // previous p3 nodes
 
-    for(vector<Variant>::reverse_iterator rit = variants.rbegin(); 
+    for(vector<vcf::Variant>::reverse_iterator rit = variants.rbegin(); 
         rit != variants.rend(); ++rit) {
 
-        Variant& var = *rit;
+        vcf::Variant& var = *rit;
         int current_pos = (long int) var.position - (long int) offset + var.ref.size();
 
         // Construct Right-Node
@@ -119,7 +119,7 @@ int constructDAG(vector<sn*> &nlist, string &targetSequence, string& sequenceNam
         // Fill and connect Allele Nodes to p3_ref_node
 
         // get the cigars for the alt alleles
-        map<string, vector<VariantAllele> > vavs = var.parsedAlternates();
+        map<string, vector<vcf::VariantAllele> > vavs = var.parsedAlternates();
 
         int i = 1;
         for (vector<string>::iterator a = var.alt.begin(); a != var.alt.end(); ++a, ++i) {

@@ -1,7 +1,7 @@
 #include "cigar.h"
 
 using namespace std;
-using namespace vcf;
+//using namespace vcf;
 
 void CigarElement::clear(void) {
     length = 0;
@@ -119,11 +119,11 @@ Cigar::Cigar(int i, char t) {
     push_back(CigarElement(i, t));
 }
 
-Cigar::Cigar(vector<VariantAllele>& vav) {
+Cigar::Cigar(vector<vcf::VariantAllele>& vav) {
     char type = '\0';
     int length = 0;
-    for (vector<VariantAllele>::iterator v = vav.begin(); v != vav.end(); ++v) {
-        VariantAllele& va = *v;
+    for (vector<vcf::VariantAllele>::iterator v = vav.begin(); v != vav.end(); ++v) {
+        vcf::VariantAllele& va = *v;
         if (va.ref != va.alt) {
             if (type == 'M') {
                 push_back(CigarElement(length, type));

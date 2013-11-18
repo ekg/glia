@@ -31,7 +31,7 @@
 #include "api/BamAlignment.h"
 
 using namespace std;
-using namespace vcf;
+//using namespace vcf;
 using namespace BamTools;
 
 
@@ -161,12 +161,12 @@ void construct_dag_and_align_single_sequence(Parameters& params) {
     string targetSequence = reference.getTargetSubSequence(target);
 
     // get variants in target
-    vector<Variant> variants;
-    VariantCallFile vcffile;
+    vector<vcf::Variant> variants;
+    vcf::VariantCallFile vcffile;
 
     if (!params.vcf_file.empty()) {
         vcffile.open(params.vcf_file);
-        Variant var(vcffile);
+        vcf::Variant var(vcffile);
     
         vcffile.setRegion(params.target);
         while (vcffile.getNextVariant(var)) {
@@ -302,14 +302,14 @@ void realign_bam(Parameters& params) {
         ++i;
     }
 
-    VariantCallFile vcffile;
+    vcf::VariantCallFile vcffile;
     if (!params.vcf_file.empty()) {
         vcffile.open(params.vcf_file);
     } else {
         cerr << "realignment requires VCF file" << endl;
         exit(1);
     }
-    Variant var(vcffile);
+    vcf::Variant var(vcffile);
 
     BamAlignment alignment;
     map<long int, vector<BamAlignment> > alignmentSortQueue;
@@ -374,7 +374,7 @@ void realign_bam(Parameters& params) {
                                            dag_window_size); // 0/1 conversion
 
             // get variants for new DAG
-            vector<Variant> variants;
+            vector<vcf::Variant> variants;
             if (!vcffile.setRegion(currentSeqname,
                                    dag_start_position,
                                    dag_start_position + ref.size())) {

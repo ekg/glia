@@ -9,7 +9,7 @@
 #include "api/BamAux.h"  // CigarOp for conversion
 
 using namespace std;
-using namespace vcf;
+//using namespace vcf;
 
 struct CigarElement {
     int length;
@@ -32,7 +32,7 @@ struct Cigar : vector<CigarElement> {
     Cigar(void) { }
     Cigar(int, char);
     Cigar(const string& cigarStr);
-    Cigar(vector<VariantAllele>& vav);
+    Cigar(vector<vcf::VariantAllele>& vav);
     Cigar(vector<BamTools::CigarOp>& cigarData);
     void toCigarData(vector<BamTools::CigarOp>& cigarData);
 };
