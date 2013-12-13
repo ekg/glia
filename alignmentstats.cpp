@@ -11,8 +11,9 @@ void countMismatchesAndGaps(
 
     int sp = alignment.Position - referenceStart + 1;
     int rp = 0;
-    //cerr << "ref  : " << referenceSequence << endl;
+
     /*
+    cerr << "ref  : " << referenceSequence << endl;
     cerr << "read : " << alignment.QueryBases << endl;
     cerr << "quals: " << alignment.Qualities << endl;
     cerr << "cigar: ";
@@ -23,7 +24,9 @@ void countMismatchesAndGaps(
         cerr << l << t;
     }
     cerr << endl;
+    cerr << "starts at " << sp << " of cached ref (" << referenceSequence.size() << "bp long)" << endl;
     */
+
     for (Cigar::const_iterator c = cigar.begin();
          c != cigar.end(); ++c) {
         int l = c->length;

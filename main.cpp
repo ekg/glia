@@ -216,8 +216,17 @@ bool shouldRealign(BamAlignment& alignment,
                    Parameters& params,
                    AlignmentStats& stats) {
 
-    if (allN(alignment.QueryBases)) return false;
-    if (!alignment.IsMapped()) return true;
+    if (allN(alignment.QueryBases)) {
+        cerr << "not realigning because query is all Ns! " << alignment.Name << endl;
+        return false;
+    }
+    if (!alignment.IsMapped()) {
+        if (params.debug) {
+            cerr << "realigning because read " << alignment.Name << " is not mapped " << endl;
+        }
+        return true;
+    }
+
     Cigar cigar(alignment.CigarData);
     countMismatchesAndGaps(alignment, cigar, ref, offset, stats);
     if (stats.mismatch_qsum > params.mismatch_qsum_threshold
@@ -343,6 +352,8 @@ void realign_bam(Parameters& params) {
             // recenter DAG
             if (!nlist.empty()) {
                 dag_start_position = dag_start_position + dag_window_size/2;
+                dag_start_position = max(dag_start_position,
+                                         (long int) (alignment.GetEndPosition() - dag_window_size/2));
             } else {
                 dag_start_position = alignment.Position - dag_window_size/2;
             }
@@ -387,14 +398,14 @@ void realign_bam(Parameters& params) {
                          dag_start_position);
 
             if (params.display_dag || params.debug) {
-                cout << "DAG generated from input variants over "
+                cerr << "DAG generated from input variants over "
                      << seqname << ":" << dag_start_position << "-" << dag_window_size
                      << endl;
                 //displayDAG(nlist.back());
                 for (vector<sn*>::iterator n = nlist.begin(); n != nlist.end(); ++n) {
-                    cout << *n << endl;
+                    cerr << *n << endl;
                 }
-                cout << endl;
+                cerr << endl;
             }
 
             if (nlist.size() == 1 && allN(nlist.front()->sequence)) {
@@ -414,12 +425,11 @@ void realign_bam(Parameters& params) {
             ++total_realigned;
 
             if (params.debug) {
-                cerr << "realigning: " << alignment.QueryBases << endl;
-                if (alignment.IsMapped()) {
-                    cerr << "realigning with " << stats_before.softclip_qsum << "Q in softclips" << endl;
-                } else {
-                    cerr << "realigning because not mapped" << endl;
-                }
+                cerr << "realigning: " << alignment.Name << " " << alignment.QueryBases << endl
+                     << "to variant graph over "
+                     << seqname
+                     << ":" << dag_start_position
+                     << "-" << dag_start_position + dag_window_size << endl;
             }
 
             try {
