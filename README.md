@@ -1,10 +1,8 @@
-glia
+*glia*: a Graph/Smith-Waterman (partial order) aligner/realigner
 ========
 
-# Graph/Smith-Waterman (partial order) aligner/realigner
-
-## Deniz Kural
-## Erik Garrison
+### Deniz Kural <deniz.kural@gmail.com>
+### Erik Garrison <erik.garrison@bc.edu>
 
 Installation Instructions
 ----------
