@@ -1,52 +1,70 @@
-gsw-cmd
+glia
 ========
 
-A command line gsw aligner with two modes of use:
-- interactive mode: can be piped
-- batch mode: accepts a fastq file, a reference, and a vcf
-Note that there is a bunch of code for future hashing purposes (currently unused)
+# Graph/Smith-Waterman (partial order) aligner/realigner
+
+## Deniz Kural
+## Erik Garrison
 
 Installation Instructions
 ----------
 
-To build, you'll need to first pull in a few dependencies.
+Make sure you download the submodules by adding the `recursive` flag to the clone command:
 
-***Dependencies:***
+    git clone --recursive https://github.com/ekg/glia.git
 
-**Sparsehash:**
+Then build with a call to make:
 
-* Download and install http://code.google.com/p/sparsehash/  using:
-    ```bash
-    ./configure
-    make install
-    ```
+    cd glia
+    make
 
-* Make sure that your include paths correspond/include the installation path for sparsehash (usually /usr/local/include)
-    This is not the case by default if you are compiling in XCode! You need to go to project build settings and add it to:
-    - library search paths
-    - header search paths
+You'll need cmake to compile bamtools, which is a submoduled dependency.  ZLIB is also required, but is typically installed system-wide on development servers.
 
-* Latest tested version is Sparsehash 2.0.2, but should work with later versions.
+Example usage
+--------
 
-* Make sure to use libstdc++ (GNU C++ standard library). In Xcode 4.5 and above, much of tr1 has become standard; thus make sure to edit Build Settings > Apple LLVM compiler 4.2 - language and change the C++ Standard Library to above.
+glia consumes a VCF, a target region, and a string to generate an alignment of any string against the variant graph defined by the VCF.  For instance calling:
 
+    glia -f ~/human_g1k_v37.fasta -t 20:62900077-62902077 -v variants.vcf.gz \
+         -s AAATGTAAACATTTTATAGGGGATTCCCCTAAAAACAAAAAAACTTTCTGGGAAAGATTTTTCAAAAAATAAAA
 
-**JSON:**
+Will report the alignment of this string against the variant graph in the region 20:62900077-62902077.  This mode is provided for debugging purposes.
 
-* For json support currently json-cpp 0.6.0-rc2 is used, available at http://jsoncpp.sourceforge.net/
-    however due to a number of bugs in the original source; a modified version is included here.
-    - Copy it to /usr/local/include/json/json.h  or another path you recognize.
-    - TODO: Considering switch to a better maintained package (like rapidjson) in the future.
+Streaming local realignment
+--------
 
-Now that your dependencies are installed, you simply have to compile using: `make`
+glia's main use is as a local realigner.  It will realign reads to a set of known (or putative) variants in a VCF, both consuming and producing an ordered stream of BAM alignments.  As such, it can be used immediately prior to variant calling with standard methods.  In this case, we use freebayes:
 
-TODO:
------
-* enable command-line options
+    <sample.bam glia -Rr -w 1500 -S 200 -Q 200 -G 4 -f ref.fasta -v known_variants.vcf.gz \
+        | freebayes -f ref.fasta --stdin >sample.vcf
 
-DONE:
------
+Here, glia is running reads that have a soft-clip ('S' cigar element) quality sum of >200 (-S 200), or a mismatch quality sum >200 (-Q 200) or any indel (default), and only accepting alignments that have fewer than 4 embedded gaps and decrease the overall quality score sum of soft-clips and mismatches.  So as to match unaligned mates to their correct alignments, this invocation of glia will align reads to the variant graph constructed across a window of 1500bp semi-centered around the read alignment position (-w 1500).  These settings are typically sensible for realigning Illumina 70bp reads as found in the 1000 Genomes Project.
 
-+ have a local .gitignore
-+ xcode originating push
-+ dependancy docs
+Why?
+--------
+
+The alignment of reads can be frustrated by variants, both large (e.g. structural variants) and small (e.g. SNPs, small indels).  Observations of larger variants, where the variant scale is of a large fraction of a read length or greater, can be rescued by using unaligned mates from paired sequencing.  For smaller variants, more typically contemporary aligners will soft-clip starts and ends of a read when the read contains multiple mismatches or gaps.  Soft-clipping makes sense in that the tails of reads often contain many sequencing errors, but this filtering practice can reduce sensitivity of resequencing even to small variants.
+
+glia realigns poorly-aligned reads against a local variant graph in order to resolve these biases, provided we know about, or have a good hint that a variant potentially exists in our dataset.  Suitable input could be either a known variant set such as [dbSNP](https://www.ncbi.nlm.nih.gov/projects/SNP/) or a union set of variants such as might be produced by an [ensemble variant detection process](https://github.com/ekg/1000G-integration)).
+
+How?
+--------
+
+glia uses an independently-developed (by Deniz Kural) version of [partial order alignment algorithm](http://bioinformatics.oxfordjournals.org/content/18/3/452.short) to realign reads to a local "variant graph," "sequence graph," or "partial order."  This structure was originally applied to the problem of multiple sequence alignment due to its favorable time and space complexity, which is approximately O(NM) where N is the length of the query and M is the total length of the partial-order graph against which we are aligning.  In glia, we apply this method to read alignment and variant detection in the context of the sequence reads generated by 2nd and 3rd-generation sequencing platforms.
+
+Considering a multiple sequence alignment, we can construct a partially-ordered graph in which all of the input sequences are paths:
+
+<img src="http://i.imgur.com/kZk6UJo.png" alt="partial order graph construction">
+
+This is the structure which glia aligns reads against.  Provided a VCF file encodes the same structure and does not include internal conflicts, we can use it for the generation of partially-ordered, directed acyclic graphs.
+
+In partial order (or graph-Smith-Waterman) alignment, the standard dynamic-programming alignment algorithm is generalized to allow alignment across edges of this graph.  This can be understood as a modification of the recurrence relation used to define the score distribution across the alignment matrix to account for the score on the upstream side of inbound links.  When we initialize a new matrix, we take the score and identity of the node with the maximum alignment score in the same position in the previous node matrix.
+
+<img src="http://i.imgur.com/uZXH9MW.png" alt="partial order alignment">
+
+This then allows us to trace back the alignment across the edges of the graph.
+
+Help!!!?
+--------
+
+Email <erik.garrison@bc.edu> with any questions or concerns.  Please report bugs via the bugtracking system in github.
