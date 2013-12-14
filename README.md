@@ -56,13 +56,15 @@ Considering a multiple sequence alignment, we can construct a partially-ordered 
 
 <img src="http://i.imgur.com/kZk6UJo.png" alt="partial order graph construction">
 
+(Note that these figures are drawn from Christopher Lee's [original paper on partial order alignment](http://bioinformatics.oxfordjournals.org/content/18/3/452.short))
+
 This is the structure which glia aligns reads against.  Provided a VCF file encodes the same structure and does not include internal conflicts, we can use it for the generation of partially-ordered, directed acyclic graphs.
 
 In partial order (or graph-Smith-Waterman) alignment, the standard dynamic-programming alignment algorithm is generalized to allow alignment across edges of this graph.  This can be understood as a modification of the recurrence relation used to define the score distribution across the alignment matrix to account for the score on the upstream side of inbound links.  When we initialize a new matrix, we take the score and identity of the node with the maximum alignment score in the same position in the previous node matrix.
 
 <img src="http://i.imgur.com/uZXH9MW.png" alt="partial order alignment">
 
-This then allows us to trace back the alignment across the edges of the graph.
+This then allows us to trace back the alignment across the edges of the graph.  In practice, glia uses this information to determine if the graph can provide a better alignment of a given read.  When the new alignment has better metrics in terms of quality/mismatch or soft-clip, then it is accepted, "flattened" from the graph back into the reference space, and emitted as a BAM record for downstream processing.  If the new alignment is not an improvement, or if there are other problems, then the original alignment is provided as-is.
 
 Help!!!?
 --------
