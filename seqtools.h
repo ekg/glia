@@ -12,9 +12,7 @@
 #define SEQTOOLS_H
 
 #include <string>
-
-#include "fastq.h"
-
+#include <iostream>
 
 std::string reverseComplement(std::string read);
 

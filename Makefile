@@ -1,7 +1,5 @@
 HEADERS = dump.h \
 	examples.h \
-	getSeeds.h \
-	ghash.h \
 	gliamodels.h \
 	gsw.h \
 	matrices.h \
@@ -19,8 +17,6 @@ HEADERS = dump.h \
 
 SOURCES = dump.cpp \
 	examples.cpp \
-	getSeeds.cpp \
-	ghash.cpp \
 	gliamodels.cpp \
 	gsw.cpp \
 	matrices.cpp \

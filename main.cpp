@@ -4,20 +4,12 @@
 #include <vector>
 #include <algorithm>
 
-#include <google/sparse_hash_map>
-//#include <json/json.h>
-//#include <tr1/functional>
-
 #include "gliamodels.h"
 #include "nodealign.h"
 #include "traceback.h"
 #include "gsw.h"
 #include "examples.h"
-#include "fastq.h"
 #include "show.h"
-#include "ghash.h"
-#include "getSeeds.h"
-#include "jsreader.h"
 #include "seqtools.h"
 #include "parameters.h"
 #include "construct.h"
