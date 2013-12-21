@@ -34,7 +34,8 @@ void countMismatchesAndGaps(
         //cerr << l << t << " " << sp << " " << rp << endl;
         if (t == 'M') { // match or mismatch
             for (int i = 0; i < l; ++i) {
-                if (alignment.QueryBases.at(rp) != referenceSequence.at(sp)) {
+                if (sp >= referenceSequence.length() ||
+                      alignment.QueryBases.at(rp) != referenceSequence.at(sp)) {
                     ++stats.mismatches;
                     stats.mismatch_qsum += qualityChar2ShortInt(alignment.Qualities.at(rp));
                 }
