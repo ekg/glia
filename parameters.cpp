@@ -140,6 +140,9 @@ void Parameters::usage(char** argv) {
           << "                               if you want to use alignment-based variant detectors on the output." << endl
         */
         << "    -w --realignment-window    Number of bp of window to assemble from VCF for realignment." << endl
+        << "    -u --unsorted-output       Do not attempt streaming sort of alignments.  This can save memory" << endl
+        << "                               in high coverage areas, but will require sort of BAM file before" << endl
+        << "                               it can be used for variant calling." << endl
         << "    -S --soft-clip-qsum-threshold N"  << endl
         << "                               If sum of qualities of soft clipped bases is > N, realign." << endl
         << "    -Q --mismatch-qsum-threshold N" << endl
@@ -197,6 +200,7 @@ Parameters::Parameters(int argc, char** argv) {
     debug = false;
     dry_run = false;
     only_realigned = false;
+    unsorted_output = false;
 
     realign_bam = false;
     softclip_qsum_threshold = 10000000;
@@ -238,6 +242,7 @@ Parameters::Parameters(int argc, char** argv) {
         {"realignment-window", required_argument, 0, 'w'},
         {"flatten-alignments", no_argument, 0, 'F'},
         {"only-realigned", no_argument, 0, 'O'},
+        {"unsorted-output", no_argument, 0, 'u'},
         {"flatten-flank", required_argument, 0, 'n'},
         {0, 0, 0, 0}
         
@@ -246,7 +251,7 @@ Parameters::Parameters(int argc, char** argv) {
     while (true) {
         int option_index = 0;
         c = getopt_long(argc, argv,
-                        "hxrXONBDFRds:q:f:t:v:o:g:m:M:w:Q:S:Z:E:G:n:",
+                        "hxrXONBDFRuds:q:f:t:v:o:g:m:M:w:Q:S:Z:E:G:n:",
                         long_options, &option_index);
         
         if (c == -1) // end of options
@@ -281,6 +286,11 @@ Parameters::Parameters(int argc, char** argv) {
             // -o --output-file
         case 'o':
             outputFile = optarg;
+            break;
+
+            // -u --unsorted-output
+        case 'u':
+            unsorted_output = true;
             break;
                 
             // -x --use-file

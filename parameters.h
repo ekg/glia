@@ -68,6 +68,7 @@ public:
     bool debug;
     bool dry_run;
     bool only_realigned;
+    bool unsorted_output;
 
     // trigger realignment
     int mismatch_qsum_threshold;

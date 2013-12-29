@@ -568,7 +568,8 @@ void realign_bam(Parameters& params) {
             long int maxOutputPos = initialAlignmentPosition - dag_window_size;
             map<long int, vector<BamAlignment> >::iterator p = alignmentSortQueue.begin();
             for ( ; p != alignmentSortQueue.end(); ++p) {
-                if (p->first > maxOutputPos) {
+                // except if we are running in unsorted mode, stop when we are at the window size
+                if (!params.unsorted_output && p->first > maxOutputPos) {
                     break; // no more to do
                 } else {
                     for (vector<BamAlignment>::iterator a = p->second.begin(); a != p->second.end(); ++a) {
