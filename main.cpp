@@ -357,14 +357,9 @@ void realign_bam(Parameters& params) {
 
             // get variants for new DAG
             vector<vcf::Variant> variants;
-            if (!vcffile.setRegion(currentSeqname,
+            if (vcffile.setRegion(currentSeqname,
                                    dag_start_position,
                                    dag_start_position + ref.size())) {
-                cerr << "could not set region on VCF file to " << currentSeqname << ":"
-                     << dag_start_position << "-" << dag_start_position + ref.size()
-                     << endl;
-                exit(1);
-            } else {
                 while (vcffile.getNextVariant(var)) {
                     if (params.debug) cerr << "getting variant at " << var.sequenceName << ":" << var.position << endl;
                     if (var.position + var.ref.length() <= dag_start_position + ref.size()
