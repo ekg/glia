@@ -22,6 +22,8 @@
 #include "api/BamWriter.h"
 #include "api/BamAlignment.h"
 
+#include "gssw.h"
+
 using namespace std;
 //using namespace vcf;
 using namespace BamTools;
