@@ -116,7 +116,8 @@ void Parameters::usage(char** argv) {
         //<< "    -o --output-file FILE      Write alignments in BAM format to FILE." << endl
         << "    -m --match N               The alignment match score (integer, default 10)." << endl
         << "    -M --mismatch N            The alignment mismatch score (integer, default -10)." << endl
-        << "    -g --gap N                 The alignment gap score (integer, default -10)." << endl
+        << "    -g --gap-open N            Gap open penalty (integer, default 3)." << endl
+        << "    -e --gap-extend N          Gap extension penalty (integer, default 1)." << endl
         << endl
         << "single-read alignment:" << endl
         << endl
@@ -188,9 +189,10 @@ Parameters::Parameters(int argc, char** argv) {
 
     dag_window_size = 1500;
 
-    match = 10;
-    mism = -10;
-    gap = -10;
+    match = 2;
+    mism = 2;
+    gap_open = 3;
+    gap_extend = 1;
 
     display_dag = false;
     display_backtrace = false;
@@ -223,9 +225,9 @@ Parameters::Parameters(int argc, char** argv) {
         {"target", required_argument, 0, 't'},
         {"vcf-file", required_argument, 0, 'v'},
         {"output-file", required_argument, 0, 'o'},
-        {"use-file", no_argument, 0, 'x'},
         {"reverse-complement", no_argument, 0, 'r'},
-        {"gap", required_argument, 0, 'g'},
+        {"gap-open", required_argument, 0, 'g'},
+        {"gap-extend", required_argument, 0, 'x'},
         {"match", required_argument, 0, 'm'},
         {"mismatch", required_argument, 0, 'M'},
         {"display-backtrace", no_argument, 0, 'B'},
@@ -251,7 +253,7 @@ Parameters::Parameters(int argc, char** argv) {
     while (true) {
         int option_index = 0;
         c = getopt_long(argc, argv,
-                        "hxrXONBDFRuds:q:f:t:v:o:g:m:M:w:Q:S:Z:E:G:n:",
+                        "hrXONBDFRuds:q:f:t:v:o:g:x:m:M:w:Q:S:Z:E:G:n:",
                         long_options, &option_index);
         
         if (c == -1) // end of options
@@ -291,11 +293,6 @@ Parameters::Parameters(int argc, char** argv) {
             // -u --unsorted-output
         case 'u':
             unsorted_output = true;
-            break;
-                
-            // -x --use-file
-        case 'x':
-            useFile = true;
             break;
                 
             // -r --reverse-complement
@@ -342,9 +339,14 @@ Parameters::Parameters(int argc, char** argv) {
 	        mism = atoi(optarg);
             break;
                 
-            // -g --gap
+            // -g --gap-open
         case 'g':
-            gap = atoi(optarg); 
+            gap_open = atoi(optarg); 
+            break;
+
+            // -x --gap-extend
+        case 'x':
+            gap_extend = atoi(optarg); 
             break;
 
             // -R --realign-bam

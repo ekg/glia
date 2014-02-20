@@ -29,14 +29,17 @@ using namespace std;
 using namespace BamTools;
 
 
-void gswalign(vector<sn*>& nlist,
+void gswalign(gssw_graph* graph,
+              vector<sn*>& nlist,
               string& read,
               string& qualities,
               Parameters& params,
               bt& backtrace,
               mbt& trace_report,
               int& score,
-              string& strand) {
+              string& strand,
+              int8_t* nt_table,
+              int8_t* score_matrix) {
 
     sn* result_F;
     sn* result_R;
@@ -49,25 +52,33 @@ void gswalign(vector<sn*>& nlist,
 
     if (params.debug) cerr << "aligning forward" << endl;
 
+    /*
     result_F = gsw(read, nlist,
-                   params.match, params.mism, params.gap);
+                   params.match, -params.mism, -params.gap_open);
     score_F = result_F->top_score.score;
     backtrace_F = master_backtrack(result_F, trace_report_F, read, qualities);
     vector<sn*>& nodes_F = trace_report_F.node_list;
+    */
+
+    const char* cread = read.c_str();
+    gssw_graph_fill(graph, cread, nt_table, score_matrix, params.gap_open, params.gap_extend, 15, 2);
+    gssw_graph_mapping* gm = gssw_graph_trace_back (graph,
+                                                    cread,
+                                                    read.length(),
+                                                    params.match,
+                                                    params.mism,
+                                                    params.gap_open,
+                                                    params.gap_extend);
 
     if (params.display_backtrace) {
         cout << "==== forward alignment ====" << endl;
-        for (vector<sn*>::iterator n = nodes_F.begin();
-             n != nodes_F.end(); ++n) {
-            displayAlignment(*n, read);
-        }
+        gssw_print_graph_mapping(gm);
     } else if (params.display_all_nodes) {
         cout << "==== forward alignment ====" << endl;
-        for (vector<sn*>::iterator n = nlist.begin();
-             n != nlist.end(); ++n) {
-            displayAlignment(*n, read);
-        }
+        gssw_graph_print_score_matrices(graph, read.c_str(), read.length());
     }
+
+    gssw_graph_mapping_destroy(gm);
 
     // check if the reverse complement provides a better alignment
     if (params.alignReverse) {
@@ -75,24 +86,32 @@ void gswalign(vector<sn*>& nlist,
         string readrc = reverseComplement(read);
         string qualitiesrc = qualities;
         reverse(qualitiesrc.begin(), qualitiesrc.end());
+        /*
         result_R = gsw(readrc, nlist,
-                       params.match, params.mism, params.gap);
+                       params.match, params.mism, params.gap_open);
         score_R = result_R->top_score.score;
         backtrace_R = master_backtrack(result_R, trace_report_R, readrc, qualitiesrc);
         vector<sn*>& nodes_R = trace_report_R.node_list;
+        */
+        const char* creadrc = readrc.c_str();
+        gssw_graph_fill(graph, creadrc, nt_table, score_matrix, params.gap_open, params.gap_extend, 15, 2);
+        gssw_graph_mapping* gm = gssw_graph_trace_back (graph,
+                                                        creadrc,
+                                                        readrc.length(),
+                                                        params.match,
+                                                        params.mism,
+                                                        params.gap_open,
+                                                        params.gap_extend);
+
         if (params.display_backtrace) {
             cout << "==== reverse alignment ====" << endl;
-            for (vector<sn*>::iterator n = nodes_R.begin();
-                 n != nodes_R.end(); ++n) {
-                displayAlignment(*n, readrc);
-            }
+            gssw_print_graph_mapping(gm);
         } else if (params.display_all_nodes) {
             cout << "==== reverse alignment ====" << endl;
-            for (vector<sn*>::iterator n = nlist.begin();
-                 n != nlist.end(); ++n) {
-                displayAlignment(*n, readrc);
-            }
+            gssw_graph_print_score_matrices(graph, read.c_str(), read.length());
         }
+        gssw_graph_mapping_destroy(gm);
+
     }
 
     //displayNode(result);
@@ -153,7 +172,10 @@ void construct_dag_and_align_single_sequence(Parameters& params) {
 
     // Declare the target DAG to align against.
     vector<sn*> nlist;
-    constructDAG(nlist, targetSequence, target.startSeq, variants, offset);
+    gssw_graph* graph = gssw_graph_create(0);
+    int8_t* nt_table = gssw_create_nt_table();
+	int8_t* mat = gssw_create_score_matrix(params.match, params.mism);
+    constructDAG(nlist, graph, targetSequence, target.startSeq, variants, offset, nt_table, mat);
 
     if (params.display_dag) {
         cout << "DAG generated from input variants:" << endl;
@@ -173,14 +195,17 @@ void construct_dag_and_align_single_sequence(Parameters& params) {
     mbt trace_report;
     int score;
     string strand;
-    gswalign(nlist,
+    gswalign(graph,
+             nlist,
              read,
              qualities,
              params,
              backtrace,
              trace_report,
              score,
-             strand);
+             strand,
+             nt_table,
+             mat);
 
     cout << score << " " << strand << " "
          << (trace_report.node->position - 1) + trace_report.x << " "
@@ -286,7 +311,10 @@ void realign_bam(Parameters& params) {
 
     vcf::VariantCallFile vcffile;
     if (!params.vcf_file.empty()) {
-        vcffile.open(params.vcf_file);
+        if (!vcffile.open(params.vcf_file)) {
+            cerr << "could not open VCF file " << params.vcf_file << endl;
+            exit(1);
+        }
     } else {
         cerr << "realignment requires VCF file" << endl;
         exit(1);
@@ -309,6 +337,9 @@ void realign_bam(Parameters& params) {
     string currentSeqname;
     string ref;
     vector<sn*> nlist; // the DAG container
+    gssw_graph* graph = gssw_graph_create(0);
+    int8_t* nt_table = gssw_create_nt_table();
+    int8_t* mat = gssw_create_score_matrix(params.match, params.mism);
 
     int total_reads = 0;
     int total_realigned = 0;
@@ -321,7 +352,8 @@ void realign_bam(Parameters& params) {
 
     while (reader.GetNextAlignment(alignment)) {
         if (params.debug) {
-            cerr << "processing alignment " << alignment.Name << ":" << alignment.Position << endl;
+            cerr << "--------------------------------------------" << endl
+                 << "processing alignment " << alignment.Name << ":" << alignment.Position << endl;
         }
 
         ++total_reads;
@@ -351,6 +383,7 @@ void realign_bam(Parameters& params) {
             } else {
                 dag_start_position = alignment.Position - dag_window_size/2;
             }
+            dag_start_position = max((long int)0, dag_start_position);
 
             // TODO get sequence length and use to bound noted window size (edge case)
             ref = reference.getSubSequence(seqname,
@@ -381,15 +414,22 @@ void realign_bam(Parameters& params) {
                 delete *s;
             }
             nlist.clear();
+            gssw_graph_destroy(graph);
 
 
             if (params.debug) { cerr << "constructing DAG" << endl; }
             // and build the DAG
+            graph = gssw_graph_create(0);
             constructDAG(nlist,
+                         graph,
                          ref,
                          currentSeqname,
                          variants,
-                         dag_start_position);
+                         dag_start_position,
+                         nt_table,
+                         mat);
+            cerr << "graph has " << graph->size << " nodes" << endl;
+            gssw_graph_print(graph);
 
             if (params.display_dag || params.debug) {
                 cerr << "DAG generated from input variants over "
@@ -435,14 +475,17 @@ void realign_bam(Parameters& params) {
                 mbt trace_report;
                 int score;
                 string strand;
-                gswalign(nlist,
+                gswalign(graph,
+                         nlist,
                          read,
                          qualities,
                          params,
                          backtrace,
                          trace_report,
                          score,
-                         strand);
+                         strand,
+                         nt_table,
+                         mat);
 
                 if (params.dry_run) {
 
@@ -541,6 +584,11 @@ void realign_bam(Parameters& params) {
 
                         // keep the alignment
                         // TODO require threshold of softclips to keep alignment (or count of gaps, mismatches,...)
+                        if (params.debug) {
+                            cerr << "realigned " << alignment.Name << " to graph, which it maps to with "
+                                 << stats_after.mismatch_qsum << " in mismatches and "
+                                 << stats_after.softclip_qsum << " in soft clips" << endl;
+                        }
                         ++total_improved;
                         has_realigned = true;
                     } else {

@@ -14,12 +14,19 @@
 #include "Variant.h"
 #include "gliamodels.h"
 #include "cigar.h"
+#include "gssw.h"
 
 
 using namespace std;
 //using namespace vcf;
 
-int constructDAG(std::vector<sn*> &nlist, std::string& targetSequence, std::string& sequenceName,
-                 std::vector<vcf::Variant> &variants, long offset);
+int constructDAG(std::vector<sn*> &nlist,
+                 gssw_graph* graph,
+                 std::string& targetSequence,
+                 std::string& sequenceName,
+                 std::vector<vcf::Variant> &variants,
+                 long offset,
+                 int8_t* nt_table,
+                 int8_t* score_matrix);
 
 #endif /* defined(CONSTRUCT_H) */

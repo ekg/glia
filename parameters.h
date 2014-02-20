@@ -50,7 +50,8 @@ public:
     // alignment parameters
     int match;
     int mism;
-    int gap;
+    int gap_open;
+    int gap_extend;
     
     // functions
     Parameters(int argc, char ** argv);

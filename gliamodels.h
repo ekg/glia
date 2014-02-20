@@ -16,6 +16,7 @@
 #include <string>
 #include <iostream>
 #include "cigar.h"
+#include "gssw.h"
 
 
 // forward declaration of structures
@@ -62,6 +63,7 @@ struct sn {
     long int position;
     Cigar cigar;
     bool isref;
+    gssw_node* node;
 
 // initialization
 sn() :  seq_len(0),
@@ -71,11 +73,11 @@ sn(std::string s,
    std::string n,
    long int p,
    Cigar c)
-    : depth(-1)
-    , sequence(s)
-    , name(n)
-	, position(p)
-    , cigar(c) {
+        : depth(-1)
+        , sequence(s)
+        , name(n)
+        , position(p)
+        , cigar(c) {
 	    seq_len = sequence.size();
         isref = cigar.isReference(); // if in reference coordinates
     }
