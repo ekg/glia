@@ -20,8 +20,8 @@
 using namespace std;
 //using namespace vcf;
 
-int constructDAG(std::vector<sn*> &nlist,
-                 gssw_graph* graph,
+int constructDAG(gssw_graph* graph,
+                 std::vector<Cigar> &cigars,
                  std::string& targetSequence,
                  std::string& sequenceName,
                  std::vector<vcf::Variant> &variants,

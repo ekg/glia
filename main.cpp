@@ -30,7 +30,7 @@ using namespace BamTools;
 
 
 void gswalign(gssw_graph* graph,
-              vector<sn*>& nlist,
+              vector<Cigar>& nlist,
               string& read,
               string& qualities,
               Parameters& params,
@@ -52,14 +52,6 @@ void gswalign(gssw_graph* graph,
 
     if (params.debug) cerr << "aligning forward" << endl;
 
-    /*
-    result_F = gsw(read, nlist,
-                   params.match, -params.mism, -params.gap_open);
-    score_F = result_F->top_score.score;
-    backtrace_F = master_backtrack(result_F, trace_report_F, read, qualities);
-    vector<sn*>& nodes_F = trace_report_F.node_list;
-    */
-
     const char* cread = read.c_str();
     gssw_graph_fill(graph, cread, nt_table, score_matrix, params.gap_open, params.gap_extend, 15, 2);
     gssw_graph_mapping* gm = gssw_graph_trace_back (graph,
@@ -78,6 +70,7 @@ void gswalign(gssw_graph* graph,
         gssw_graph_print_score_matrices(graph, read.c_str(), read.length());
     }
 
+    score_F = gm->score;
     gssw_graph_mapping_destroy(gm);
 
     // check if the reverse complement provides a better alignment
@@ -86,13 +79,6 @@ void gswalign(gssw_graph* graph,
         string readrc = reverseComplement(read);
         string qualitiesrc = qualities;
         reverse(qualitiesrc.begin(), qualitiesrc.end());
-        /*
-        result_R = gsw(readrc, nlist,
-                       params.match, params.mism, params.gap_open);
-        score_R = result_R->top_score.score;
-        backtrace_R = master_backtrack(result_R, trace_report_R, readrc, qualitiesrc);
-        vector<sn*>& nodes_R = trace_report_R.node_list;
-        */
         const char* creadrc = readrc.c_str();
         gssw_graph_fill(graph, creadrc, nt_table, score_matrix, params.gap_open, params.gap_extend, 15, 2);
         gssw_graph_mapping* gm = gssw_graph_trace_back (graph,
@@ -110,13 +96,10 @@ void gswalign(gssw_graph* graph,
             cout << "==== reverse alignment ====" << endl;
             gssw_graph_print_score_matrices(graph, read.c_str(), read.length());
         }
+        score_R = gm->score;
         gssw_graph_mapping_destroy(gm);
 
     }
-
-    //displayNode(result);
-    //displayAlignment(result);
-    //displayAlignment(nlist[0]);
 
     if (score_F > score_R) {
         backtrace = backtrace_F;
@@ -171,19 +154,14 @@ void construct_dag_and_align_single_sequence(Parameters& params) {
     long offset = max(target.startPos, 1); // start is -1 when coordinates are not specified
 
     // Declare the target DAG to align against.
-    vector<sn*> nlist;
+    vector<Cigar> cigars;
     gssw_graph* graph = gssw_graph_create(0);
     int8_t* nt_table = gssw_create_nt_table();
 	int8_t* mat = gssw_create_score_matrix(params.match, params.mism);
-    constructDAG(nlist, graph, targetSequence, target.startSeq, variants, offset, nt_table, mat);
+    constructDAG(graph, cigars, targetSequence, target.startSeq, variants, offset, nt_table, mat);
 
     if (params.display_dag) {
         cout << "DAG generated from input variants:" << endl;
-        //displayDAG(nlist.back());
-        for (vector<sn*>::iterator n = nlist.begin(); n != nlist.end(); ++n) {
-            cout << *n << endl;
-        }
-        cout << endl;
     }
 
 
@@ -196,7 +174,7 @@ void construct_dag_and_align_single_sequence(Parameters& params) {
     int score;
     string strand;
     gswalign(graph,
-             nlist,
+             cigars,
              read,
              qualities,
              params,
@@ -336,7 +314,7 @@ void realign_bam(Parameters& params) {
     long int dag_start_position = 1;
     string currentSeqname;
     string ref;
-    vector<sn*> nlist; // the DAG container
+    vector<Cigar> cigars; // contains the Cigar strings of nodes in the graph
     gssw_graph* graph = gssw_graph_create(0);
     int8_t* nt_table = gssw_create_nt_table();
     int8_t* mat = gssw_create_score_matrix(params.match, params.mism);
@@ -376,7 +354,7 @@ void realign_bam(Parameters& params) {
             currentSeqname = seqname;
 
             // recenter DAG
-            if (!nlist.empty()) {
+            if (!cigars.empty()) {
                 dag_start_position = dag_start_position + dag_window_size/2;
                 dag_start_position = max(dag_start_position,
                                          (long int) (alignment.GetEndPosition() - dag_window_size/2));
@@ -409,40 +387,31 @@ void realign_bam(Parameters& params) {
                 }
             }
 
-            // clear nlist
-            for (vector<sn*>::iterator s = nlist.begin(); s != nlist.end(); ++s) {
-                delete *s;
-            }
-            nlist.clear();
+            // clear graph and metadata
+            cigars.clear();
             gssw_graph_destroy(graph);
-
 
             if (params.debug) { cerr << "constructing DAG" << endl; }
             // and build the DAG
             graph = gssw_graph_create(0);
-            constructDAG(nlist,
-                         graph,
+            constructDAG(graph,
+                         cigars,
                          ref,
                          currentSeqname,
                          variants,
                          dag_start_position,
                          nt_table,
                          mat);
-            cerr << "graph has " << graph->size << " nodes" << endl;
-            gssw_graph_print(graph);
 
             if (params.display_dag || params.debug) {
+                cerr << "graph has " << graph->size << " nodes" << endl;
                 cerr << "DAG generated from input variants over "
                      << seqname << ":" << dag_start_position << "-" << dag_window_size
                      << endl;
-                //displayDAG(nlist.back());
-                for (vector<sn*>::iterator n = nlist.begin(); n != nlist.end(); ++n) {
-                    cerr << *n << endl;
-                }
-                cerr << endl;
+                gssw_graph_print(graph);
             }
 
-            if (nlist.size() == 1 && allN(nlist.front()->sequence)) {
+            if (graph->size == 1 && allN(ref)) {
                 emptyDAG = true;
             } else {
                 emptyDAG = false;
@@ -476,7 +445,7 @@ void realign_bam(Parameters& params) {
                 int score;
                 string strand;
                 gswalign(graph,
-                         nlist,
+                         cigars,
                          read,
                          qualities,
                          params,
@@ -640,6 +609,10 @@ void realign_bam(Parameters& params) {
                 writer.SaveAlignment(*a);
         }
     }
+
+    gssw_graph_destroy(graph);
+    free(nt_table);
+	free(mat);
 
     reader.Close();
     writer.Close();

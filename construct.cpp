@@ -15,8 +15,8 @@ using namespace std;
 //using namespace vcf;
 
 
-int constructDAG(vector<sn*> &nlist,
-                 gssw_graph* graph,
+int constructDAG(gssw_graph* graph,
+                 vector<Cigar> &cigars,
                  string &targetSequence,
                  string& sequenceName,
                  vector<vcf::Variant> &variants,
@@ -35,106 +35,65 @@ int constructDAG(vector<sn*> &nlist,
 
     //graph = gssw_graph_create(1);
 
-    long prev_pos = targetSequence.size();
-    string p3_ref_seq;
+    long prev_pos = 0;
+    string p5_ref_seq;
 
-    vector<sn*> pp3_var_nodes; // previous p3 nodes
+    vector<gssw_node*> pp5_var_nodes; // previous p5 nodes
 
-    for(vector<vcf::Variant>::reverse_iterator rit = variants.rbegin(); 
-        rit != variants.rend(); ++rit) {
+    // in construction, we assume nodes are already in DAG form
+    // really, this may be a problem; imagine overlapping variants
+    // so can the construction algorithm be adjusted to allow this
+    // to do so we should maintain the reference backbone and build new nodes off of this
 
-        vcf::Variant& var = *rit;
-        int current_pos = (long int) var.position - (long int) offset + var.ref.size();
+    for(vector<vcf::Variant>::iterator it = variants.begin(); it != variants.end(); ++it) {
+
+        vcf::Variant& var = *it;
+        int current_pos = (long int) var.position - (long int) offset;
+        cerr << var << endl;
 
         // Construct Right-Node
-        p3_ref_seq = targetSequence.substr(current_pos, prev_pos - current_pos);
+        p5_ref_seq = targetSequence.substr(prev_pos, current_pos - prev_pos);
 
         // new previous position is at the start of the variant
-        prev_pos = var.position - offset;
+        prev_pos = var.position + var.ref.size() - offset;
 
-        // Construct Right Node
-        sn* p3_ref_node = new sn(
-            p3_ref_seq
-            ,
-            sequenceName
-            + ":"
-            + convert(var.position + var.ref.size())
-            + "-"
-            + convert(var.position
-                      + var.ref.size()
-                      + p3_ref_seq.size())
-            + ".ref.r"
-            ,
-            var.position + var.ref.size() // 1-based?
-            ,
-            Cigar(convert(p3_ref_seq.size()) + "M") // cigar
-            );
-        gssw_node* gssw_p3_ref_node = (gssw_node*)gssw_node_create((void*)p3_ref_node, graph->size, p3_ref_seq.c_str(), nt_table, score_matrix);
-        p3_ref_node->node = gssw_p3_ref_node;
+        Cigar* p5_ref_cigar = NULL;
+        gssw_node* p5_ref_node = NULL;
+        if (!p5_ref_seq.empty()) {
+            cigars.push_back(Cigar(convert(p5_ref_seq.size()) + "M"));
+            p5_ref_cigar = &cigars.back();
+            p5_ref_node = (gssw_node*)gssw_node_create((void*)p5_ref_cigar, graph->size, p5_ref_seq.c_str(), nt_table, score_matrix);
+            gssw_graph_add_node(graph, p5_ref_node);
+            cerr << "connect to old p5 nodes" << endl;
+            for (vector<gssw_node*>::iterator n = pp5_var_nodes.begin(); n != pp5_var_nodes.end(); ++n) {
+                gssw_nodes_add_edge(*n, p5_ref_node);
+            }
+            pp5_var_nodes.clear();
+        }
 
         // construct the ref node of variant
-        sn* ref_node = new sn(
-            var.ref
-            ,
-            sequenceName
-            + ":"
-            + convert(var.position)
-            + "-"
-            + convert(var.position
-                      + var.ref.size())
-            + ".ref.0"
-            ,
-            var.position // 1-based?
-            ,
-            Cigar(convert(var.ref.size()) + "M") // cigar
-            );
-        gssw_node* gssw_ref_node = (gssw_node*)gssw_node_create((void*)ref_node, graph->size+1, var.ref.c_str(), nt_table, score_matrix);
-        ref_node->node = gssw_ref_node;
+        cigars.push_back(Cigar(convert(var.ref.size()) + "M"));
+        Cigar* ref_cigar = &cigars.back();
+        gssw_node* ref_node = (gssw_node*)gssw_node_create((void*)ref_cigar, graph->size, var.ref.c_str(), nt_table, score_matrix);
+        gssw_graph_add_node(graph, ref_node);
 
-        // TODO cleanup 0M reference hacks
-
-        // stash p3_ and current ref nodes
-
-        // if we have a 0M reference node, we need to attach the pp3 nodes
-        // to the current ref and alt nodes and ignore this node.
-        // this boolean tells us when.
-        bool zero_length_p3_ref = p3_ref_node->cigar.refLen() == 0;
-
-        if (!zero_length_p3_ref) {
-            nlist.push_back(p3_ref_node);
-            gssw_graph_add_node(graph, gssw_p3_ref_node);
-        }
-        nlist.push_back(ref_node);
-        gssw_graph_add_node(graph, gssw_ref_node);
+        // if we have variants in succession, we need to attach the pp5 nodes
+        // to the current ref and alt nodes
 
         // connect to old p3 nodes
-        cerr << "connect to old p3 nodes" << endl;
-        for (vector<sn*>::iterator n = pp3_var_nodes.begin(); n != pp3_var_nodes.end(); ++n) {
-            p3_ref_node->p3.push_back(*n);
-            if (!zero_length_p3_ref) {
-                (*n)->p5.push_back(p3_ref_node);
-                gssw_nodes_add_edge(gssw_p3_ref_node, (*n)->node);
-            }
-        }
-        pp3_var_nodes.clear();
 
         // connect p3_ref <-> ref
         cerr << "connect p3_ref <-> ref" << endl;
-        if (zero_length_p3_ref) {
-            // if 0-length, transfer connections across
-            for (vector<sn*>::iterator p = p3_ref_node->p3.begin(); p != p3_ref_node->p3.end(); ++p) {
-                (*p)->p5.push_back(ref_node);
-                ref_node->p3.push_back(*p);
-                gssw_nodes_add_edge(gssw_ref_node, (*p)->node);
+        if (!p5_ref_node) {
+            cerr << "transferring connections across" << endl;
+            // transfer connections across to this ref
+            for (vector<gssw_node*>::iterator n = pp5_var_nodes.begin(); n != pp5_var_nodes.end(); ++n) {
+                gssw_nodes_add_edge(*n, ref_node);
             }
         } else {
-            p3_ref_node->p5.push_back(ref_node);
-            ref_node->p3.push_back(p3_ref_node);
-            gssw_nodes_add_edge(gssw_ref_node, gssw_p3_ref_node);
+            // otherwise we naturally connect ref to ref
+            gssw_nodes_add_edge(p5_ref_node, ref_node);
         }
-
-        // store the current ref in the pp3 nodes for connection on next iteration
-        pp3_var_nodes.push_back(ref_node);
 
         // Fill and connect Allele Nodes to p3_ref_node
 
@@ -143,51 +102,47 @@ int constructDAG(vector<sn*> &nlist,
 
         int i = 1;
         for (vector<string>::iterator a = var.alt.begin(); a != var.alt.end(); ++a, ++i) {
-            Cigar cigar(vavs[*a]);
-            sn* alt_node = new sn(
-                *a
-                ,
-                sequenceName
-                + ":"
-                + convert(var.position)
-                + "-"
-                + convert(var.position
-                          + var.ref.size())
-                + ".alt." + convert(i)
-                ,
-                var.position
-                ,
-                cigar
-                );
-            gssw_node* gssw_alt_node = (gssw_node*)gssw_node_create((void*)alt_node, graph->size+(i-1), a->c_str(), nt_table, score_matrix);
-            alt_node->node = gssw_alt_node;
-            // save in nlist
-            nlist.push_back(alt_node);
+            // create node for this alt, first establishing its ref-relative cigar
+            cigars.push_back(Cigar(vavs[*a]));
+            Cigar* cigar = &cigars.back();
+            gssw_node* alt_node = (gssw_node*)gssw_node_create((void*)cigar, graph->size, a->c_str(), nt_table, score_matrix);
             // save in graph
-            gssw_graph_add_node(graph, gssw_alt_node);
+            gssw_graph_add_node(graph, alt_node);
             // retain for connection to ref p3_ref_node of next variant
-            pp3_var_nodes.push_back(alt_node);
-            if (!zero_length_p3_ref) {
-                // connect to current p3_ref_node
-                alt_node->p3.push_back(p3_ref_node);
-                // and connect the p5 of the p3_ref_node to the alt node
-                p3_ref_node->p5.push_back(alt_node);
-                // connect to p3_ref_node
-                cerr << "connect to p3_ref_node" << endl;
-                gssw_nodes_add_edge(gssw_alt_node, gssw_p3_ref_node);
-            } else {
-                for (vector<sn*>::iterator p = p3_ref_node->p3.begin();
-                     p != p3_ref_node->p3.end(); ++p) {
-                    (*p)->p5.push_back(alt_node);
-                    alt_node->p3.push_back(*p);
-                    cerr << "connect alt to p3_ref p3" << endl;
-                    gssw_nodes_add_edge(gssw_alt_node, (*p)->node);
+            pp5_var_nodes.push_back(alt_node);
+            if (!p5_ref_node) {
+                // carry across previous alternates and ref, if we are at successive variants
+                for (vector<gssw_node*>::iterator n = pp5_var_nodes.begin(); n != pp5_var_nodes.end(); ++n) {
+                    gssw_nodes_add_edge(*n, alt_node);
                 }
+            } else {
+                gssw_nodes_add_edge(p5_ref_node, alt_node);
             }
         }
 
+        // store the current ref in the pp3 nodes for connection on next iteration
+        pp5_var_nodes.push_back(ref_node);
+
     }
 
+    int current_pos = targetSequence.size() - offset;//(long int) var.position - (long int) offset;
+    p5_ref_seq = targetSequence.substr(prev_pos, current_pos - prev_pos);
+
+    Cigar* p5_ref_cigar = NULL;
+    gssw_node* p5_ref_node = NULL;
+    if (!p5_ref_seq.empty()) {
+        cigars.push_back(Cigar(convert(p5_ref_seq.size()) + "M"));
+        p5_ref_cigar = &cigars.back();
+        p5_ref_node = (gssw_node*)gssw_node_create((void*)p5_ref_cigar, graph->size, p5_ref_seq.c_str(), nt_table, score_matrix);
+        gssw_graph_add_node(graph, p5_ref_node);
+        cerr << "connect to old p5 nodes" << endl;
+        for (vector<gssw_node*>::iterator n = pp5_var_nodes.begin(); n != pp5_var_nodes.end(); ++n) {
+            gssw_nodes_add_edge(*n, p5_ref_node);
+        }
+        pp5_var_nodes.clear();
+    }
+    
+    /*
     // last node construction and connection
 
     p3_ref_seq = targetSequence.substr(0, prev_pos);
@@ -233,6 +188,7 @@ int constructDAG(vector<sn*> &nlist,
         graph->nodes[i] = graph->nodes[j - i];
         graph->nodes[j - i] = tmp;
     }
+    */
     
 
 }
