@@ -38,7 +38,9 @@ int constructDAG(gssw_graph* graph,
     long prev_pos = 0;
     string p5_ref_seq;
 
-    vector<gssw_node*> pp5_var_nodes; // previous p5 nodes
+    vector<gssw_node*> p5_var_nodes; // previous p5 nodes
+
+    vector<gssw_node*> ref_backbone;
 
     // in construction, we assume nodes are already in DAG form
     // really, this may be a problem; imagine overlapping variants
@@ -48,8 +50,22 @@ int constructDAG(gssw_graph* graph,
     for(vector<vcf::Variant>::iterator it = variants.begin(); it != variants.end(); ++it) {
 
         vcf::Variant& var = *it;
+        vector<gssw_node*> var_nodes;
+
+        // two possibilities assuming complete positional normalization and no overlapping variants (TODO implement check!)
+        // 1) we have a bubble
+        //    - make a reference node from here to the last position, link it to the last alleles
+        //    - make a node for each of the ref and alt alleles in this variant
+        //    - link the last ref node to the new nodes representing the alleles at this variant,
+        //    - and remember the ref and alts of this variant for next time around, so they can be linked downstream
+        // 2) we have successive variants
+        //    - don't bother making a reference node--- it's embedded in the last variant record
+        //    - make a node for each of the ref and alt alleles in this variant
+        //    - link them the ref and alt alleles in the last variant
+        //    - remember the ref and alts from this variant for the next time around
+
         int current_pos = (long int) var.position - (long int) offset;
-        cerr << var << endl;
+        //cerr << var << endl;
 
         // Construct Right-Node
         p5_ref_seq = targetSequence.substr(prev_pos, current_pos - prev_pos);
@@ -64,11 +80,12 @@ int constructDAG(gssw_graph* graph,
             p5_ref_cigar = &cigars.back();
             p5_ref_node = (gssw_node*)gssw_node_create((void*)p5_ref_cigar, graph->size, p5_ref_seq.c_str(), nt_table, score_matrix);
             gssw_graph_add_node(graph, p5_ref_node);
-            cerr << "connect to old p5 nodes" << endl;
-            for (vector<gssw_node*>::iterator n = pp5_var_nodes.begin(); n != pp5_var_nodes.end(); ++n) {
+            ref_backbone.push_back(p5_ref_node);
+            //cerr << "connect to old p5 nodes" << endl;
+            for (vector<gssw_node*>::iterator n = p5_var_nodes.begin(); n != p5_var_nodes.end(); ++n) {
                 gssw_nodes_add_edge(*n, p5_ref_node);
             }
-            pp5_var_nodes.clear();
+            p5_var_nodes.clear();
         }
 
         // construct the ref node of variant
@@ -76,18 +93,16 @@ int constructDAG(gssw_graph* graph,
         Cigar* ref_cigar = &cigars.back();
         gssw_node* ref_node = (gssw_node*)gssw_node_create((void*)ref_cigar, graph->size, var.ref.c_str(), nt_table, score_matrix);
         gssw_graph_add_node(graph, ref_node);
+        ref_backbone.push_back(ref_node);
+        // store the current ref in the pp3 nodes for connection on next iteration
+        var_nodes.push_back(ref_node);
 
-        // if we have variants in succession, we need to attach the pp5 nodes
+        // if we have variants in succession, we need to attach the p5 nodes
         // to the current ref and alt nodes
 
-        // connect to old p3 nodes
-
-        // connect p3_ref <-> ref
-        cerr << "connect p3_ref <-> ref" << endl;
         if (!p5_ref_node) {
-            cerr << "transferring connections across" << endl;
             // transfer connections across to this ref
-            for (vector<gssw_node*>::iterator n = pp5_var_nodes.begin(); n != pp5_var_nodes.end(); ++n) {
+            for (vector<gssw_node*>::iterator n = p5_var_nodes.begin(); n != p5_var_nodes.end(); ++n) {
                 gssw_nodes_add_edge(*n, ref_node);
             }
         } else {
@@ -109,10 +124,10 @@ int constructDAG(gssw_graph* graph,
             // save in graph
             gssw_graph_add_node(graph, alt_node);
             // retain for connection to ref p3_ref_node of next variant
-            pp5_var_nodes.push_back(alt_node);
+            var_nodes.push_back(alt_node);
             if (!p5_ref_node) {
                 // carry across previous alternates and ref, if we are at successive variants
-                for (vector<gssw_node*>::iterator n = pp5_var_nodes.begin(); n != pp5_var_nodes.end(); ++n) {
+                for (vector<gssw_node*>::iterator n = p5_var_nodes.begin(); n != p5_var_nodes.end(); ++n) {
                     gssw_nodes_add_edge(*n, alt_node);
                 }
             } else {
@@ -120,8 +135,8 @@ int constructDAG(gssw_graph* graph,
             }
         }
 
-        // store the current ref in the pp3 nodes for connection on next iteration
-        pp5_var_nodes.push_back(ref_node);
+        p5_var_nodes.clear();
+        p5_var_nodes.insert(p5_var_nodes.begin(), var_nodes.begin(), var_nodes.end());
 
     }
 
@@ -135,11 +150,12 @@ int constructDAG(gssw_graph* graph,
         p5_ref_cigar = &cigars.back();
         p5_ref_node = (gssw_node*)gssw_node_create((void*)p5_ref_cigar, graph->size, p5_ref_seq.c_str(), nt_table, score_matrix);
         gssw_graph_add_node(graph, p5_ref_node);
-        cerr << "connect to old p5 nodes" << endl;
-        for (vector<gssw_node*>::iterator n = pp5_var_nodes.begin(); n != pp5_var_nodes.end(); ++n) {
+        ref_backbone.push_back(p5_ref_node);
+        //cerr << "connect to old p5 nodes" << endl;
+        for (vector<gssw_node*>::iterator n = p5_var_nodes.begin(); n != p5_var_nodes.end(); ++n) {
             gssw_nodes_add_edge(*n, p5_ref_node);
         }
-        pp5_var_nodes.clear();
+        p5_var_nodes.clear();
     }
     
     /*

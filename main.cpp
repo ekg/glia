@@ -461,6 +461,7 @@ void realign_bam(Parameters& params) {
                     //if (strand == "-" && !alignment.IsMapped()) {
                     //    read = reverseComplement(trace_report.read);
                     //}
+                    /*
                     cout << read << endl
                          << trace_report.read << endl;
                     cout << score << " " << strand << " "
@@ -468,6 +469,7 @@ void realign_bam(Parameters& params) {
                          << trace_report.fcigar
                          << " seq:" << trace_report.x << " read:" << trace_report.y
                          << " " << trace_report.gcigar << " " << trace_report.fcigar << endl;
+                    */
 
                 } else {
 
