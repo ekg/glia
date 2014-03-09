@@ -145,9 +145,13 @@ void Parameters::usage(char** argv) {
         << "                               in high coverage areas, but will require sort of BAM file before" << endl
         << "                               it can be used for variant calling." << endl
         << "    -S --soft-clip-qsum-threshold N"  << endl
-        << "                               If sum of qualities of soft clipped bases is > N, realign." << endl
+        << "                               If sum of qualities of soft clipped bases is > N, realign (default ~inf)." << endl
         << "    -Q --mismatch-qsum-threshold N" << endl
-        << "                               If sum of qualities of mismatched bases is > N, realign." << endl
+        << "                               If sum of qualities of mismatched bases is > N, realign (default ~inf)." << endl
+        << "    -C --gap-count-threshold N" << endl
+        << "                               If the count of gaps is > N, realign (default: ~inf)." << endl
+        << "    -L --gap-length-threshold N" << endl
+        << "                               If the total length of gaps is > N, realign (default: ~inf)." << endl
         << "    -Z --soft-clip-qsum-max N  Accept realignment if qsum of softclips is < N." << endl
         << "    -E --mismatch-qsum-max N   Accept realignment if qsom of mismatches is < N." << endl
         << "    -G --gap-count-max N       Accept realignment if number of gaps is < N." << endl
@@ -208,8 +212,11 @@ Parameters::Parameters(int argc, char** argv) {
     softclip_qsum_threshold = 10000000;
     mismatch_qsum_threshold = 10000000;
     softclip_qsum_max = 10000000;
+    gap_count_threshold = 10000000;
+    gap_length_threshold = 10000000;
     mismatch_qsum_max = 10000000;
     gap_count_max = 10000000;
+
 
     flatten_alignments = true;
     flatten_flank = 2;
@@ -238,6 +245,8 @@ Parameters::Parameters(int argc, char** argv) {
         {"realign-bam", no_argument, 0, 'R'},
         {"soft-clip-qsum-threshold", required_argument, 0, 'S'},
         {"mismatch-qsum-threshold", required_argument, 0, 'Q'},
+        {"gap-count-threshold", required_argument, 0, 'C'},
+        {"gap-length-threshold", required_argument, 0, 'L'},
         {"soft-clip-qsum-max", required_argument, 0, 'Z'},
         {"mismatch-qsum-max", required_argument, 0, 'E'},
         {"gap-count-max", required_argument, 0, 'G'},
@@ -253,7 +262,7 @@ Parameters::Parameters(int argc, char** argv) {
     while (true) {
         int option_index = 0;
         c = getopt_long(argc, argv,
-                        "hrXONBDFRuds:q:f:t:v:o:g:x:m:M:w:Q:S:Z:E:G:n:",
+                        "hrXONBDFRuds:q:f:t:v:o:g:x:m:M:w:Q:S:Z:E:G:n:C:L:",
                         long_options, &option_index);
         
         if (c == -1) // end of options
@@ -368,6 +377,14 @@ Parameters::Parameters(int argc, char** argv) {
 
         case 'S':
             softclip_qsum_threshold = atoi(optarg);
+            break;
+
+        case 'C':
+            gap_count_threshold = atoi(optarg);
+            break;
+
+        case 'L':
+            gap_length_threshold = atoi(optarg);
             break;
 
         case 'Z':

@@ -71,7 +71,7 @@ void Cigar::append(const Cigar& c) {
     if (c.size() == 1 && c.front().length == 0) {
         // do nothing
     } else if (!empty()) {
-        while (back().type == i->type && i != c.end()) {
+        while (i != c.end() && back().type == i->type) {
             back().length += i->length;
             ++i;
         }
@@ -153,6 +153,14 @@ Cigar::Cigar(vector<vcf::VariantAllele>& vav) {
 Cigar::Cigar(vector<BamTools::CigarOp>& cigarData) {
     for (vector<BamTools::CigarOp>::iterator o = cigarData.begin(); o != cigarData.end(); ++o) {
         push_back(CigarElement(o->Length, o->Type));
+    }
+}
+
+Cigar::Cigar(gssw_cigar* c) {
+    Cigar cigar;
+    gssw_cigar_element* e = c->elements;
+    for (int i = 0; i < c->length; ++i, ++e) {
+        push_back(CigarElement(e->length, e->type));
     }
 }
 

@@ -27,5 +27,6 @@ void countMismatchesAndGaps(
     Cigar& cigar,
     string& referenceSequence,
     long int& referenceStart,
-    AlignmentStats& stats);
+    AlignmentStats& stats,
+    bool debug);
 

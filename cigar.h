@@ -7,6 +7,7 @@
 #include <vector>
 #include "Variant.h"
 #include "api/BamAux.h"  // CigarOp for conversion
+#include "gssw.h"
 
 using namespace std;
 //using namespace vcf;
@@ -34,6 +35,7 @@ struct Cigar : vector<CigarElement> {
     Cigar(const string& cigarStr);
     Cigar(vector<vcf::VariantAllele>& vav);
     Cigar(vector<BamTools::CigarOp>& cigarData);
+    Cigar(gssw_cigar* c);
     void toCigarData(vector<BamTools::CigarOp>& cigarData);
 };
 

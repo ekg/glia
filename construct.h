@@ -20,8 +20,25 @@
 using namespace std;
 //using namespace vcf;
 
+struct BackboneElement {
+    long int ref_position;
+    Cigar cigar;
+BackboneElement() : ref_position(0), cigar(Cigar()) { }
+BackboneElement(long int r,
+                Cigar c) : ref_position(r), cigar(c) { }
+};
+
+struct Backbone : map<gssw_node*, BackboneElement> {
+    void add(gssw_node* n, long int r, Cigar c) {
+        (*this)[n] = BackboneElement(r, c);
+    }
+};
+// std::vector<Cigar> &cigars,
+// std::vector<long int> &refpositions,
+
+
 int constructDAG(gssw_graph* graph,
-                 std::vector<Cigar> &cigars,
+                 Backbone& backbone,
                  std::string& targetSequence,
                  std::string& sequenceName,
                  std::vector<vcf::Variant> &variants,

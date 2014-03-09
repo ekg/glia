@@ -29,17 +29,20 @@ using namespace std;
 using namespace BamTools;
 
 
-void gswalign(gssw_graph* graph,
-              vector<Cigar>& nlist,
-              string& read,
-              string& qualities,
-              Parameters& params,
-              bt& backtrace,
-              mbt& trace_report,
-              int& score,
-              string& strand,
-              int8_t* nt_table,
-              int8_t* score_matrix) {
+gssw_graph_mapping*
+gswalign(gssw_graph* graph,
+         //vector<Cigar>& cigars, // by node id
+         //vector<long int>& refpositions,  // by node id
+         Backbone& backbone,
+         string& read,
+         string& qualities,
+         Parameters& params,
+         long int& position,
+         int& score,
+         Cigar& flat_cigar,
+         string& strand,
+         int8_t* nt_table,
+         int8_t* score_matrix) {
 
     sn* result_F;
     sn* result_R;
@@ -49,29 +52,31 @@ void gswalign(gssw_graph* graph,
     mbt trace_report_R;
     bt backtrace_F;
     bt backtrace_R;
+    gssw_graph_mapping* gmf = NULL;
+    gssw_graph_mapping* gmr = NULL;
 
     if (params.debug) cerr << "aligning forward" << endl;
 
     const char* cread = read.c_str();
     gssw_graph_fill(graph, cread, nt_table, score_matrix, params.gap_open, params.gap_extend, 15, 2);
-    gssw_graph_mapping* gm = gssw_graph_trace_back (graph,
-                                                    cread,
-                                                    read.length(),
-                                                    params.match,
-                                                    params.mism,
-                                                    params.gap_open,
-                                                    params.gap_extend);
+    gmf = gssw_graph_trace_back (graph,
+                                 cread,
+                                 read.length(),
+                                 params.match,
+                                 params.mism,
+                                 params.gap_open,
+                                 params.gap_extend);
 
     if (params.display_backtrace) {
-        cout << "==== forward alignment ====" << endl;
-        gssw_print_graph_mapping(gm);
-    } else if (params.display_all_nodes) {
-        cout << "==== forward alignment ====" << endl;
+        cerr << "==== forward alignment ====" << endl;
+        cerr << graph_mapping_to_string(gmf) << endl;
+    }
+    if (params.display_all_nodes) {
+        cerr << "==== forward alignment ====" << endl;
         gssw_graph_print_score_matrices(graph, read.c_str(), read.length());
     }
 
-    score_F = gm->score;
-    gssw_graph_mapping_destroy(gm);
+    score_F = gmf->score;
 
     // check if the reverse complement provides a better alignment
     if (params.alignReverse) {
@@ -81,39 +86,95 @@ void gswalign(gssw_graph* graph,
         reverse(qualitiesrc.begin(), qualitiesrc.end());
         const char* creadrc = readrc.c_str();
         gssw_graph_fill(graph, creadrc, nt_table, score_matrix, params.gap_open, params.gap_extend, 15, 2);
-        gssw_graph_mapping* gm = gssw_graph_trace_back (graph,
-                                                        creadrc,
-                                                        readrc.length(),
-                                                        params.match,
-                                                        params.mism,
-                                                        params.gap_open,
-                                                        params.gap_extend);
+        gmr = gssw_graph_trace_back (graph,
+                                     creadrc,
+                                     readrc.length(),
+                                     params.match,
+                                     params.mism,
+                                     params.gap_open,
+                                     params.gap_extend);
 
         if (params.display_backtrace) {
-            cout << "==== reverse alignment ====" << endl;
-            gssw_print_graph_mapping(gm);
-        } else if (params.display_all_nodes) {
-            cout << "==== reverse alignment ====" << endl;
-            gssw_graph_print_score_matrices(graph, read.c_str(), read.length());
+            cerr << "==== reverse alignment ====" << endl;
+            cerr << graph_mapping_to_string(gmr) << endl;
+            //gssw_print_graph_mapping(gmr);
         }
-        score_R = gm->score;
-        gssw_graph_mapping_destroy(gm);
+        if (params.display_all_nodes) {
+            cerr << "==== reverse alignment ====" << endl;
+            gssw_graph_print_score_matrices(graph, read.c_str(), read.length());
+            //gssw_print_graph_mapping(gmr);
+        }
+        score_R = gmr->score;
 
     }
 
+    gssw_graph_mapping* gm = NULL;
     if (score_F > score_R) {
-        backtrace = backtrace_F;
-        trace_report = trace_report_F;
         score = score_F;
+        gm = gmf;
         strand = "+";
+        if (params.alignReverse) {
+            gssw_graph_mapping_destroy(gmr);
+        }
     } else {
-        backtrace = backtrace_R;
-        trace_report = trace_report_R;
         score = score_R;
+        gm = gmr;
         strand = "-";
+        gssw_graph_mapping_destroy(gmf);
     }
+
+    // determine the reference-relative position
+    position = gm->position + backbone[gm->cigar.elements[0].node].ref_position;
+
+    int read_pos = 0;
+    // flatten the winning alignment
+    for (int i = 0; i < gm->cigar.length; ++i) {
+        gssw_node* n = gm->cigar.elements[i].node;
+        gssw_cigar* c = gm->cigar.elements[i].cigar;
+        Cigar graph_relative_cigar = Cigar(c);
+        //Cigar& ref_relative_cigar = cigars.at(n->id);
+        Cigar& ref_relative_cigar = backbone[gm->cigar.elements[i].node].cigar;
+        if (ref_relative_cigar.refLen() != ref_relative_cigar.readLen()) {
+            flat_cigar.append(ref_relative_cigar);
+            /*
+            cerr << "flattening! " << graph_relative_cigar.readLen() 
+                 << " ? " << ref_relative_cigar.readLen() << " ? " << strlen(n->seq) << endl;
+            */
+            // flatten things back into th reference space
+            string s = string(n->seq);
+            read.replace(read_pos, graph_relative_cigar.readLen(), s);
+            qualities.replace(read_pos, graph_relative_cigar.readLen(),
+                              string(s.size(), shortInt2QualityChar(30)));
+        } else {
+            flat_cigar.append(graph_relative_cigar);
+        }
+        read_pos += graph_relative_cigar.readLen();
+        /*
+        cerr << "building cigar: " << read_pos << endl
+             << flat_cigar << endl
+             << read << endl;
+        */
+    }
+    //cout << flattened_cigar << endl;
+
+/*
+        if (node->isref) { // if we're in the reference coordinate space
+            backtrace.cigar = cigar;
+        } else {
+
+            backtrace.x = 0; // matches to start of variant now
+            trace_report.read.replace(y, cigar.readLen(), node->sequence);
+            backtrace.cigar = node->cigar;
+            reverse(backtrace.cigar.begin(), backtrace.cigar.end()); // re-reverse
+            trace_report.qualities.replace(y, cigar.readLen(),
+                                           string(node->sequence.size(), shortInt2QualityChar(30)));
+            //trace_report.read.replace(y, backtrace.cigar.readLen(), node->sequence.substr(0, x));
+            // and 1bp of reference before the implied divergent sequence
+        }
+*/
 
     //cout << "x: " << trace_report.x << " y: " << trace_report.y << endl;
+    return gm;
 
 }
 
@@ -154,11 +215,20 @@ void construct_dag_and_align_single_sequence(Parameters& params) {
     long offset = max(target.startPos, 1); // start is -1 when coordinates are not specified
 
     // Declare the target DAG to align against.
-    vector<Cigar> cigars;
+    //vector<Cigar> cigars;
+    //vector<long int> refpositions;
+    Backbone backbone;
     gssw_graph* graph = gssw_graph_create(0);
     int8_t* nt_table = gssw_create_nt_table();
 	int8_t* mat = gssw_create_score_matrix(params.match, params.mism);
-    constructDAG(graph, cigars, targetSequence, target.startSeq, variants, offset, nt_table, mat);
+    constructDAG(graph,
+                 backbone,
+                 targetSequence,
+                 target.startSeq,
+                 variants,
+                 offset,
+                 nt_table,
+                 mat);
 
     if (params.display_dag) {
         cout << "DAG generated from input variants:" << endl;
@@ -169,22 +239,25 @@ void construct_dag_and_align_single_sequence(Parameters& params) {
 
     string read = params.read_input;
     string qualities(read.size(), shortInt2QualityChar(30));
-    bt backtrace;
-    mbt trace_report;
     int score;
+    long int position;
     string strand;
-    gswalign(graph,
-             cigars,
-             read,
-             qualities,
-             params,
-             backtrace,
-             trace_report,
-             score,
-             strand,
-             nt_table,
-             mat);
+    Cigar flat_cigar;
+    gssw_graph_mapping* gm = gswalign(graph,
+                                      backbone,
+                                      read,
+                                      qualities,
+                                      params,
+                                      position,
+                                      score,
+                                      flat_cigar,
+                                      strand,
+                                      nt_table,
+                                      mat);
+    cerr << graph_mapping_to_string(gm) << endl;
+    gssw_graph_mapping_destroy(gm);
 
+    /*
     cout << score << " " << strand << " "
          << (trace_report.node->position - 1) + trace_report.x << " "
          << trace_report.fcigar
@@ -205,6 +278,7 @@ void construct_dag_and_align_single_sequence(Parameters& params) {
             cout << reverseComplement(read) << endl;
         }
     }
+    */
 }
 
 bool shouldRealign(BamAlignment& alignment,
@@ -225,13 +299,19 @@ bool shouldRealign(BamAlignment& alignment,
     }
 
     Cigar cigar(alignment.CigarData);
-    countMismatchesAndGaps(alignment, cigar, ref, offset, stats);
+    countMismatchesAndGaps(alignment, cigar, ref, offset, stats, params.debug);
     if (stats.mismatch_qsum > params.mismatch_qsum_threshold
-        || stats.softclip_qsum > params.softclip_qsum_threshold) {
+        || stats.softclip_qsum > params.softclip_qsum_threshold
+        || stats.gaps > params.gap_count_threshold
+        || stats.gapslen > params.gap_length_threshold) {
         if (params.debug) {
-            cerr << "realigning because read " << alignment.Name << " meets mismatch (" << stats.mismatch_qsum << " vs. "
-                 << params.mismatch_qsum_threshold << ") or softclip ("
-                 << stats.softclip_qsum << " vs. " << params.softclip_qsum_threshold << ") thresholds" << endl;
+            cerr << "realigning because read " << alignment.Name
+                 << " meets mismatch (" << stats.mismatch_qsum << " vs. " << params.mismatch_qsum_threshold << "),"
+                 << " softclip (" << stats.softclip_qsum << " vs. " << params.softclip_qsum_threshold << "),"
+                 << " gap count (" << stats.gaps << " vs. " << params.gap_count_threshold << "),"
+                 << " or gap length (" << stats.gapslen << " vs. " << params.gap_length_threshold << ") "
+                 << " thresholds" << endl;
+            cerr << cigar << endl;
         }
         return true;
     } else {
@@ -245,8 +325,8 @@ bool acceptRealignment(BamAlignment& alignment,
                        Parameters& params,
                        AlignmentStats& stats) {
 
-    Cigar cigar(alignment.CigarData);
-    countMismatchesAndGaps(alignment, cigar, ref, offset, stats);
+    //Cigar cigar(alignment.CigarData);
+    //countMismatchesAndGaps(alignment, cigar, ref, offset, stats);
     if (stats.mismatch_qsum > params.mismatch_qsum_max
         || stats.softclip_qsum > params.softclip_qsum_max
         || stats.gaps > params.gap_count_max) {
@@ -311,10 +391,12 @@ void realign_bam(Parameters& params) {
     //         flatten read into reference space (for now just output alleles from VCF un-spanned insertions)
     //     write read to queue for streaming re-sorting (some positional change will occur)
 
-    long int dag_start_position = 1;
+    long int dag_start_position = 0;
     string currentSeqname;
     string ref;
-    vector<Cigar> cigars; // contains the Cigar strings of nodes in the graph
+    //vector<Cigar> cigars; // contains the Cigar strings of nodes in the graph
+    //vector<long int> refpositions; // contains the reference start coords of nodes in the graph
+    Backbone backbone;
     gssw_graph* graph = gssw_graph_create(0);
     int8_t* nt_table = gssw_create_nt_table();
     int8_t* mat = gssw_create_score_matrix(params.match, params.mism);
@@ -331,7 +413,7 @@ void realign_bam(Parameters& params) {
     while (reader.GetNextAlignment(alignment)) {
         if (params.debug) {
             cerr << "--------------------------------------------" << endl
-                 << "processing alignment " << alignment.Name << ":" << alignment.Position << endl;
+                 << "processing alignment " << alignment.Name << " at " << alignment.Position << endl;
         }
 
         ++total_reads;
@@ -354,7 +436,7 @@ void realign_bam(Parameters& params) {
             currentSeqname = seqname;
 
             // recenter DAG
-            if (!cigars.empty()) {
+            if (!backbone.empty()) {
                 dag_start_position = dag_start_position + dag_window_size/2;
                 dag_start_position = max(dag_start_position,
                                          (long int) (alignment.GetEndPosition() - dag_window_size/2));
@@ -365,18 +447,21 @@ void realign_bam(Parameters& params) {
 
             // TODO get sequence length and use to bound noted window size (edge case)
             ref = reference.getSubSequence(seqname,
-                                           max((long int) 0, dag_start_position - 1),
+                                           max((long int) 0, dag_start_position),
                                            dag_window_size); // 0/1 conversion
 
             // get variants for new DAG
             vector<vcf::Variant> variants;
             if (!vcffile.setRegion(currentSeqname,
-                                   dag_start_position,
+                                   dag_start_position + 1,
                                    dag_start_position + ref.size())) {
+                // this is not necessarily an error; there should be a better way to check for VCF file validity
+                /*
                 cerr << "could not set region on VCF file to " << currentSeqname << ":"
                      << dag_start_position << "-" << dag_start_position + ref.size()
                      << endl;
-                exit(1);
+                */
+                //exit(1);
             } else {
                 while (vcffile.getNextVariant(var)) {
                     if (params.debug) cerr << "getting variant at " << var.sequenceName << ":" << var.position << endl;
@@ -388,14 +473,16 @@ void realign_bam(Parameters& params) {
             }
 
             // clear graph and metadata
-            cigars.clear();
+            backbone.clear();
+            //cigars.clear();
+            //refpositions.clear();
             gssw_graph_destroy(graph);
 
             if (params.debug) { cerr << "constructing DAG" << endl; }
             // and build the DAG
             graph = gssw_graph_create(0);
             constructDAG(graph,
-                         cigars,
+                         backbone,
                          ref,
                          currentSeqname,
                          variants,
@@ -403,12 +490,21 @@ void realign_bam(Parameters& params) {
                          nt_table,
                          mat);
 
-            if (params.display_dag || params.debug) {
+            if (params.debug) {
                 cerr << "graph has " << graph->size << " nodes" << endl;
                 cerr << "DAG generated from input variants over "
                      << seqname << ":" << dag_start_position << "-" << dag_window_size
                      << endl;
+            }
+            if (params.display_dag) {
                 gssw_graph_print(graph);
+                for (Backbone::iterator b = backbone.begin(); b != backbone.end(); ++b) {
+                    cout << b->first << " "
+                         << b->first->id << " "
+                         << b->second.ref_position << " "
+                         << b->second.cigar << endl
+                         << b->first->seq << endl;
+                }
             }
 
             if (graph->size == 1 && allN(ref)) {
@@ -428,48 +524,49 @@ void realign_bam(Parameters& params) {
             ++total_realigned;
 
             if (params.debug) {
-                cerr << "realigning: " << alignment.Name << " " << alignment.QueryBases << endl
-                     << "to variant graph over "
+                cerr << "realigning: " << alignment.Name
+                     << " " << alignment.QueryBases << endl
+                     << " aligned @ " << alignment.Position
+                     << " to variant graph over "
                      << seqname
                      << ":" << dag_start_position
                      << "-" << dag_start_position + dag_window_size << endl;
             }
 
-            try {
+            //try {
+            {
 
-                Cigar cigar;
+                Cigar flat_cigar;
                 string read = alignment.QueryBases;
                 string qualities = alignment.Qualities;
-                bt backtrace;
-                mbt trace_report;
                 int score;
+                long int position;
                 string strand;
-                gswalign(graph,
-                         cigars,
-                         read,
-                         qualities,
-                         params,
-                         backtrace,
-                         trace_report,
-                         score,
-                         strand,
-                         nt_table,
-                         mat);
+                gssw_graph_mapping* gm =
+                    gswalign(graph,
+                             backbone,
+                             read,
+                             qualities,
+                             params,
+                             position,
+                             score,
+                             flat_cigar,
+                             strand,
+                             nt_table,
+                             mat);
+                //
+                gssw_graph_mapping_destroy(gm);
 
                 if (params.dry_run) {
 
-                    //if (strand == "-" && !alignment.IsMapped()) {
-                    //    read = reverseComplement(trace_report.read);
-                    //}
-                    /*
-                    cout << read << endl
-                         << trace_report.read << endl;
+                    if (strand == "-" && !alignment.IsMapped()) {
+                        read = reverseComplement(read);
+                    }
+                    cout << read << endl;
+                    cout << graph_mapping_to_string(gm) << endl;
                     cout << score << " " << strand << " "
-                         << (trace_report.node->position - 1) + trace_report.x << " "
-                         << trace_report.fcigar
-                         << " seq:" << trace_report.x << " read:" << trace_report.y
-                         << " " << trace_report.gcigar << " " << trace_report.fcigar << endl;
-                    */
+                         << position << " "
+                         << flat_cigar << endl;
 
                 } else {
 
@@ -477,38 +574,30 @@ void realign_bam(Parameters& params) {
                     if (strand == "-") {
                         read = reverseComplement(trace_report.read);
                     }
-                      cerr << read << endl
-                      << trace_report.read << endl;
-                      cerr << score << " " << strand
-                      << " seq:" << trace_report.x << " read:" << trace_report.y
-                      << " " << trace_report.gcigar << " " << trace_report.fcigar << endl;
-                    */
+                   */
+ 
                     // TODO the qualities are not on the right side of the read
                     if (strand == "-" && alignment.IsMapped()) {
                         // if we're realigning, this is always true unless we swapped strands
                         alignment.SetIsReverseStrand(true);
-                        //alignment.QueryBases = reverseComplement(trace_report.read);
-                        alignment.QueryBases = trace_report.read;
-                        alignment.Qualities = trace_report.qualities;
                         //reverse(alignment.Qualities.begin(), alignment.Qualities.end()); // reverse qualities
-                    } else {
-                        // nothing to do for forward strand---
-                        // BAM is already 5'-3' except for reverse strand flag
-                        alignment.QueryBases = trace_report.read;
-                        alignment.Qualities = trace_report.qualities;
                     }
-                    alignment.Position = (trace_report.node->position - 1) + trace_report.x;
+                    //alignment.QueryBases = reverseComplement(trace_report.read);
+                    alignment.QueryBases = read;
+                    alignment.Qualities = qualities;
+
+                    alignment.Position = position;// + 1;// + 1;//(trace_report.node->position - 1) + trace_report.x;
                     alignment.SetIsMapped(true);
                     if (!alignment.MapQuality) {
-                        alignment.MapQuality = 20; // horrible hack...
+                        alignment.MapQuality = 20; // horrible hack...  at least approximate with alignment mismatches against graph
                     }
 
                     // check if somehow we've ended up with an indel at the ends
                     // if so, grab the reference sequence right beyond it and add
                     // a single match to the cigar, allowing variant detection methods
                     // to run on the results without internal modification
-                    Cigar& cigar = trace_report.fcigar;
-
+                    Cigar& cigar = flat_cigar;
+                    //cerr << flat_cigar << " " << flat_cigar.readLen() << " " << flat_cigar.refLen() << endl;
                     int flankSize = params.flatten_flank;
                     if (cigar.front().isIndel() ||
                         (cigar.front().isSoftclip() && cigar.at(1).isIndel())) {
@@ -524,14 +613,14 @@ void realign_bam(Parameters& params) {
                         alignment.QueryBases.insert(0, refBase);
                         alignment.Qualities.insert(0, string(flankSize, shortInt2QualityChar(30)));
                         Cigar newCigar; newCigar.push_back(CigarElement(flankSize, 'M'));
-                        newCigar.append(trace_report.fcigar);
-                        trace_report.fcigar = newCigar;
+                        newCigar.append(flat_cigar);
+                        flat_cigar = newCigar;
                     }
                     if (cigar.back().isIndel() ||
                         (cigar.back().isSoftclip() && cigar.at(cigar.size()-2).isIndel())) {
                         string refBase = reference.getSubSequence(seqname,
                                                                   alignment.Position
-                                                                  + trace_report.fcigar.refLen(),
+                                                                  + flat_cigar.refLen(),
                                                                   flankSize);
                         if (cigar.back().isSoftclip()) {
                             alignment.QueryBases.erase(alignment.QueryBases.end()-cigar.back().length,
@@ -541,17 +630,20 @@ void realign_bam(Parameters& params) {
                             cigar.pop_back();
                         }
                         Cigar newCigar; newCigar.push_back(CigarElement(flankSize, 'M'));
-                        trace_report.fcigar.append(newCigar);
+                        flat_cigar.append(newCigar);
+                        //flat_cigar.append(newCigar);
                         alignment.QueryBases.append(refBase);
                         alignment.Qualities.append(string(flankSize, shortInt2QualityChar(30)));
                     }
 
-                    trace_report.fcigar.toCigarData(alignment.CigarData);
+                    flat_cigar.toCigarData(alignment.CigarData);
+                    //cerr << flat_cigar << " " << flat_cigar.readLen() << " " << flat_cigar.refLen() << endl;
 
                     AlignmentStats stats_after;
-                    countMismatchesAndGaps(alignment, trace_report.fcigar, ref, dag_start_position, stats_after);
-                    if ((!was_mapped || stats_before.softclip_qsum >= stats_after.softclip_qsum)
-                        && acceptRealignment(alignment, ref, dag_start_position, params, stats_after)) {
+                    countMismatchesAndGaps(alignment, flat_cigar, ref, dag_start_position, stats_after, params.debug);
+                    if ((!was_mapped || (stats_before.softclip_qsum >= stats_after.softclip_qsum
+                                         && stats_before.mismatch_qsum >= stats_after.mismatch_qsum))
+                         && acceptRealignment(alignment, ref, dag_start_position, params, stats_after)) {
 
                         // keep the alignment
                         // TODO require threshold of softclips to keep alignment (or count of gaps, mismatches,...)
@@ -564,12 +656,17 @@ void realign_bam(Parameters& params) {
                         has_realigned = true;
                     } else {
                         // reset to old version of alignment
+                        if (params.debug) {
+                            cerr << "failed realignment of " << alignment.Name << " to graph, which it maps to with: " 
+                                 << stats_after.mismatch_qsum << " in mismatches " << "(vs " << stats_before.mismatch_qsum << " before), and "
+                                 << stats_after.softclip_qsum << " in soft clips " << "(vs " << stats_before.softclip_qsum << " before) " << endl;
+                        }
                         has_realigned = false;
                         alignment = originalAlignment;
                     }
-
                 }
-
+            } // try block
+                /*
             } catch (...) {
                 cerr << "exception when realigning " << alignment.Name
                      << " at position " << referenceIDToName[alignment.RefID]
@@ -579,6 +676,7 @@ void realign_bam(Parameters& params) {
                 has_realigned = false;
                 alignment = originalAlignment;
             }
+                */
         }
 
         if (!params.dry_run) {

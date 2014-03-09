@@ -74,6 +74,8 @@ public:
     // trigger realignment
     int mismatch_qsum_threshold;
     int softclip_qsum_threshold;
+    int gap_count_threshold;
+    int gap_length_threshold;
 
     // accept realignment only if <
     int mismatch_qsum_max;
