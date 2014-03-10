@@ -145,13 +145,13 @@ void Parameters::usage(char** argv) {
         << "                               in high coverage areas, but will require sort of BAM file before" << endl
         << "                               it can be used for variant calling." << endl
         << "    -S --soft-clip-qsum-threshold N"  << endl
-        << "                               If sum of qualities of soft clipped bases is > N, realign (default ~inf)." << endl
+        << "                               If sum of qualities of soft clipped bases is >= N, realign (default ~inf)." << endl
         << "    -Q --mismatch-qsum-threshold N" << endl
-        << "                               If sum of qualities of mismatched bases is > N, realign (default ~inf)." << endl
+        << "                               If sum of qualities of mismatched bases is >= N, realign (default ~inf)." << endl
         << "    -C --gap-count-threshold N" << endl
-        << "                               If the count of gaps is > N, realign (default: ~inf)." << endl
+        << "                               If the count of gaps is >= N, realign (default: ~inf)." << endl
         << "    -L --gap-length-threshold N" << endl
-        << "                               If the total length of gaps is > N, realign (default: ~inf)." << endl
+        << "                               If the total length of gaps is >= N, realign (default: ~inf)." << endl
         << "    -Z --soft-clip-qsum-max N  Accept realignment if qsum of softclips is < N." << endl
         << "    -E --mismatch-qsum-max N   Accept realignment if qsom of mismatches is < N." << endl
         << "    -G --gap-count-max N       Accept realignment if number of gaps is < N." << endl

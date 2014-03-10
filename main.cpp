@@ -300,10 +300,10 @@ bool shouldRealign(BamAlignment& alignment,
 
     Cigar cigar(alignment.CigarData);
     countMismatchesAndGaps(alignment, cigar, ref, offset, stats, params.debug);
-    if (stats.mismatch_qsum > params.mismatch_qsum_threshold
-        || stats.softclip_qsum > params.softclip_qsum_threshold
-        || stats.gaps > params.gap_count_threshold
-        || stats.gapslen > params.gap_length_threshold) {
+    if (stats.mismatch_qsum >= params.mismatch_qsum_threshold
+        || stats.softclip_qsum >= params.softclip_qsum_threshold
+        || stats.gaps >= params.gap_count_threshold
+        || stats.gapslen >= params.gap_length_threshold) {
         if (params.debug) {
             cerr << "realigning because read " << alignment.Name
                  << " meets mismatch (" << stats.mismatch_qsum << " vs. " << params.mismatch_qsum_threshold << "),"
