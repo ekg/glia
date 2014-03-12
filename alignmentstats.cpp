@@ -15,7 +15,6 @@ void countMismatchesAndGaps(
 
     int softclip_start = (cigar.begin()->type == 'S' ? cigar.begin()->length : 0);
     if (debug) {
-        //cerr << "referenceStart = " << referenceStart << endl;
         cerr << "pos  : " << alignment.Position << endl;
         cerr << "ref  : " << referenceSequence << endl;
         cerr << "ref  : " << string(softclip_start, ' ') << referenceSequence.substr(sp, cigar.refLen()) << endl;

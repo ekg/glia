@@ -297,9 +297,17 @@ bool shouldRealign(BamAlignment& alignment,
         }
         return true;
     }
+    
+    if (alignment.CigarData.empty()) {
+        cerr << "realigning because alignment " << alignment.Name << " @ " << alignment.Position
+             << " has empty (or corrupted?) CIGAR" << endl;
+        return true;
+    }
 
     Cigar cigar(alignment.CigarData);
+
     countMismatchesAndGaps(alignment, cigar, ref, offset, stats, params.debug);
+
     if (stats.mismatch_qsum >= params.mismatch_qsum_threshold
         || stats.softclip_qsum >= params.softclip_qsum_threshold
         || stats.gaps >= params.gap_count_threshold
