@@ -121,10 +121,18 @@ gswalign(gssw_graph* graph,
         gm = gmr;
         strand = "-";
         gssw_graph_mapping_destroy(gmf);
+        // reverse complement things
+        read = reverseComplement(read);
+        reverse(qualities.begin(), qualities.end());
     }
 
     // determine the reference-relative position
-    position = gm->position + backbone[gm->cigar.elements[0].node].ref_position;
+    BackboneElement& bkb = backbone[gm->cigar.elements[0].node];
+    if (bkb.is_ref()) {
+        position = gm->position + backbone[gm->cigar.elements[0].node].ref_position;
+    } else { // flatten to previous position
+        position = backbone[gm->cigar.elements[0].node].ref_position;
+    }
 
     int read_pos = 0;
     // flatten the winning alignment
@@ -305,7 +313,6 @@ bool shouldRealign(BamAlignment& alignment,
     }
 
     Cigar cigar(alignment.CigarData);
-
     countMismatchesAndGaps(alignment, cigar, ref, offset, stats, params.debug);
 
     if (stats.mismatch_qsum >= params.mismatch_qsum_threshold
@@ -314,10 +321,10 @@ bool shouldRealign(BamAlignment& alignment,
         || stats.gapslen >= params.gap_length_threshold) {
         if (params.debug) {
             cerr << "realigning because read " << alignment.Name
-                 << " meets mismatch (" << stats.mismatch_qsum << " vs. " << params.mismatch_qsum_threshold << "),"
-                 << " softclip (" << stats.softclip_qsum << " vs. " << params.softclip_qsum_threshold << "),"
-                 << " gap count (" << stats.gaps << " vs. " << params.gap_count_threshold << "),"
-                 << " or gap length (" << stats.gapslen << " vs. " << params.gap_length_threshold << ") "
+                 << " meets mismatch (q" << stats.mismatch_qsum << " in " << stats.mismatches << ")" //<< " vs. " << params.mismatch_qsum_threshold << "),"
+                 << " softclip (q" << stats.softclip_qsum << " in " << stats.softclips << ")" //<< " vs. " << params.softclip_qsum_threshold << "),"
+                 << " gap count (" << stats.gaps << ")" //" vs. " << params.gap_count_threshold << "),"
+                 << " or gap length (" << stats.gapslen << ")" //<< " vs. " << params.gap_length_threshold << ") "
                  << " thresholds" << endl;
             cerr << cigar << endl;
         }
@@ -419,9 +426,24 @@ void realign_bam(Parameters& params) {
     }
 
     while (reader.GetNextAlignment(alignment)) {
+
+        string& seqname = referenceIDToName[alignment.RefID];
+
         if (params.debug) {
             cerr << "--------------------------------------------" << endl
-                 << "processing alignment " << alignment.Name << " at " << alignment.Position << endl;
+                 << "processing alignment " << alignment.Name << " at "
+                 << seqname << ":" << alignment.Position << endl;
+        }
+
+        if (!alignment.IsMapped() && graph->size == 0) {
+            if (params.debug) {
+                cerr << "unable to build DAG using unmapped read "
+                     << alignment.Name << " @ "
+                     << seqname << ":" << alignment.Position
+                     << " no previous mapped read found and DAG currently empty" << endl;
+            }
+            alignmentSortQueue[dag_start_position+dag_window_size].push_back(alignment);
+            continue;
         }
 
         ++total_reads;
@@ -431,14 +453,15 @@ void realign_bam(Parameters& params) {
         //if (dag_start_position == 1) {
         //    dag_start_position = max(1, (int)initialAlignmentPosition - dag_window_size/2);
         //}
-        string& seqname = referenceIDToName[alignment.RefID];
 
         // should we construct a new DAG?  do so when 3/4 of the way through the current one
         // center on current position + 1/2 dag window
         // TODO check this scheme using some scribbles on paper
-        if (seqname != currentSeqname
-            || (alignment.Position + (alignment.QueryBases.size()/2)
-                > (3*dag_window_size/4) + dag_start_position)) {
+        if (alignment.IsMapped()
+            && (seqname != currentSeqname
+                || (alignment.Position + (alignment.QueryBases.size()/2)
+                    > (3*dag_window_size/4) + dag_start_position))
+            && alignment.Position < reference.sequenceLength(seqname)) {
 
             // reset current sequence name, if different
             currentSeqname = seqname;
@@ -454,6 +477,7 @@ void realign_bam(Parameters& params) {
             dag_start_position = max((long int)0, dag_start_position);
 
             // TODO get sequence length and use to bound noted window size (edge case)
+            //cerr << "getting ref " << seqname << " " << max((long int) 0, dag_start_position) << " " << dag_window_size << endl;
             ref = reference.getSubSequence(seqname,
                                            max((long int) 0, dag_start_position),
                                            dag_window_size); // 0/1 conversion
@@ -526,6 +550,13 @@ void realign_bam(Parameters& params) {
         AlignmentStats stats_before;
         bool was_mapped = alignment.IsMapped();
         bool has_realigned = false;
+        if (was_mapped) {
+            if (dag_start_position + dag_window_size < alignment.GetEndPosition()) {
+                ref = reference.getSubSequence(seqname,
+                                               max((long int) 0, dag_start_position),
+                                               alignment.GetEndPosition() - dag_start_position); // 0/1 conversion
+            }
+        }
 
         if (!emptyDAG && shouldRealign(alignment, ref, dag_start_position, params, stats_before)) {
 
@@ -647,10 +678,25 @@ void realign_bam(Parameters& params) {
                     flat_cigar.toCigarData(alignment.CigarData);
                     //cerr << flat_cigar << " " << flat_cigar.readLen() << " " << flat_cigar.refLen() << endl;
 
+                    if (dag_start_position + dag_window_size < alignment.GetEndPosition()) {
+                        ref = reference.getSubSequence(seqname,
+                                                       max((long int) 0, dag_start_position),
+                                                       alignment.GetEndPosition() - dag_start_position); // 0/1 conversion
+                    }
+
                     AlignmentStats stats_after;
                     countMismatchesAndGaps(alignment, flat_cigar, ref, dag_start_position, stats_after, params.debug);
+                    /*
                     if ((!was_mapped || (stats_before.softclip_qsum >= stats_after.softclip_qsum
                                          && stats_before.mismatch_qsum >= stats_after.mismatch_qsum))
+                         && acceptRealignment(alignment, ref, dag_start_position, params, stats_after)) {
+                    */
+                    /*
+                    if ((!was_mapped || (stats_before.softclip_qsum + stats_before.mismatch_qsum
+                                         >= stats_after.softclip_qsum + stats_after.mismatch_qsum))
+                         && acceptRealignment(alignment, ref, dag_start_position, params, stats_after)) {
+                    */
+                    if ((!was_mapped || stats_before.softclip_qsum >= stats_after.softclip_qsum)
                          && acceptRealignment(alignment, ref, dag_start_position, params, stats_after)) {
 
                         // keep the alignment

@@ -49,7 +49,7 @@ int Cigar::refLen(void) {
 int Cigar::readLen(void) {
     int len = 0;
     for (Cigar::const_iterator c = begin(); c != end(); ++c) {
-        if (c->type == 'M' || c->type == 'I' || c->type == 'X') {
+        if (c->type == 'M' || c->type == 'I' || c->type == 'X' || c->type == 'S') {
             len += c->length;
         }
     }

@@ -26,6 +26,9 @@ struct BackboneElement {
 BackboneElement() : ref_position(0), cigar(Cigar()) { }
 BackboneElement(long int r,
                 Cigar c) : ref_position(r), cigar(c) { }
+    bool is_ref(void) {
+        return cigar.size() == 1 && cigar.front().type == 'M';
+    }
 };
 
 struct Backbone : map<gssw_node*, BackboneElement> {
