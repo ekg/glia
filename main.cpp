@@ -296,7 +296,9 @@ bool shouldRealign(BamAlignment& alignment,
                    AlignmentStats& stats) {
 
     if (allN(alignment.QueryBases)) {
-        cerr << "not realigning because query is all Ns! " << alignment.Name << endl;
+        if (params.debug) {
+            cerr << "not realigning because query is all Ns! " << alignment.Name << endl;
+        }
         return false;
     }
     if (!alignment.IsMapped()) {
@@ -435,6 +437,7 @@ void realign_bam(Parameters& params) {
                  << seqname << ":" << alignment.Position << endl;
         }
 
+        /*
         if (!alignment.IsMapped() && graph->size == 0) {
             if (params.debug) {
                 cerr << "unable to build DAG using unmapped read "
@@ -445,6 +448,7 @@ void realign_bam(Parameters& params) {
             alignmentSortQueue[dag_start_position+dag_window_size].push_back(alignment);
             continue;
         }
+        */
 
         ++total_reads;
 
@@ -457,17 +461,19 @@ void realign_bam(Parameters& params) {
         // should we construct a new DAG?  do so when 3/4 of the way through the current one
         // center on current position + 1/2 dag window
         // TODO check this scheme using some scribbles on paper
-        if (alignment.IsMapped()
-            && (seqname != currentSeqname
-                || (alignment.Position + (alignment.QueryBases.size()/2)
-                    > (3*dag_window_size/4) + dag_start_position))
+        // alignment.IsMapped()
+        if ((seqname != currentSeqname
+             || ((alignment.Position + (alignment.QueryBases.size()/2)
+                  > (3*dag_window_size/4) + dag_start_position)))
             && alignment.Position < reference.sequenceLength(seqname)) {
 
-            // reset current sequence name, if different
-            currentSeqname = seqname;
-
+            if (seqname != currentSeqname) {
+                if (params.debug) {
+                    cerr << "switched ref seqs" << endl;
+                }
+                dag_start_position = 0;
             // recenter DAG
-            if (!backbone.empty()) {
+            } else if (!backbone.empty()) {
                 dag_start_position = dag_start_position + dag_window_size/2;
                 dag_start_position = max(dag_start_position,
                                          (long int) (alignment.GetEndPosition() - dag_window_size/2));
@@ -484,7 +490,7 @@ void realign_bam(Parameters& params) {
 
             // get variants for new DAG
             vector<vcf::Variant> variants;
-            if (!vcffile.setRegion(currentSeqname,
+            if (!vcffile.setRegion(seqname,
                                    dag_start_position + 1,
                                    dag_start_position + ref.size())) {
                 // this is not necessarily an error; there should be a better way to check for VCF file validity
@@ -516,7 +522,7 @@ void realign_bam(Parameters& params) {
             constructDAG(graph,
                          backbone,
                          ref,
-                         currentSeqname,
+                         seqname,
                          variants,
                          dag_start_position,
                          nt_table,
@@ -540,6 +546,9 @@ void realign_bam(Parameters& params) {
             }
 
             if (graph->size == 1 && allN(ref)) {
+                if (params.debug) {
+                    cerr << "DAG is empty (1 node, all N).  Alignment is irrelevant." << endl;
+                }
                 emptyDAG = true;
             } else {
                 emptyDAG = false;
@@ -555,6 +564,12 @@ void realign_bam(Parameters& params) {
                 ref = reference.getSubSequence(seqname,
                                                max((long int) 0, dag_start_position),
                                                alignment.GetEndPosition() - dag_start_position); // 0/1 conversion
+            }
+        }
+
+        if (params.debug) {
+            if (emptyDAG) {
+                cerr << "cannot realign against empty (all-N single node) graph" << endl;
             }
         }
 
@@ -733,12 +748,19 @@ void realign_bam(Parameters& params) {
                 */
         }
 
-        if (!params.dry_run) {
-            if (!params.only_realigned || has_realigned) {
-                alignmentSortQueue[alignment.Position].push_back(alignment);
+        // ensure correct order if alignments move
+        long int maxOutputPos = initialAlignmentPosition - dag_window_size;
+        // if we switched sequences we need to flush out all the reads from the previous one
+        string lastSeqname = currentSeqname;
+        if (seqname != currentSeqname) {
+            // so the max output position is set past the end of the last chromosome
+            if (!currentSeqname.empty()) {
+                maxOutputPos = reference.sequenceLength(currentSeqname) + dag_window_size;
             }
-            // ensure correct order if alignments move
-            long int maxOutputPos = initialAlignmentPosition - dag_window_size;
+            currentSeqname = seqname;
+        }
+
+        if (!params.dry_run) {
             map<long int, vector<BamAlignment> >::iterator p = alignmentSortQueue.begin();
             for ( ; p != alignmentSortQueue.end(); ++p) {
                 // except if we are running in unsorted mode, stop when we are at the window size
@@ -752,6 +774,9 @@ void realign_bam(Parameters& params) {
             }
             if (p != alignmentSortQueue.begin()) {
                 alignmentSortQueue.erase(alignmentSortQueue.begin(), p);
+            }
+            if (!params.only_realigned || has_realigned) {
+                alignmentSortQueue[alignment.Position].push_back(alignment);
             }
         }
     } // end GetNextAlignment loop
