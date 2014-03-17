@@ -796,9 +796,11 @@ void realign_bam(Parameters& params) {
     reader.Close();
     writer.Close();
 
-    cerr << "total reads:\t" << total_reads << endl;
-    cerr << "realigned:\t" << total_realigned << endl;
-    cerr << "improved:\t" << total_improved << endl;
+    if (params.debug) {
+        cerr << "total reads:\t" << total_reads << endl;
+        cerr << "realigned:\t" << total_realigned << endl;
+        cerr << "improved:\t" << total_improved << endl;
+    }
 
 }
 
