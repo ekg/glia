@@ -144,15 +144,16 @@ gswalign(gssw_graph* graph,
         Cigar& ref_relative_cigar = backbone[gm->cigar.elements[i].node].cigar;
         if (ref_relative_cigar.refLen() != ref_relative_cigar.readLen()) {
             flat_cigar.append(ref_relative_cigar);
-            /*
-            cerr << "flattening! " << graph_relative_cigar.readLen() 
-                 << " ? " << ref_relative_cigar.readLen() << " ? " << strlen(n->seq) << endl;
-            */
+            //cerr << "flattening! " << graph_relative_cigar.readLen() 
+            //     << " ? " << ref_relative_cigar.readLen() << " ? " << strlen(n->seq) << endl;
+            //cerr << read << endl << qualities << endl;
             // flatten things back into th reference space
             string s = string(n->seq);
+            //cerr << read.substr(read_pos, graph_relative_cigar.readLen()) << endl << s << endl;
             read.replace(read_pos, graph_relative_cigar.readLen(), s);
             qualities.replace(read_pos, graph_relative_cigar.readLen(),
                               string(s.size(), shortInt2QualityChar(30)));
+            //cerr << read << endl << qualities << endl;
         } else {
             flat_cigar.append(graph_relative_cigar);
         }
@@ -163,7 +164,7 @@ gswalign(gssw_graph* graph,
              << read << endl;
         */
     }
-    //cout << flattened_cigar << endl;
+    //cerr << flat_cigar << endl;
 
 /*
         if (node->isref) { // if we're in the reference coordinate space
@@ -531,7 +532,7 @@ void realign_bam(Parameters& params) {
             if (params.debug) {
                 cerr << "graph has " << graph->size << " nodes" << endl;
                 cerr << "DAG generated from input variants over "
-                     << seqname << ":" << dag_start_position << "-" << dag_window_size
+                     << seqname << ":" << dag_start_position << "-" << dag_start_position + dag_window_size
                      << endl;
             }
             if (params.display_dag) {
@@ -545,7 +546,7 @@ void realign_bam(Parameters& params) {
                 }
             }
 
-            if (graph->size == 1 && allN(ref)) {
+            if (graph->size == 1 && allN(ref) || graph->size == 0) {
                 if (params.debug) {
                     cerr << "DAG is empty (1 node, all N).  Alignment is irrelevant." << endl;
                 }

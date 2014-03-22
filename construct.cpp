@@ -26,14 +26,14 @@ int constructDAG(gssw_graph* graph,
                  int8_t* nt_table,
                  int8_t* score_matrix) {
 
-    /*
+
     cerr << "constructing DAG over "
          << targetSequence.size()
          << " and " << variants.size()
          << " variants with offset " << offset << endl;
 
     cerr << "target:\t" << targetSequence << endl;
-    */
+
 
     //graph = gssw_graph_create(1);
 
@@ -150,12 +150,14 @@ int constructDAG(gssw_graph* graph,
 
     }
 
-    int current_pos = targetSequence.size();//(long int) var.position - (long int) offset;
+    int current_pos = targetSequence.size() + offset;//(long int) var.position - (long int) offset;
     p5_ref_seq = targetSequence.substr(prev_pos - offset, current_pos - prev_pos);
+    //cerr << "getting " << prev_pos << " - " << offset << " for " << current_pos << " - " << prev_pos << " bp" << endl;
 
     Cigar* p5_ref_cigar = NULL;
     gssw_node* p5_ref_node = NULL;
     if (!p5_ref_seq.empty()) {
+        cerr << "here..." << endl;
         //cigars.push_back(Cigar(convert(p5_ref_seq.size()) + "M"));
         //refpositions.push_back(prev_pos + offset);
         //p5_ref_cigar = &cigars.back();
@@ -170,5 +172,31 @@ int constructDAG(gssw_graph* graph,
         p5_var_nodes.clear();
     }
     
+
+}
+
+
+int constructDAGProgressive(gssw_graph* graph,
+                            //vector<Cigar> &cigars,
+                            //vector<long int> &refpositions,
+                            Backbone& backbone,
+                            string &targetSequence,
+                            string& sequenceName,
+                            vector<vcf::Variant> &variants,
+                            long offset,
+                            int8_t* nt_table,
+                            int8_t* score_matrix) {
+
+
+/*
+  Procedure:
+  1) take reference sequence, build node, insert into graph
+  2) get the next variant allele
+  3) break reference node to insert variant allele
+      or if reference is already broken thene, 
+  N) Topologically sort nodes
+
+*/
+
 
 }
