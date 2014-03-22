@@ -27,12 +27,14 @@ int constructDAG(gssw_graph* graph,
                  int8_t* score_matrix) {
 
 
+    /*
     cerr << "constructing DAG over "
          << targetSequence.size()
          << " and " << variants.size()
          << " variants with offset " << offset << endl;
 
     cerr << "target:\t" << targetSequence << endl;
+    */
 
 
     //graph = gssw_graph_create(1);
@@ -157,7 +159,6 @@ int constructDAG(gssw_graph* graph,
     Cigar* p5_ref_cigar = NULL;
     gssw_node* p5_ref_node = NULL;
     if (!p5_ref_seq.empty()) {
-        cerr << "here..." << endl;
         //cigars.push_back(Cigar(convert(p5_ref_seq.size()) + "M"));
         //refpositions.push_back(prev_pos + offset);
         //p5_ref_cigar = &cigars.back();
