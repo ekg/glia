@@ -20,28 +20,50 @@
 using namespace std;
 //using namespace vcf;
 
-struct BackboneElement {
+struct ReferenceMapping {
     long int ref_position;
     Cigar cigar;
-BackboneElement() : ref_position(0), cigar(Cigar()) { }
-BackboneElement(long int r,
-                Cigar c) : ref_position(r), cigar(c) { }
+ReferenceMapping() : ref_position(0), cigar(Cigar()) { }
+ReferenceMapping(long int r,
+                 Cigar c) : ref_position(r), cigar(c) { }
     bool is_ref(void) {
         return cigar.size() == 1 && cigar.front().type == 'M';
     }
 };
 
-struct Backbone : map<gssw_node*, BackboneElement> {
-    void add(gssw_node* n, long int r, Cigar c) {
-        (*this)[n] = BackboneElement(r, c);
+struct ReferenceMappings {
+    map<gssw_node*, ReferenceMapping> nodes;
+    map<pair<gssw_node*, gssw_node*>, ReferenceMapping> edges;
+    void add_node(gssw_node* n, long int r, Cigar c) {
+        nodes[n] = ReferenceMapping(r, c);
+    }
+    void del_node(gssw_node* n) {
+        nodes.erase(n);
+    }
+    void add_edge(gssw_node* n, gssw_node* m, long int r, Cigar c) {
+        edges[make_pair(n, m)] = ReferenceMapping(r, c);
+    }
+    void del_edge(gssw_node* n, gssw_node* m) {
+        edges.erase(make_pair(n, m));
+    }
+    ReferenceMapping& get_node(gssw_node* n) {
+        return nodes[n];
+    }
+    ReferenceMapping& get_edge(gssw_node* n, gssw_node* m) {
+        return edges[make_pair(n, m)];
+    }
+    bool empty(void) {
+        return nodes.size() == 0 && edges.size() == 0;
+    }
+    void clear(void) {
+        nodes.clear();
+        edges.clear();
     }
 };
-// std::vector<Cigar> &cigars,
-// std::vector<long int> &refpositions,
 
 
 int constructDAG(gssw_graph* graph,
-                 Backbone& backbone,
+                 ReferenceMappings& refMappings,
                  std::string& targetSequence,
                  std::string& sequenceName,
                  std::vector<vcf::Variant> &variants,

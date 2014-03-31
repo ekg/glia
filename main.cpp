@@ -33,7 +33,7 @@ gssw_graph_mapping*
 gswalign(gssw_graph* graph,
          //vector<Cigar>& cigars, // by node id
          //vector<long int>& refpositions,  // by node id
-         Backbone& backbone,
+         ReferenceMappings& ref_map,
          string& read,
          string& qualities,
          Parameters& params,
@@ -127,11 +127,11 @@ gswalign(gssw_graph* graph,
     }
 
     // determine the reference-relative position
-    BackboneElement& bkb = backbone[gm->cigar.elements[0].node];
-    if (bkb.is_ref()) {
-        position = gm->position + backbone[gm->cigar.elements[0].node].ref_position;
+    ReferenceMapping& rm = ref_map.get_node(gm->cigar.elements[0].node);
+    if (rm.is_ref()) {
+        position = gm->position + rm.ref_position;
     } else { // flatten to previous position
-        position = backbone[gm->cigar.elements[0].node].ref_position;
+        position = rm.ref_position;
     }
 
     int read_pos = 0;
@@ -141,7 +141,7 @@ gswalign(gssw_graph* graph,
         gssw_cigar* c = gm->cigar.elements[i].cigar;
         Cigar graph_relative_cigar = Cigar(c);
         //Cigar& ref_relative_cigar = cigars.at(n->id);
-        Cigar& ref_relative_cigar = backbone[gm->cigar.elements[i].node].cigar;
+        Cigar& ref_relative_cigar = ref_map.get_node(gm->cigar.elements[i].node).cigar;
         if (ref_relative_cigar.refLen() != ref_relative_cigar.readLen()) {
             flat_cigar.append(ref_relative_cigar);
             //cerr << "flattening! " << graph_relative_cigar.readLen() 
@@ -226,12 +226,12 @@ void construct_dag_and_align_single_sequence(Parameters& params) {
     // Declare the target DAG to align against.
     //vector<Cigar> cigars;
     //vector<long int> refpositions;
-    Backbone backbone;
+    ReferenceMappings ref_map;
     gssw_graph* graph = gssw_graph_create(0);
     int8_t* nt_table = gssw_create_nt_table();
 	int8_t* mat = gssw_create_score_matrix(params.match, params.mism);
     constructDAG(graph,
-                 backbone,
+                 ref_map,
                  targetSequence,
                  target.startSeq,
                  variants,
@@ -253,7 +253,7 @@ void construct_dag_and_align_single_sequence(Parameters& params) {
     string strand;
     Cigar flat_cigar;
     gssw_graph_mapping* gm = gswalign(graph,
-                                      backbone,
+                                      ref_map,
                                       read,
                                       qualities,
                                       params,
@@ -414,7 +414,7 @@ void realign_bam(Parameters& params) {
     string ref;
     //vector<Cigar> cigars; // contains the Cigar strings of nodes in the graph
     //vector<long int> refpositions; // contains the reference start coords of nodes in the graph
-    Backbone backbone;
+    ReferenceMappings ref_map;
     gssw_graph* graph = gssw_graph_create(0);
     int8_t* nt_table = gssw_create_nt_table();
     int8_t* mat = gssw_create_score_matrix(params.match, params.mism);
@@ -474,7 +474,7 @@ void realign_bam(Parameters& params) {
                 }
                 dag_start_position = 0;
             // recenter DAG
-            } else if (!backbone.empty()) {
+            } else if (!ref_map.empty()) {
                 dag_start_position = dag_start_position + dag_window_size/2;
                 dag_start_position = max(dag_start_position,
                                          (long int) (alignment.GetEndPosition() - dag_window_size/2));
@@ -512,7 +512,7 @@ void realign_bam(Parameters& params) {
             }
 
             // clear graph and metadata
-            backbone.clear();
+            ref_map.clear();
             //cigars.clear();
             //refpositions.clear();
             gssw_graph_destroy(graph);
@@ -521,7 +521,7 @@ void realign_bam(Parameters& params) {
             // and build the DAG
             graph = gssw_graph_create(0);
             constructDAG(graph,
-                         backbone,
+                         ref_map,
                          ref,
                          seqname,
                          variants,
@@ -537,6 +537,7 @@ void realign_bam(Parameters& params) {
             }
             if (params.display_dag) {
                 gssw_graph_print(graph);
+                /*
                 for (Backbone::iterator b = backbone.begin(); b != backbone.end(); ++b) {
                     cout << b->first << " "
                          << b->first->id << " "
@@ -544,6 +545,7 @@ void realign_bam(Parameters& params) {
                          << b->second.cigar << endl
                          << b->first->seq << endl;
                 }
+                */
             }
 
             if (graph->size == 1 && allN(ref) || graph->size == 0) {
@@ -599,7 +601,7 @@ void realign_bam(Parameters& params) {
                 string strand;
                 gssw_graph_mapping* gm =
                     gswalign(graph,
-                             backbone,
+                             ref_map,
                              read,
                              qualities,
                              params,

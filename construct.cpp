@@ -16,9 +16,7 @@ using namespace std;
 
 
 int constructDAG(gssw_graph* graph,
-                 //vector<Cigar> &cigars,
-                 //vector<long int> &refpositions,
-                 Backbone& backbone,
+                 ReferenceMappings& ref_map,
                  string &targetSequence,
                  string& sequenceName,
                  vector<vcf::Variant> &variants,
@@ -84,8 +82,7 @@ int constructDAG(gssw_graph* graph,
             //p5_ref_cigar = &cigars.back();
             p5_ref_node = (gssw_node*)gssw_node_create((void*)NULL, graph->size, p5_ref_seq.c_str(), nt_table, score_matrix);
             gssw_graph_add_node(graph, p5_ref_node);
-            backbone.add(p5_ref_node, prev_pos, Cigar(convert(p5_ref_seq.size()) + "M"));
-            //ref_backbone.push_back(p5_ref_node);
+            ref_map.add_node(p5_ref_node, prev_pos, Cigar(convert(p5_ref_seq.size()) + "M"));
             //cerr << "connect to old p5 nodes" << endl;
             for (vector<gssw_node*>::iterator n = p5_var_nodes.begin(); n != p5_var_nodes.end(); ++n) {
                 gssw_nodes_add_edge(*n, p5_ref_node);
@@ -103,8 +100,7 @@ int constructDAG(gssw_graph* graph,
         //Cigar* ref_cigar = &cigars.back();
         gssw_node* ref_node = (gssw_node*)gssw_node_create((void*)NULL, graph->size, var.ref.c_str(), nt_table, score_matrix);
         gssw_graph_add_node(graph, ref_node);
-        backbone.add(ref_node, current_pos, Cigar(convert(var.ref.size()) + "M"));
-        //ref_backbone.push_back(ref_node);
+        ref_map.add_node(ref_node, current_pos, Cigar(convert(var.ref.size()) + "M"));
         // store the current ref in the pp3 nodes for connection on next iteration
         var_nodes.push_back(ref_node);
 
@@ -134,7 +130,7 @@ int constructDAG(gssw_graph* graph,
             gssw_node* alt_node = (gssw_node*)gssw_node_create((void*)NULL, graph->size, a->c_str(), nt_table, score_matrix);
             // save in graph
             gssw_graph_add_node(graph, alt_node);
-            backbone.add(alt_node, current_pos, Cigar(vavs[*a]));
+            ref_map.add_node(alt_node, current_pos, Cigar(vavs[*a]));
             // retain for connection to ref p3_ref_node of next variant
             var_nodes.push_back(alt_node);
             if (!p5_ref_node) {
@@ -164,7 +160,7 @@ int constructDAG(gssw_graph* graph,
         //p5_ref_cigar = &cigars.back();
         p5_ref_node = (gssw_node*)gssw_node_create((void*)NULL, graph->size, p5_ref_seq.c_str(), nt_table, score_matrix);
         gssw_graph_add_node(graph, p5_ref_node);
-        backbone.add(p5_ref_node, prev_pos, Cigar(convert(p5_ref_seq.size()) + "M"));
+        ref_map.add_node(p5_ref_node, prev_pos, Cigar(convert(p5_ref_seq.size()) + "M"));
         //ref_backbone.push_back(p5_ref_node);
         //cerr << "connect to old p5 nodes" << endl;
         for (vector<gssw_node*>::iterator n = p5_var_nodes.begin(); n != p5_var_nodes.end(); ++n) {
@@ -176,11 +172,84 @@ int constructDAG(gssw_graph* graph,
 
 }
 
+pair<gssw_node*, gssw_node*>
+divide_ref_path(map<long, gssw_node*>& ref_path,
+                ReferenceMappings& ref_map,
+                map<long, set<gssw_node*> >& nodes,
+                long pos,
+                int8_t* nt_table,
+                int8_t* score_matrix,
+                int& id) {
+
+    // now do the same thing for our ending node
+    map<long, gssw_node*>::iterator ref = ref_path.upper_bound(pos);
+    --ref; // step to previous
+    // we should now be pointing to node past where we should insert
+    if (ref == ref_path.begin()) {
+        cerr << "variant is out of bounds!!??" << endl;
+        exit(1);
+    }
+    long ref_node_pos = ref->first;
+    gssw_node* old_node = ref->second;
+    
+    if (ref_node_pos == pos) {
+        map<long, gssw_node*>::iterator n = ref; ++n;
+        return make_pair(ref->second, n->second);
+    } else {
+        // divide the ref node at our alt starting position
+        int diff = pos - ref_node_pos;
+
+        // make our right node
+        string left_ref_node_seq = string(ref->second->seq, diff);
+        gssw_node* left_ref_node = (gssw_node*)gssw_node_create((void*)NULL, id++, left_ref_node_seq.c_str(), nt_table, score_matrix);
+        // replace node connections
+        gssw_node** p = old_node->prev;
+        for (int i = 0; i < old_node->count_prev; ++i, ++p) {
+            ref_map.del_edge(*p, old_node);
+            ref_map.add_edge(*p, left_ref_node, ref_node_pos, Cigar(0, 'M'));
+            gssw_node_replace_next(*p, old_node, left_ref_node);
+            gssw_node_add_prev(left_ref_node, *p);
+        }
+
+        // make our left node
+        string right_ref_node_seq = string(ref->second->seq[diff], ref->second->len - diff);
+        gssw_node* right_ref_node = (gssw_node*)gssw_node_create((void*)NULL, id++, right_ref_node_seq.c_str(), nt_table, score_matrix);
+        // ahem and connect current to previous
+        gssw_node** n = old_node->next;
+        for (int i = 0; i < old_node->count_next; ++i, ++n) {
+            ref_map.del_edge(old_node, *n);
+            ref_map.add_edge(right_ref_node, *n, pos + diff, Cigar(0, 'M'));
+            gssw_node_replace_prev(*n, old_node, right_ref_node);
+            gssw_node_add_next(right_ref_node, *n);
+        }
+
+        // connect left to right
+        gssw_nodes_add_edge(left_ref_node, right_ref_node);
+        ref_map.add_edge(left_ref_node, right_ref_node, pos, Cigar(0, 'M'));
+
+        // destroy old node
+        gssw_node_destroy(old_node);
+        nodes[ref_node_pos].erase(old_node);
+        ref_map.del_node(old_node);
+
+        // replace with new ones
+        // left
+        nodes[ref_node_pos].insert(left_ref_node);
+        ref_path[ref_node_pos] = left_ref_node;
+        ref_map.add_node(left_ref_node, ref_node_pos, Cigar(left_ref_node_seq.size(), 'M'));
+        // right
+        nodes[pos].insert(right_ref_node);
+        ref_path[pos] = right_ref_node;
+        ref_map.add_node(right_ref_node, pos, Cigar(right_ref_node_seq.size(), 'M'));
+
+        return make_pair(left_ref_node, right_ref_node);
+    }
+
+}
+
 
 int constructDAGProgressive(gssw_graph* graph,
-                            //vector<Cigar> &cigars,
-                            //vector<long int> &refpositions,
-                            Backbone& backbone,
+                            ReferenceMappings& ref_map,
                             string &targetSequence,
                             string& sequenceName,
                             vector<vcf::Variant> &variants,
@@ -189,15 +258,83 @@ int constructDAGProgressive(gssw_graph* graph,
                             int8_t* score_matrix) {
 
 
-/*
-  Procedure:
-  1) take reference sequence, build node, insert into graph
-  2) get the next variant allele
-  3) break reference node to insert variant allele
-      or if reference is already broken thene, 
-  N) Topologically sort nodes
+// algorithm
+// maintain a core reference path upon which we add new variants as they come
+// addition procedure is the following
+// find reference node overlapping our start position
+// if it is already the end of a node, add the new node
+// if it is not the end of a node, break it, insert edges from old->new
+// go to end position of alt allele (could be the same position)
+// if it already has a break, just point to the next node in line
+// if it is not broken, break it and point to the next node
+// add new node for alt alleles, connect to start and end node in reference path
+// store the ref mapping as a property of the edges and nodes (this allows deletion edges and insertion subpaths)
 
-*/
+// probably the name "Backbone" should be changed....?  confusing
+// maybe to "reference mapping" or something?
+
+    int id = 0;
+    map<long, gssw_node*> reference_path;
+    map<long, set<gssw_node*> > nodes; // for maintaining a topologically-sorted graph
+
+    gssw_node* ref_node = (gssw_node*)gssw_node_create((void*)NULL, id++, targetSequence.c_str(), nt_table, score_matrix);
+    reference_path[offset] = ref_node;
+    nodes[offset].insert(ref_node);
+    ref_map.add_node(ref_node, offset, Cigar(convert(targetSequence.size()) + "M"));
+
+    for(vector<vcf::Variant>::iterator it = variants.begin(); it != variants.end(); ++it) {
+
+        vcf::Variant& var = *it;
+        int current_pos = (long int) var.position - 1;
+        // decompose the alt
+        map<string, vector<vcf::VariantAllele> > alternates = var.parsedAlternates();
+        for (map<string, vector<vcf::VariantAllele> >::iterator va = alternates.begin(); va !=alternates.end(); ++va) {
+            vector<vcf::VariantAllele>& alleles = va->second;
+
+            for (vector<vcf::VariantAllele>::iterator a = alleles.begin(); a != alleles.end(); ++a) {
+
+                vcf::VariantAllele& allele = *a;
+
+                long allele_start_pos = allele.position;
+                long allele_end_pos = allele.position + allele.ref.size();
+
+                gssw_node* left_ref_node = NULL;
+                gssw_node* middle_ref_node = NULL;
+                gssw_node* right_ref_node = NULL;
+                pair<gssw_node*, gssw_node*> ref_nodes = divide_ref_path(reference_path, ref_map,
+                                                                         nodes, allele_start_pos,
+                                                                         nt_table, score_matrix, id);
+                left_ref_node = ref_nodes.first;
+                // if the ref portion of the allele is not empty, then we need to make another cut
+                if (!allele.ref.empty()) {
+                    ref_nodes = divide_ref_path(reference_path, ref_map, nodes, allele_end_pos, nt_table, score_matrix, id);
+                    middle_ref_node = ref_nodes.first;
+                    right_ref_node = ref_nodes.second;
+                } else {
+                    right_ref_node = ref_nodes.second;
+                }
+
+                // create a new alt node and connect the pieces
+                if (!allele.alt.empty()) {
+                    gssw_node* alt_node = (gssw_node*)gssw_node_create((void*)NULL, id++, allele.alt.c_str(), nt_table, score_matrix);
+                    nodes[allele_start_pos].insert(alt_node);
+                    //ref_map.add_node(alt_node, allele_start_pos, );
+                    //ref_map.add_node(alt_node, current_pos, Cigar(vavs[*a]));
+                    gssw_nodes_add_edge(left_ref_node, alt_node);
+                    gssw_nodes_add_edge(alt_node, left_ref_node);
+                    // the overlapping reference sequence is already connected
+                } else {// otherwise, we have a deletion
+                    gssw_nodes_add_edge(left_ref_node, right_ref_node);
+                }
+            }
+        }
+
+    }
+
+    
+
+// topologically sort nodes before inserting into gssw_graph
+// this should be done for us due to ordering in nodes[]
 
 
 }
