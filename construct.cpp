@@ -181,26 +181,47 @@ divide_ref_path(map<long, gssw_node*>& ref_path,
                 int8_t* score_matrix,
                 int& id) {
 
+    cerr << "dividing path at " << pos << endl;
+
     // now do the same thing for our ending node
     map<long, gssw_node*>::iterator ref = ref_path.upper_bound(pos);
-    --ref; // step to previous
+    if (ref == ref_path.end()) {
+        cerr << "at last node" << endl;
+    }
+    for (map<long, gssw_node*>::iterator x = ref_path.begin(); x != ref_path.end(); ++x) {
+        cerr << x->first << ":" << x->second << endl;
+    }
+    --ref;
+    cerr << "ref len " << ref->second->len << endl;
+    cerr << ref->second << endl;
+    //--ref; // step to previous
     // we should now be pointing to node past where we should insert
     if (ref == ref_path.begin()) {
-        cerr << "variant is out of bounds!!??" << endl;
-        exit(1);
+        cerr << "splitting first ref node" << endl;
+        //cerr << "variant is out of bounds!!??" << endl;
+        //exit(1);
     }
+    cerr << "Getting positions and stuff" << endl;
     long ref_node_pos = ref->first;
     gssw_node* old_node = ref->second;
+    cerr << "which by the way are " << ref_node_pos << " " << old_node << endl;
     
     if (ref_node_pos == pos) {
-        map<long, gssw_node*>::iterator n = ref; ++n;
-        return make_pair(ref->second, n->second);
+        cerr << "ref node position (" << ref_node_pos << ") == pos (" << pos << ")" << endl;
+        map<long, gssw_node*>::iterator n = ref; --n;
+        cerr << ref->second->id << ":" << ref->second->seq << endl
+             << n->second->id << ":" << n->second->seq << endl;
+        return make_pair(n->second, ref->second);
     } else {
         // divide the ref node at our alt starting position
         int diff = pos - ref_node_pos;
-
+        cerr << "pos = " << pos << " " << " ref node pos = " << ref_node_pos << endl;
+        cerr << "ref len " << ref->second->len << endl;
+        cerr << "ref = " << ref->second->seq << endl;
         // make our right node
-        string left_ref_node_seq = string(ref->second->seq, diff);
+        string left_ref_node_seq = string(ref->second->seq);//, diff);
+        left_ref_node_seq = left_ref_node_seq.substr(0, diff);
+        cerr << "left_ref_node_seq = " << left_ref_node_seq << endl;
         gssw_node* left_ref_node = (gssw_node*)gssw_node_create((void*)NULL, id++, left_ref_node_seq.c_str(), nt_table, score_matrix);
         // replace node connections
         gssw_node** p = old_node->prev;
@@ -211,8 +232,15 @@ divide_ref_path(map<long, gssw_node*>& ref_path,
             gssw_node_add_prev(left_ref_node, *p);
         }
 
-        // make our left node
-        string right_ref_node_seq = string(ref->second->seq[diff], ref->second->len - diff);
+        // make our right node
+        //diff = diff;
+        cerr << ref->second->len << endl;
+        cerr << ref->second->seq << endl;
+        string right_ref_node_seq = string(ref->second->seq);
+        cerr << "reee... " << right_ref_node_seq << endl;
+        cerr << diff << endl;
+        right_ref_node_seq = right_ref_node_seq.substr(diff);
+        cerr << "right_ref_node_seq = " << right_ref_node_seq << endl;
         gssw_node* right_ref_node = (gssw_node*)gssw_node_create((void*)NULL, id++, right_ref_node_seq.c_str(), nt_table, score_matrix);
         // ahem and connect current to previous
         gssw_node** n = old_node->next;
@@ -223,10 +251,12 @@ divide_ref_path(map<long, gssw_node*>& ref_path,
             gssw_node_add_next(right_ref_node, *n);
         }
 
+        cerr << "hemmememmem" << endl;
         // connect left to right
         gssw_nodes_add_edge(left_ref_node, right_ref_node);
         ref_map.add_edge(left_ref_node, right_ref_node, pos, Cigar(0, 'M'));
 
+        cerr << "destruction" << endl;
         // destroy old node
         gssw_node_destroy(old_node);
         nodes[ref_node_pos].erase(old_node);
@@ -234,13 +264,28 @@ divide_ref_path(map<long, gssw_node*>& ref_path,
 
         // replace with new ones
         // left
+        cerr << "and renewal" << endl;
+        cerr << ref_node_pos << " " << left_ref_node << endl;
+        cerr << "nodes @ " << ref_node_pos << " = " << nodes[ref_node_pos].size() << endl;
+        //nodes.erase(ref_node_pos);
+        if (nodes[ref_node_pos].size() == 0) {
+            nodes.erase(ref_node_pos);
+        }
         nodes[ref_node_pos].insert(left_ref_node);
+        cerr << "wheetet" << endl;
+        cerr << 1 << endl;
         ref_path[ref_node_pos] = left_ref_node;
+        cerr << 2 << endl;
         ref_map.add_node(left_ref_node, ref_node_pos, Cigar(left_ref_node_seq.size(), 'M'));
+        cerr << 3 << endl;
         // right
+        cerr << "also renewal for the left.  there ya go buddy." << endl;
         nodes[pos].insert(right_ref_node);
+        cerr << 4 << endl;
         ref_path[pos] = right_ref_node;
+        cerr << 5 << endl;
         ref_map.add_node(right_ref_node, pos, Cigar(right_ref_node_seq.size(), 'M'));
+        cerr << " and hey!" << endl;
 
         return make_pair(left_ref_node, right_ref_node);
     }
@@ -273,14 +318,17 @@ int constructDAGProgressive(gssw_graph* graph,
 // probably the name "Backbone" should be changed....?  confusing
 // maybe to "reference mapping" or something?
 
+    cerr << "here......!!" << endl;
     int id = 0;
     map<long, gssw_node*> reference_path;
     map<long, set<gssw_node*> > nodes; // for maintaining a topologically-sorted graph
+    cerr << "target sequence " << targetSequence << endl;
 
     gssw_node* ref_node = (gssw_node*)gssw_node_create((void*)NULL, id++, targetSequence.c_str(), nt_table, score_matrix);
     reference_path[offset] = ref_node;
     nodes[offset].insert(ref_node);
     ref_map.add_node(ref_node, offset, Cigar(convert(targetSequence.size()) + "M"));
+    cerr << "added ref node " << ref_node->seq << endl;
 
     for(vector<vcf::Variant>::iterator it = variants.begin(); it != variants.end(); ++it) {
 
@@ -294,44 +342,70 @@ int constructDAGProgressive(gssw_graph* graph,
             for (vector<vcf::VariantAllele>::iterator a = alleles.begin(); a != alleles.end(); ++a) {
 
                 vcf::VariantAllele& allele = *a;
+                // reference alleles are provided naturally by the reference itself
+                if (allele.ref == allele.alt) {
+                    continue;
+                }
 
-                long allele_start_pos = allele.position;
-                long allele_end_pos = allele.position + allele.ref.size();
+                cerr << "variant allele " << allele << endl;
+                long allele_start_pos = allele.position - 1;  // 0/1 based conversion... thanks vcflib!
+                long allele_end_pos = allele_start_pos + allele.ref.size();
+                cerr << "allele start, end = " << allele_start_pos << " " << allele_end_pos << endl;
 
                 gssw_node* left_ref_node = NULL;
                 gssw_node* middle_ref_node = NULL;
                 gssw_node* right_ref_node = NULL;
-                pair<gssw_node*, gssw_node*> ref_nodes = divide_ref_path(reference_path, ref_map,
-                                                                         nodes, allele_start_pos,
-                                                                         nt_table, score_matrix, id);
+                cerr << "here ... " << endl;
+                pair<gssw_node*, gssw_node*> ref_nodes = divide_ref_path(reference_path,
+                                                                         ref_map,
+                                                                         nodes,
+                                                                         allele_start_pos,
+                                                                         nt_table,
+                                                                         score_matrix,
+                                                                         id);
+                cerr << "returned from divide ref path " << ref_nodes.first << " and " << ref_nodes.second << endl;
                 left_ref_node = ref_nodes.first;
                 // if the ref portion of the allele is not empty, then we need to make another cut
                 if (!allele.ref.empty()) {
-                    ref_nodes = divide_ref_path(reference_path, ref_map, nodes, allele_end_pos, nt_table, score_matrix, id);
+                    ref_nodes = divide_ref_path(reference_path,
+                                                ref_map,
+                                                nodes,
+                                                allele_end_pos,
+                                                nt_table,
+                                                score_matrix,
+                                                id);
                     middle_ref_node = ref_nodes.first;
                     right_ref_node = ref_nodes.second;
                 } else {
                     right_ref_node = ref_nodes.second;
                 }
 
-                // create a new alt node and connect the pieces
+                // create a new alt node and connect the pieces from before
                 if (!allele.alt.empty()) {
                     gssw_node* alt_node = (gssw_node*)gssw_node_create((void*)NULL, id++, allele.alt.c_str(), nt_table, score_matrix);
                     nodes[allele_start_pos].insert(alt_node);
                     //ref_map.add_node(alt_node, allele_start_pos, );
-                    //ref_map.add_node(alt_node, current_pos, Cigar(vavs[*a]));
+                    ref_map.add_node(alt_node, allele_start_pos, Cigar(allele));
                     gssw_nodes_add_edge(left_ref_node, alt_node);
-                    gssw_nodes_add_edge(alt_node, left_ref_node);
+                    ref_map.add_edge(left_ref_node, alt_node, allele_start_pos, Cigar(0, 'M'));
+                    gssw_nodes_add_edge(alt_node, right_ref_node);
+                    // NB, should check that the allele_start_pos + allele.ref.size() == allele ref end, aka start of next ref
+                    ref_map.add_edge(alt_node, right_ref_node, allele_start_pos + allele.ref.size(), Cigar(0, 'M'));
                     // the overlapping reference sequence is already connected
                 } else {// otherwise, we have a deletion
                     gssw_nodes_add_edge(left_ref_node, right_ref_node);
+                    ref_map.add_edge(left_ref_node, right_ref_node, allele_start_pos, Cigar(allele.ref.size(), 'D'));
                 }
             }
         }
-
     }
 
-    
+    cerr << "we really should do something" << endl;
+    for (map<long, set<gssw_node*> >::iterator s = nodes.begin(); s != nodes.end(); ++s) {
+        for (set<gssw_node*>::iterator n = s->second.begin(); n != s->second.end(); ++n) {
+            gssw_graph_add_node(graph, *n);
+        }
+    }
 
 // topologically sort nodes before inserting into gssw_graph
 // this should be done for us due to ordering in nodes[]

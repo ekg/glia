@@ -127,7 +127,12 @@ gswalign(gssw_graph* graph,
     }
 
     // determine the reference-relative position
-    ReferenceMapping& rm = ref_map.get_node(gm->cigar.elements[0].node);
+    map<gssw_node*, ReferenceMapping>::iterator m = ref_map.get_node(gm->cigar.elements[0].node);
+    if (m == ref_map.nodes.end()) {
+        cerr << "ERROR: could not find reference mapping for node " << gm->cigar.elements[0].node << endl;
+        exit(1);
+    }
+    ReferenceMapping& rm = m->second;
     if (rm.is_ref()) {
         position = gm->position + rm.ref_position;
     } else { // flatten to previous position
@@ -140,8 +145,12 @@ gswalign(gssw_graph* graph,
         gssw_node* n = gm->cigar.elements[i].node;
         gssw_cigar* c = gm->cigar.elements[i].cigar;
         Cigar graph_relative_cigar = Cigar(c);
+
         //Cigar& ref_relative_cigar = cigars.at(n->id);
-        Cigar& ref_relative_cigar = ref_map.get_node(gm->cigar.elements[i].node).cigar;
+        map<gssw_node*, ReferenceMapping>::iterator m = ref_map.get_node(gm->cigar.elements[i].node);
+        ReferenceMapping& rm = m->second;
+        Cigar& ref_relative_cigar = rm.cigar;
+
         if (ref_relative_cigar.refLen() != ref_relative_cigar.readLen()) {
             flat_cigar.append(ref_relative_cigar);
             //cerr << "flattening! " << graph_relative_cigar.readLen() 
@@ -158,6 +167,21 @@ gswalign(gssw_graph* graph,
             flat_cigar.append(graph_relative_cigar);
         }
         read_pos += graph_relative_cigar.readLen();
+
+        // do the edges
+        if (i < gm->cigar.length - 1) {
+            // check for edge mapping, e.g. deletion
+            gssw_node* next = gm->cigar.elements[i+1].node;
+            map<pair<gssw_node*, gssw_node*>, ReferenceMapping>::iterator m = ref_map.get_edge(n, next);
+            ReferenceMapping& rm = m->second;
+            Cigar& ref_relative_cigar = rm.cigar;
+            if (ref_relative_cigar.refLen() != ref_relative_cigar.readLen()) {
+                // NB these should only be deletions, as edges won't represent inserted sequences
+                flat_cigar.append(ref_relative_cigar);
+                //cerr << "flattening! " << graph_relative_cigar.readLen() 
+            }
+        }
+
         /*
         cerr << "building cigar: " << read_pos << endl
              << flat_cigar << endl
@@ -230,14 +254,14 @@ void construct_dag_and_align_single_sequence(Parameters& params) {
     gssw_graph* graph = gssw_graph_create(0);
     int8_t* nt_table = gssw_create_nt_table();
 	int8_t* mat = gssw_create_score_matrix(params.match, params.mism);
-    constructDAG(graph,
-                 ref_map,
-                 targetSequence,
-                 target.startSeq,
-                 variants,
-                 offset,
-                 nt_table,
-                 mat);
+    constructDAGProgressive(graph,
+                            ref_map,
+                            targetSequence,
+                            target.startSeq,
+                            variants,
+                            offset,
+                            nt_table,
+                            mat);
 
     if (params.display_dag) {
         cout << "DAG generated from input variants:" << endl;
@@ -520,14 +544,14 @@ void realign_bam(Parameters& params) {
             if (params.debug) { cerr << "constructing DAG" << endl; }
             // and build the DAG
             graph = gssw_graph_create(0);
-            constructDAG(graph,
-                         ref_map,
-                         ref,
-                         seqname,
-                         variants,
-                         dag_start_position,
-                         nt_table,
-                         mat);
+            constructDAGProgressive(graph,
+                                    ref_map,
+                                    ref,
+                                    seqname,
+                                    variants,
+                                    dag_start_position,
+                                    nt_table,
+                                    mat);
 
             if (params.debug) {
                 cerr << "graph has " << graph->size << " nodes" << endl;

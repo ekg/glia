@@ -119,6 +119,22 @@ Cigar::Cigar(int i, char t) {
     push_back(CigarElement(i, t));
 }
 
+Cigar::Cigar(vcf::VariantAllele& va) {
+    char type = '\0';
+    int length = 0;
+    if (va.ref != va.alt) {
+        if (va.ref.size() == va.alt.size()) {
+            push_back(CigarElement(va.ref.size(), 'M'));
+        } else if (va.ref.size() > va.alt.size()) {
+            push_back(CigarElement(va.ref.size() - va.alt.size(), 'D'));
+        } else {
+            push_back(CigarElement(va.alt.size() - va.ref.size(), 'I'));
+        }
+    } else {
+        push_back(CigarElement(va.ref.size(), 'M'));
+    }
+}
+
 Cigar::Cigar(vector<vcf::VariantAllele>& vav) {
     char type = '\0';
     int length = 0;

@@ -34,6 +34,7 @@ struct Cigar : vector<CigarElement> {
     Cigar(int, char);
     Cigar(const string& cigarStr);
     Cigar(vector<vcf::VariantAllele>& vav);
+    Cigar(vcf::VariantAllele& va);
     Cigar(vector<BamTools::CigarOp>& cigarData);
     Cigar(gssw_cigar* c);
     void toCigarData(vector<BamTools::CigarOp>& cigarData);

@@ -46,12 +46,25 @@ struct ReferenceMappings {
     void del_edge(gssw_node* n, gssw_node* m) {
         edges.erase(make_pair(n, m));
     }
-    ReferenceMapping& get_node(gssw_node* n) {
-        return nodes[n];
+    map<gssw_node*, ReferenceMapping>::iterator get_node(gssw_node* n) {
+        map<gssw_node*, ReferenceMapping>::iterator p = nodes.find(n);
+        if (p == nodes.end()) {
+            cerr << "ERROR: could not find reference mapping for node " << n << endl;
+            exit(1);
+        } else {
+            return p;
+        }
     }
-    ReferenceMapping& get_edge(gssw_node* n, gssw_node* m) {
-        return edges[make_pair(n, m)];
+    map<pair<gssw_node*, gssw_node*>, ReferenceMapping>::iterator get_edge(gssw_node* n, gssw_node* m) {
+        map<pair<gssw_node*, gssw_node*>, ReferenceMapping>::iterator p = edges.find(make_pair(n, m));
+        if (p == edges.end()) {
+            cerr << "ERROR: could not find reference mapping for edge from node " << n << " to " << m << endl;
+            exit(1);
+        } else {
+            return p;
+        }
     }
+
     bool empty(void) {
         return nodes.size() == 0 && edges.size() == 0;
     }
@@ -70,5 +83,14 @@ int constructDAG(gssw_graph* graph,
                  long offset,
                  int8_t* nt_table,
                  int8_t* score_matrix);
+
+int constructDAGProgressive(gssw_graph* graph,
+                            ReferenceMappings& ref_map,
+                            string &targetSequence,
+                            string& sequenceName,
+                            vector<vcf::Variant> &variants,
+                            long offset,
+                            int8_t* nt_table,
+                            int8_t* score_matrix);
 
 #endif /* defined(CONSTRUCT_H) */
