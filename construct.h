@@ -93,4 +93,13 @@ int constructDAGProgressive(gssw_graph* graph,
                             int8_t* nt_table,
                             int8_t* score_matrix);
 
+
+void topological_sort(map<long, set<gssw_node*> >& nodes,
+                      list<gssw_node*>& sorted_nodes);
+
+void visit_node(gssw_node* node,
+                list<gssw_node*>& sorted_nodes,
+                set<gssw_node*>& unmarked_nodes,
+                set<gssw_node*>& temporary_marks);
+
 #endif /* defined(CONSTRUCT_H) */

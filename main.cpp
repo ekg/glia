@@ -509,15 +509,12 @@ void realign_bam(Parameters& params) {
 
             // TODO get sequence length and use to bound noted window size (edge case)
             //cerr << "getting ref " << seqname << " " << max((long int) 0, dag_start_position) << " " << dag_window_size << endl;
-            ref = reference.getSubSequence(seqname,
-                                           max((long int) 0, dag_start_position),
-                                           dag_window_size); // 0/1 conversion
 
             // get variants for new DAG
             vector<vcf::Variant> variants;
             if (!vcffile.setRegion(seqname,
                                    dag_start_position + 1,
-                                   dag_start_position + ref.size())) {
+                                   dag_start_position + dag_window_size)) {
                 // this is not necessarily an error; there should be a better way to check for VCF file validity
                 /*
                 cerr << "could not set region on VCF file to " << currentSeqname << ":"
@@ -526,6 +523,22 @@ void realign_bam(Parameters& params) {
                 */
                 //exit(1);
             } else {
+
+                // check first variant
+                if (vcffile.getNextVariant(var)) {
+                    while (var.position == dag_start_position + 1) {
+                        dag_start_position -= var.ref.size();
+                        vcffile.setRegion(seqname,
+                                          dag_start_position + 1,
+                                          dag_start_position + dag_window_size);
+                        assert(vcffile.getNextVariant(var));
+                    }
+                }
+
+                vcffile.setRegion(seqname,
+                                  dag_start_position + 1,
+                                  dag_start_position + dag_window_size);
+
                 while (vcffile.getNextVariant(var)) {
                     if (params.debug) cerr << "getting variant at " << var.sequenceName << ":" << var.position << endl;
                     if (var.position + var.ref.length() <= dag_start_position + ref.size()
@@ -533,7 +546,12 @@ void realign_bam(Parameters& params) {
                         variants.push_back(var);
                     }
                 }
+
             }
+
+            ref = reference.getSubSequence(seqname,
+                                           max((long int) 0, dag_start_position),
+                                           dag_window_size); // 0/1 conversion
 
             // clear graph and metadata
             ref_map.clear();

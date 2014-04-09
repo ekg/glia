@@ -321,8 +321,9 @@ int constructDAGProgressive(gssw_graph* graph,
     cerr << "here......!!" << endl;
     int id = 0;
     map<long, gssw_node*> reference_path;
-    map<long, set<gssw_node*> > nodes; // for maintaining a topologically-sorted graph
+    map<long, set<gssw_node*> > nodes; // for maintaining a reference-sorted graph
     cerr << "target sequence " << targetSequence << endl;
+    cerr << "starts at " << offset << endl;
 
     gssw_node* ref_node = (gssw_node*)gssw_node_create((void*)NULL, id++, targetSequence.c_str(), nt_table, score_matrix);
     reference_path[offset] = ref_node;
@@ -333,6 +334,7 @@ int constructDAGProgressive(gssw_graph* graph,
     for(vector<vcf::Variant>::iterator it = variants.begin(); it != variants.end(); ++it) {
 
         vcf::Variant& var = *it;
+        cerr << var << endl;
         int current_pos = (long int) var.position - 1;
         // decompose the alt
         map<string, vector<vcf::VariantAllele> > alternates = var.parsedAlternates();
@@ -400,15 +402,111 @@ int constructDAGProgressive(gssw_graph* graph,
         }
     }
 
-    cerr << "we really should do something" << endl;
-    for (map<long, set<gssw_node*> >::iterator s = nodes.begin(); s != nodes.end(); ++s) {
-        for (set<gssw_node*>::iterator n = s->second.begin(); n != s->second.end(); ++n) {
-            gssw_graph_add_node(graph, *n);
+    /*
+    // add "N" reference node to start if we began with a variant
+    // ensures proper fill in graph alignment
+    if (nodes.begin()->second.size() > 1) {
+        cerr << "adding null ref node" << endl;
+        gssw_node* null_ref_node = (gssw_node*)gssw_node_create((void*)NULL, id++, "N", nt_table, score_matrix);
+        long p = nodes.begin()->first;
+        reference_path[p] = null_ref_node;
+        set<gssw_node*>& nexts = nodes.begin()->second;
+        nodes[p].insert(null_ref_node);
+        ref_map.add_node(null_ref_node, p, Cigar("1M"));
+        ref_map.add_edge(null_ref_node, reference_path[p+1], p+1, Cigar(0, 'M'));
+        // add connections
+        for (set<gssw_node*>::iterator n = nexts.begin(); n != nexts.end(); ++n) {
+            gssw_nodes_add_edge(null_ref_node, *n);
         }
     }
+    */
 
-// topologically sort nodes before inserting into gssw_graph
-// this should be done for us due to ordering in nodes[]
+    // topologically sort nodes before inserting into gssw_graph
+    // this should be done for us due to ordering in nodes[]
+
+    list<gssw_node*> sorted_nodes;
+    topological_sort(nodes, sorted_nodes);
+
+    id = 0;
+    for (list<gssw_node*>::iterator n = sorted_nodes.begin(); n != sorted_nodes.end(); ++n) {
+        (*n)->id = id++;
+        cout << "node: " << *n << " id " << (*n)->id << endl;
+        gssw_graph_add_node(graph, *n);
+    }
+
+    /*
+    //set<gssw_node*> added_nodes;
+    // execute a breadth-first search to generate ordered nodes
+    int depth = 0;
+    gssw_node* n = *(nodes.begin()->second.begin());
+    while (true) {
+        for (int i = 0; i < n->count_next; ++i) {
+            
+        }
+    }
+    */
+    
+
+}
 
 
+    /*
+Tarjan's topological sort
+
+L <- Empty list that will contain the sorted nodes
+while there are unmarked nodes do
+    select an unmarked node n
+    visit(n) 
+function visit(node n)
+    if n has a temporary mark then stop (not a DAG)
+    if n is not marked (i.e. has not been visited yet) then
+        mark n temporarily
+        for each node m with an edge from n to m do
+            visit(m)
+        mark n permanently
+        add n to head of L
+    */
+
+
+void topological_sort(map<long, set<gssw_node*> >& nodes,
+                      list<gssw_node*>& sorted_nodes) {
+    set<gssw_node*> unmarked_nodes;
+    set<gssw_node*> temporary_marks;
+    for (map<long, set<gssw_node*> >::iterator s = nodes.begin(); s != nodes.end(); ++s) {
+        set<gssw_node*>& ns = s->second;
+        for (set<gssw_node*>::iterator n = ns.begin(); n != ns.end(); ++n) {
+            unmarked_nodes.insert(*n);
+        }
+    }
+    while (!unmarked_nodes.empty()) {
+        gssw_node* node = *(unmarked_nodes.begin());
+        visit_node(node,
+                   sorted_nodes,
+                   unmarked_nodes,
+                   temporary_marks);
+    }
+}
+
+void visit_node(gssw_node* node,
+                list<gssw_node*>& sorted_nodes,
+                set<gssw_node*>& unmarked_nodes,
+                set<gssw_node*>& temporary_marks) {
+    cerr << node << endl;
+    /*
+    if (temporary_marks.find(node) != temporary_marks.end()) {
+        cerr << "cannot sort graph because it is not a DAG!" << endl;
+        exit(1);
+    }
+    */
+    if (unmarked_nodes.find(node) != unmarked_nodes.end()) {
+        temporary_marks.insert(node);
+        for (int i = 0; i < node->count_next; ++i) {
+            visit_node(node->next[i],
+                       sorted_nodes,
+                       unmarked_nodes,
+                       temporary_marks);
+        }
+        unmarked_nodes.erase(node);
+        sorted_nodes.push_front(node);
+    }
 }
