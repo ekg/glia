@@ -41,10 +41,19 @@ struct ReferenceMappings {
         nodes.erase(n);
     }
     void add_edge(gssw_node* n, gssw_node* m, long int r, Cigar c) {
+        cerr << "recording edge from " << n << " -> " << m << " at position " << r << " with cigar " << c << endl;
         edges[make_pair(n, m)] = ReferenceMapping(r, c);
     }
     void del_edge(gssw_node* n, gssw_node* m) {
         edges.erase(make_pair(n, m));
+    }
+    void print(void) {
+        for (map<gssw_node*, ReferenceMapping>::iterator n = nodes.begin(); n != nodes.end(); ++n) {
+            cerr << "node: " << n->first << " " << n->second.cigar << endl;
+        }
+        for (map<pair<gssw_node*, gssw_node*>, ReferenceMapping>::iterator e = edges.begin(); e != edges.end(); ++e) {
+            cerr << "edge: " << e->first.first << " -> " << e->first.second << " " << e->second.cigar << endl;
+        }
     }
     map<gssw_node*, ReferenceMapping>::iterator get_node(gssw_node* n) {
         map<gssw_node*, ReferenceMapping>::iterator p = nodes.find(n);
@@ -56,6 +65,7 @@ struct ReferenceMappings {
         }
     }
     map<pair<gssw_node*, gssw_node*>, ReferenceMapping>::iterator get_edge(gssw_node* n, gssw_node* m) {
+        cerr << "getting edge from " << n << " -> " << m << endl;
         map<pair<gssw_node*, gssw_node*>, ReferenceMapping>::iterator p = edges.find(make_pair(n, m));
         if (p == edges.end()) {
             cerr << "ERROR: could not find reference mapping for edge from node " << n << " to " << m << endl;

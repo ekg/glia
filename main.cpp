@@ -126,6 +126,11 @@ gswalign(gssw_graph* graph,
         reverse(qualities.begin(), qualities.end());
     }
 
+    // print graph mapping
+    if (params.debug) {
+        cerr << graph_mapping_to_string(gm) << endl;
+    }
+
     // determine the reference-relative position
     map<gssw_node*, ReferenceMapping>::iterator m = ref_map.get_node(gm->cigar.elements[0].node);
     if (m == ref_map.nodes.end()) {
@@ -147,22 +152,25 @@ gswalign(gssw_graph* graph,
         Cigar graph_relative_cigar = Cigar(c);
 
         //Cigar& ref_relative_cigar = cigars.at(n->id);
+
         map<gssw_node*, ReferenceMapping>::iterator m = ref_map.get_node(gm->cigar.elements[i].node);
         ReferenceMapping& rm = m->second;
         Cigar& ref_relative_cigar = rm.cigar;
+        cerr << "node " << n->id << " ref mapping = " << ref_relative_cigar << endl;
 
         if (ref_relative_cigar.refLen() != ref_relative_cigar.readLen()) {
+            cerr << "cigar lengths differ " << ref_relative_cigar << endl;
             flat_cigar.append(ref_relative_cigar);
-            //cerr << "flattening! " << graph_relative_cigar.readLen() 
-            //     << " ? " << ref_relative_cigar.readLen() << " ? " << strlen(n->seq) << endl;
-            //cerr << read << endl << qualities << endl;
+            cerr << "flattening! " << graph_relative_cigar.readLen() 
+                 << " ? " << ref_relative_cigar.readLen() << " ? " << strlen(n->seq) << endl;
+            cerr << read << endl << qualities << endl;
             // flatten things back into th reference space
             string s = string(n->seq);
-            //cerr << read.substr(read_pos, graph_relative_cigar.readLen()) << endl << s << endl;
+            cerr << read.substr(read_pos, graph_relative_cigar.readLen()) << endl << s << endl;
             read.replace(read_pos, graph_relative_cigar.readLen(), s);
             qualities.replace(read_pos, graph_relative_cigar.readLen(),
                               string(s.size(), shortInt2QualityChar(30)));
-            //cerr << read << endl << qualities << endl;
+            cerr << read << endl << qualities << endl;
         } else {
             flat_cigar.append(graph_relative_cigar);
         }
@@ -171,14 +179,16 @@ gswalign(gssw_graph* graph,
         // do the edges
         if (i < gm->cigar.length - 1) {
             // check for edge mapping, e.g. deletion
+            cerr << "checking for next edge mapping (e.g. deletion)" << endl;
             gssw_node* next = gm->cigar.elements[i+1].node;
             map<pair<gssw_node*, gssw_node*>, ReferenceMapping>::iterator m = ref_map.get_edge(n, next);
             ReferenceMapping& rm = m->second;
-            Cigar& ref_relative_cigar = rm.cigar;
-            if (ref_relative_cigar.refLen() != ref_relative_cigar.readLen()) {
+            Cigar& edge_ref_relative_cigar = rm.cigar;
+            cerr << "new cigar from " << n->id << " to " << next->id  <<" is " << edge_ref_relative_cigar << endl;
+            if (edge_ref_relative_cigar.refLen() != edge_ref_relative_cigar.readLen()) {
                 // NB these should only be deletions, as edges won't represent inserted sequences
-                flat_cigar.append(ref_relative_cigar);
-                //cerr << "flattening! " << graph_relative_cigar.readLen() 
+                flat_cigar.append(edge_ref_relative_cigar);
+                //cerr << "flattening! " << graph_relative_cigar.readLen()  << endl;
             }
         }
 
@@ -496,7 +506,8 @@ void realign_bam(Parameters& params) {
                 if (params.debug) {
                     cerr << "switched ref seqs" << endl;
                 }
-                dag_start_position = 0;
+                dag_start_position = max((long int) 0,
+                                         (long int) (alignment.GetEndPosition() - dag_window_size/2));
             // recenter DAG
             } else if (!ref_map.empty()) {
                 dag_start_position = dag_start_position + dag_window_size/2;
@@ -527,11 +538,11 @@ void realign_bam(Parameters& params) {
                 // check first variant
                 if (vcffile.getNextVariant(var)) {
                     while (var.position == dag_start_position + 1) {
-                        dag_start_position -= var.ref.size();
+                        dag_start_position -= 1;
                         vcffile.setRegion(seqname,
                                           dag_start_position + 1,
                                           dag_start_position + dag_window_size);
-                        assert(vcffile.getNextVariant(var));
+                        if (!vcffile.getNextVariant(var)) { break; }
                     }
                 }
 
@@ -541,8 +552,11 @@ void realign_bam(Parameters& params) {
 
                 while (vcffile.getNextVariant(var)) {
                     if (params.debug) cerr << "getting variant at " << var.sequenceName << ":" << var.position << endl;
-                    if (var.position + var.ref.length() <= dag_start_position + ref.size()
+                    cerr << var.position << " + " << var.ref.length() << " <= " << dag_start_position << " + " << dag_window_size << endl;
+                    cerr << var.position << " >= " << dag_start_position << endl;
+                    if (var.position + var.ref.length() <= dag_start_position + dag_window_size
                         && var.position >= dag_start_position) {
+                        cerr << "putting into variants" << endl;
                         variants.push_back(var);
                     }
                 }

@@ -206,86 +206,69 @@ divide_ref_path(map<long, gssw_node*>& ref_path,
     gssw_node* old_node = ref->second;
     cerr << "which by the way are " << ref_node_pos << " " << old_node << endl;
     
+    // nothing to do
     if (ref_node_pos == pos) {
-        cerr << "ref node position (" << ref_node_pos << ") == pos (" << pos << ")" << endl;
         map<long, gssw_node*>::iterator n = ref; --n;
-        cerr << ref->second->id << ":" << ref->second->seq << endl
-             << n->second->id << ":" << n->second->seq << endl;
         return make_pair(n->second, ref->second);
     } else {
+
         // divide the ref node at our alt starting position
         int diff = pos - ref_node_pos;
-        cerr << "pos = " << pos << " " << " ref node pos = " << ref_node_pos << endl;
-        cerr << "ref len " << ref->second->len << endl;
-        cerr << "ref = " << ref->second->seq << endl;
-        // make our right node
+
+        // make our left node
         string left_ref_node_seq = string(ref->second->seq);//, diff);
         left_ref_node_seq = left_ref_node_seq.substr(0, diff);
-        cerr << "left_ref_node_seq = " << left_ref_node_seq << endl;
         gssw_node* left_ref_node = (gssw_node*)gssw_node_create((void*)NULL, id++, left_ref_node_seq.c_str(), nt_table, score_matrix);
+
         // replace node connections
         gssw_node** p = old_node->prev;
         for (int i = 0; i < old_node->count_prev; ++i, ++p) {
+            Cigar old_cigar = ref_map.get_edge(*p, old_node)->second.cigar;
             ref_map.del_edge(*p, old_node);
-            ref_map.add_edge(*p, left_ref_node, ref_node_pos, Cigar(0, 'M'));
+            ref_map.add_edge(*p, left_ref_node, ref_node_pos, old_cigar);
             gssw_node_replace_next(*p, old_node, left_ref_node);
             gssw_node_add_prev(left_ref_node, *p);
         }
 
         // make our right node
-        //diff = diff;
-        cerr << ref->second->len << endl;
-        cerr << ref->second->seq << endl;
         string right_ref_node_seq = string(ref->second->seq);
-        cerr << "reee... " << right_ref_node_seq << endl;
-        cerr << diff << endl;
+
         right_ref_node_seq = right_ref_node_seq.substr(diff);
-        cerr << "right_ref_node_seq = " << right_ref_node_seq << endl;
+
         gssw_node* right_ref_node = (gssw_node*)gssw_node_create((void*)NULL, id++, right_ref_node_seq.c_str(), nt_table, score_matrix);
         // ahem and connect current to previous
         gssw_node** n = old_node->next;
-        for (int i = 0; i < old_node->count_next; ++i, ++n) {
+        for (int i = 0; i < old_node->count_next; ++i, ++n) {   
+            Cigar old_cigar = ref_map.get_edge(old_node, *n)->second.cigar;
             ref_map.del_edge(old_node, *n);
-            ref_map.add_edge(right_ref_node, *n, pos + diff, Cigar(0, 'M'));
+            ref_map.add_edge(right_ref_node, *n, pos + diff, old_cigar);
             gssw_node_replace_prev(*n, old_node, right_ref_node);
             gssw_node_add_next(right_ref_node, *n);
         }
 
-        cerr << "hemmememmem" << endl;
         // connect left to right
         gssw_nodes_add_edge(left_ref_node, right_ref_node);
         ref_map.add_edge(left_ref_node, right_ref_node, pos, Cigar(0, 'M'));
 
-        cerr << "destruction" << endl;
         // destroy old node
         gssw_node_destroy(old_node);
         nodes[ref_node_pos].erase(old_node);
         ref_map.del_node(old_node);
 
         // replace with new ones
+
         // left
-        cerr << "and renewal" << endl;
-        cerr << ref_node_pos << " " << left_ref_node << endl;
-        cerr << "nodes @ " << ref_node_pos << " = " << nodes[ref_node_pos].size() << endl;
-        //nodes.erase(ref_node_pos);
         if (nodes[ref_node_pos].size() == 0) {
             nodes.erase(ref_node_pos);
         }
         nodes[ref_node_pos].insert(left_ref_node);
-        cerr << "wheetet" << endl;
-        cerr << 1 << endl;
         ref_path[ref_node_pos] = left_ref_node;
-        cerr << 2 << endl;
         ref_map.add_node(left_ref_node, ref_node_pos, Cigar(left_ref_node_seq.size(), 'M'));
-        cerr << 3 << endl;
+
         // right
-        cerr << "also renewal for the left.  there ya go buddy." << endl;
         nodes[pos].insert(right_ref_node);
-        cerr << 4 << endl;
         ref_path[pos] = right_ref_node;
-        cerr << 5 << endl;
         ref_map.add_node(right_ref_node, pos, Cigar(right_ref_node_seq.size(), 'M'));
-        cerr << " and hey!" << endl;
 
         return make_pair(left_ref_node, right_ref_node);
     }
@@ -330,6 +313,8 @@ int constructDAGProgressive(gssw_graph* graph,
     nodes[offset].insert(ref_node);
     ref_map.add_node(ref_node, offset, Cigar(convert(targetSequence.size()) + "M"));
     cerr << "added ref node " << ref_node->seq << endl;
+
+    cerr << "there are " << variants.size() << " variants to use" << endl;
 
     for(vector<vcf::Variant>::iterator it = variants.begin(); it != variants.end(); ++it) {
 
@@ -396,10 +381,12 @@ int constructDAGProgressive(gssw_graph* graph,
                     // the overlapping reference sequence is already connected
                 } else {// otherwise, we have a deletion
                     gssw_nodes_add_edge(left_ref_node, right_ref_node);
+                    cerr << "should be a deletion " << allele.ref.size() << " " << allele << endl;
                     ref_map.add_edge(left_ref_node, right_ref_node, allele_start_pos, Cigar(allele.ref.size(), 'D'));
                 }
             }
         }
+        ref_map.print();
     }
 
     /*
@@ -430,8 +417,14 @@ int constructDAGProgressive(gssw_graph* graph,
     id = 0;
     for (list<gssw_node*>::iterator n = sorted_nodes.begin(); n != sorted_nodes.end(); ++n) {
         (*n)->id = id++;
-        cout << "node: " << *n << " id " << (*n)->id << endl;
         gssw_graph_add_node(graph, *n);
+    }
+
+    // reverse the order of the edges so that we traverse the reference path first
+    for (int i = 0; i < graph->size; ++i) {
+        gssw_node* n = graph->nodes[i];
+        reverse(n->next, n->next + n->count_next);
+        reverse(n->prev, n->prev + n->count_prev);
     }
 
     /*
