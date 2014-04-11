@@ -168,8 +168,9 @@ gswalign(gssw_graph* graph,
             string s = string(n->seq);
             cerr << read.substr(read_pos, graph_relative_cigar.readLen()) << endl << s << endl;
             read.replace(read_pos, graph_relative_cigar.readLen(), s);
+            short average_qual = (short) averageQuality(qualities.substr(read_pos, graph_relative_cigar.readLen()));
             qualities.replace(read_pos, graph_relative_cigar.readLen(),
-                              string(s.size(), shortInt2QualityChar(30)));
+                              string(s.size(), shortInt2QualityChar(average_qual)));
             cerr << read << endl << qualities << endl;
         } else {
             flat_cigar.append(graph_relative_cigar);

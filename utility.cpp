@@ -8,6 +8,17 @@ char shortInt2QualityChar(short i) {
     return static_cast<char>(i + 33);
 }
 
+long double qualityChar2LongDouble(char c) {
+    return static_cast<long double>(c) - 33;
+}
+
+long double averageQuality(const string& qualstr) {
+    long double qual = 0; //(long double) *max_element(quals.begin(), quals.end());
+    for (string::const_iterator q = qualstr.begin(); q != qualstr.end(); ++q)
+        qual += qualityChar2LongDouble(*q);
+    return qual / qualstr.size();
+}
+
 bool allATGC(string& s) {
     for (string::iterator c = s.begin(); c != s.end(); ++c) {
         char b = *c;
