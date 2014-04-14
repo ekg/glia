@@ -150,15 +150,12 @@ gswalign(gssw_graph* graph,
 
         ReferenceMapping& rm = ref_map.get_node(gm->cigar.elements[i].node);
         Cigar& ref_relative_cigar = rm.cigar;
-        cerr << "node " << n->id << " ref mapping = " << ref_relative_cigar << endl;
 
+        // if we are not in the reference coordinate space, flatten
+        // to enable downstream detection algorithms to work on the BAM stream
         if (ref_relative_cigar.refLen() != ref_relative_cigar.readLen()) {
-            cerr << "cigar lengths differ " << ref_relative_cigar << endl;
-            flat_cigar.append(ref_relative_cigar);
-            cerr << "flattening! " << graph_relative_cigar.readLen() 
-                 << " ? " << ref_relative_cigar.readLen() << " ? " << strlen(n->seq) << endl;
-            cerr << read << endl << qualities << endl;
 
+            flat_cigar.append(ref_relative_cigar);
             // first check that we don't simply match the reference
             // although map to a node in the graph which is not in the reference path
 
@@ -166,12 +163,12 @@ gswalign(gssw_graph* graph,
             //if (params.flatten) {
             if (true) {
                 string s = string(n->seq);
-                cerr << read.substr(read_pos, graph_relative_cigar.readLen()) << endl << s << endl;
+                //cerr << read.substr(read_pos, graph_relative_cigar.readLen()) << endl << s << endl;
                 read.replace(read_pos, graph_relative_cigar.readLen(), s);
                 short average_qual = (short) averageQuality(qualities.substr(read_pos, graph_relative_cigar.readLen()));
                 qualities.replace(read_pos, graph_relative_cigar.readLen(),
                                   string(s.size(), shortInt2QualityChar(average_qual)));
-                cerr << read << endl << qualities << endl;
+                //cerr << read << endl << qualities << endl;
             }
         } else {
             flat_cigar.append(graph_relative_cigar);
@@ -181,11 +178,11 @@ gswalign(gssw_graph* graph,
         // do the edges
         if (i < gm->cigar.length - 1) {
             // check for edge mapping, e.g. deletion
-            cerr << "checking for next edge mapping (e.g. deletion)" << endl;
+            //cerr << "checking for next edge mapping (e.g. deletion)" << endl;
             gssw_node* next = gm->cigar.elements[i+1].node;
             ReferenceMapping& rm = ref_map.get_edge(n, next);
             Cigar& edge_ref_relative_cigar = rm.cigar;
-            cerr << "new cigar from " << n->id << " to " << next->id  <<" is " << edge_ref_relative_cigar << endl;
+            //cerr << "new cigar from " << n->id << " to " << next->id  <<" is " << edge_ref_relative_cigar << endl;
             if (edge_ref_relative_cigar.refLen() != edge_ref_relative_cigar.readLen()) {
                 // NB these should only be deletions, as edges won't represent inserted sequences
                 flat_cigar.append(edge_ref_relative_cigar);
@@ -554,11 +551,10 @@ void realign_bam(Parameters& params) {
 
                 while (vcffile.getNextVariant(var)) {
                     if (params.debug) cerr << "getting variant at " << var.sequenceName << ":" << var.position << endl;
-                    cerr << var.position << " + " << var.ref.length() << " <= " << dag_start_position << " + " << dag_window_size << endl;
-                    cerr << var.position << " >= " << dag_start_position << endl;
+                    //cerr << var.position << " + " << var.ref.length() << " <= " << dag_start_position << " + " << dag_window_size << endl;
+                    //cerr << var.position << " >= " << dag_start_position << endl;
                     if (var.position + var.ref.length() <= dag_start_position + dag_window_size
                         && var.position >= dag_start_position) {
-                        cerr << "putting into variants" << endl;
                         variants.push_back(var);
                     }
                 }
@@ -773,15 +769,32 @@ void realign_bam(Parameters& params) {
                                          >= stats_after.softclip_qsum + stats_after.mismatch_qsum))
                          && acceptRealignment(alignment, ref, dag_start_position, params, stats_after)) {
                     */
-                    if ((!was_mapped || stats_before.softclip_qsum >= stats_after.softclip_qsum)
-                         && acceptRealignment(alignment, ref, dag_start_position, params, stats_after)) {
+
+                    // we accept the new alignment if...
+                    if (!was_mapped  // it wasn't mapped previously
+                        // or if we have removed soft clips or mismatches (per quality) from the alignment
+                        //|| ((stats_before.softclip_qsum >= stats_after.softclip_qsum
+                        //     && stats_before.mismatch_qsum >= stats_after.mismatch_qsum)
+                        || ((stats_before.softclip_qsum + stats_before.mismatch_qsum
+                             >= stats_after.softclip_qsum + stats_after.mismatch_qsum)
+                            // and if we have added gaps, we have added them to remove mismatches or softclips
+                            && (stats_before.gaps >= stats_after.gaps // accept any time we reduce gaps while not increasing softclips/mismatches
+                                || (stats_before.gaps < stats_after.gaps // and allow gap increases when they improve the alignment
+                                    && (stats_before.softclip_qsum 
+                                        + stats_before.mismatch_qsum
+                                        >
+                                        stats_after.softclip_qsum
+                                        + stats_after.mismatch_qsum))))
+                            // and the alignment must not have more than the acceptable number of gaps, softclips, or mismatches
+                            // as provided in input parameters
+                        && acceptRealignment(alignment, ref, dag_start_position, params, stats_after)) {
 
                         // keep the alignment
                         // TODO require threshold of softclips to keep alignment (or count of gaps, mismatches,...)
                         if (params.debug) {
                             cerr << "realigned " << alignment.Name << " to graph, which it maps to with "
-                                 << stats_after.mismatch_qsum << " in mismatches and "
-                                 << stats_after.softclip_qsum << " in soft clips" << endl;
+                                 << stats_after.mismatch_qsum << "q in mismatches and "
+                                 << stats_after.softclip_qsum << "q in soft clips" << endl;
                         }
                         ++total_improved;
                         has_realigned = true;
@@ -789,8 +802,8 @@ void realign_bam(Parameters& params) {
                         // reset to old version of alignment
                         if (params.debug) {
                             cerr << "failed realignment of " << alignment.Name << " to graph, which it maps to with: " 
-                                 << stats_after.mismatch_qsum << " in mismatches " << "(vs " << stats_before.mismatch_qsum << " before), and "
-                                 << stats_after.softclip_qsum << " in soft clips " << "(vs " << stats_before.softclip_qsum << " before) " << endl;
+                                 << stats_after.mismatch_qsum << "q in mismatches " << "(vs " << stats_before.mismatch_qsum << "q before), and "
+                                 << stats_after.softclip_qsum << "q in soft clips " << "(vs " << stats_before.softclip_qsum << "q before) " << endl;
                         }
                         has_realigned = false;
                         alignment = originalAlignment;

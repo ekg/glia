@@ -181,30 +181,13 @@ divide_ref_path(map<long, gssw_node*>& ref_path,
                 int8_t* score_matrix,
                 int& id) {
 
-    cerr << "dividing path at " << pos << endl;
+    //cerr << "dividing path at " << pos << endl;
 
-    // now do the same thing for our ending node
     map<long, gssw_node*>::iterator ref = ref_path.upper_bound(pos);
-    if (ref == ref_path.end()) {
-        cerr << "at last node" << endl;
-    }
-    for (map<long, gssw_node*>::iterator x = ref_path.begin(); x != ref_path.end(); ++x) {
-        cerr << x->first << ":" << x->second << endl;
-    }
-    --ref;
-    cerr << "ref len " << ref->second->len << endl;
-    cerr << ref->second << endl;
-    //--ref; // step to previous
-    // we should now be pointing to node past where we should insert
-    if (ref == ref_path.begin()) {
-        cerr << "splitting first ref node" << endl;
-        //cerr << "variant is out of bounds!!??" << endl;
-        //exit(1);
-    }
-    cerr << "Getting positions and stuff" << endl;
+    --ref; // we should now be pointing to the target ref node
+
     long ref_node_pos = ref->first;
     gssw_node* old_node = ref->second;
-    cerr << "which by the way are " << ref_node_pos << " " << old_node << endl;
     
     // nothing to do
     if (ref_node_pos == pos) {
@@ -302,25 +285,23 @@ int constructDAGProgressive(gssw_graph* graph,
 // probably the name "Backbone" should be changed....?  confusing
 // maybe to "reference mapping" or something?
 
-    cerr << "here......!!" << endl;
     int id = 0;
     map<long, gssw_node*> reference_path;
     map<long, set<gssw_node*> > nodes; // for maintaining a reference-sorted graph
-    cerr << "target sequence " << targetSequence << endl;
-    cerr << "starts at " << offset << endl;
+    //cerr << "target sequence " << targetSequence << endl;
+    //cerr << "starts at " << offset << endl;
 
     gssw_node* ref_node = (gssw_node*)gssw_node_create((void*)NULL, id++, targetSequence.c_str(), nt_table, score_matrix);
     reference_path[offset] = ref_node;
     nodes[offset].insert(ref_node);
     ref_map.add_node(ref_node, offset, Cigar(convert(targetSequence.size()) + "M"));
-    cerr << "added ref node " << ref_node->seq << endl;
+    //cerr << "added ref node " << ref_node->seq << endl;
 
-    cerr << "there are " << variants.size() << " variants to use" << endl;
+    //cerr << "there are " << variants.size() << " variants to use" << endl;
 
     for(vector<vcf::Variant>::iterator it = variants.begin(); it != variants.end(); ++it) {
 
         vcf::Variant& var = *it;
-        cerr << var << endl;
         int current_pos = (long int) var.position - 1;
         // decompose the alt
         map<string, vector<vcf::VariantAllele> > alternates = (flat_input_vcf ? var.flatAlternates() : var.parsedAlternates());
@@ -335,15 +316,14 @@ int constructDAGProgressive(gssw_graph* graph,
                     continue;
                 }
 
-                cerr << "variant allele " << allele << endl;
                 long allele_start_pos = allele.position - 1;  // 0/1 based conversion... thanks vcflib!
                 long allele_end_pos = allele_start_pos + allele.ref.size();
-                cerr << "allele start, end = " << allele_start_pos << " " << allele_end_pos << endl;
+                //cerr << "allele start, end = " << allele_start_pos << " " << allele_end_pos << endl;
 
                 gssw_node* left_ref_node = NULL;
                 gssw_node* middle_ref_node = NULL;
                 gssw_node* right_ref_node = NULL;
-                cerr << "here ... " << endl;
+
                 pair<gssw_node*, gssw_node*> ref_nodes = divide_ref_path(reference_path,
                                                                          ref_map,
                                                                          nodes,
@@ -351,7 +331,7 @@ int constructDAGProgressive(gssw_graph* graph,
                                                                          nt_table,
                                                                          score_matrix,
                                                                          id);
-                cerr << "returned from divide ref path " << ref_nodes.first << " and " << ref_nodes.second << endl;
+                //cerr << "returned from divide ref path " << ref_nodes.first << " and " << ref_nodes.second << endl;
                 left_ref_node = ref_nodes.first;
                 // if the ref portion of the allele is not empty, then we need to make another cut
                 if (!allele.ref.empty()) {
@@ -382,12 +362,12 @@ int constructDAGProgressive(gssw_graph* graph,
                     // the overlapping reference sequence is already connected
                 } else {// otherwise, we have a deletion
                     gssw_nodes_add_edge(left_ref_node, right_ref_node);
-                    cerr << "should be a deletion " << allele.ref.size() << " " << allele << endl;
+                    //cerr << "should be a deletion " << allele.ref.size() << " " << allele << endl;
                     ref_map.add_edge(left_ref_node, right_ref_node, allele_start_pos, Cigar(allele.ref.size(), 'D'));
                 }
             }
         }
-        ref_map.print();
+        //ref_map.print(); // debugging
     }
 
     /*
@@ -489,7 +469,6 @@ void visit_node(gssw_node* node,
                 list<gssw_node*>& sorted_nodes,
                 set<gssw_node*>& unmarked_nodes,
                 set<gssw_node*>& temporary_marks) {
-    cerr << node << endl;
     /*
     if (temporary_marks.find(node) != temporary_marks.end()) {
         cerr << "cannot sort graph because it is not a DAG!" << endl;
