@@ -55,23 +55,23 @@ struct ReferenceMappings {
             cerr << "edge: " << e->first.first << " -> " << e->first.second << " " << e->second.cigar << endl;
         }
     }
-    map<gssw_node*, ReferenceMapping>::iterator get_node(gssw_node* n) {
+    ReferenceMapping& get_node(gssw_node* n) {
         map<gssw_node*, ReferenceMapping>::iterator p = nodes.find(n);
         if (p == nodes.end()) {
             cerr << "ERROR: could not find reference mapping for node " << n << endl;
             exit(1);
         } else {
-            return p;
+            return p->second;
         }
     }
-    map<pair<gssw_node*, gssw_node*>, ReferenceMapping>::iterator get_edge(gssw_node* n, gssw_node* m) {
+    ReferenceMapping& get_edge(gssw_node* n, gssw_node* m) {
         cerr << "getting edge from " << n << " -> " << m << endl;
         map<pair<gssw_node*, gssw_node*>, ReferenceMapping>::iterator p = edges.find(make_pair(n, m));
         if (p == edges.end()) {
             cerr << "ERROR: could not find reference mapping for edge from node " << n << " to " << m << endl;
             exit(1);
         } else {
-            return p;
+            return p->second;
         }
     }
 
@@ -84,6 +84,16 @@ struct ReferenceMappings {
     }
 };
 
+class ReferenceNodeSorter {
+public:
+    ReferenceMappings& ref_map;
+    ReferenceNodeSorter(ReferenceMappings& rm)
+        : ref_map(rm)
+    { }
+    bool operator() (gssw_node* a, gssw_node* b) {
+        return ref_map.get_node(a).is_ref() < ref_map.get_node(b).is_ref();
+    }
+};
 
 int constructDAG(gssw_graph* graph,
                  ReferenceMappings& refMappings,
@@ -101,7 +111,8 @@ int constructDAGProgressive(gssw_graph* graph,
                             vector<vcf::Variant> &variants,
                             long offset,
                             int8_t* nt_table,
-                            int8_t* score_matrix);
+                            int8_t* score_matrix,
+                            bool flat_input_vcf);
 
 
 void topological_sort(map<long, set<gssw_node*> >& nodes,

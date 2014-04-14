@@ -93,11 +93,11 @@ int levenshteinDistance(const std::string source, const std::string target) {
 
 void Parameters::simpleUsage(char ** argv) {
     cout
-	<< "usage: " << argv[0] << " -s [SEQUENCE] -f [REFERENCE] -t [TARGET] -v [VCF-FILE] > [OUTPUT]" << endl
-	<< "Please see README at http://www.github.com/denizkural/clia" << endl
+        << "usage: " << argv[0] << " -s [SEQUENCE] -f [REFERENCE] -t [TARGET] -v [VCF-FILE] > [OUTPUT]" << endl
+        << "Please see README at http://www.github.com/denizkural/clia" << endl
         << "Use --help to read detailed options." << endl
-	<< "authors:   Deniz Kural <denizkural@gmail.com>" << endl
-	<< "           Erik Garrison <erik.garrison@gmail.com>" << endl;
+        << "authors:  Erik Garrison <erik.garrison@gmail.com>" << endl
+        << "          Deniz Kural <denizkural@gmail.com>" << endl;
 }
 
 void Parameters::usage(char** argv) {
@@ -135,6 +135,9 @@ void Parameters::usage(char** argv) {
         << "    -R --realign-bam           Realign the BAM stream on stdin to the VCF file, adjusting" << endl
         << "                               position and flattening alignments back into the reference space" << endl
         << "                               where realignment to the graph provides better quality." << endl
+        << "    -U --flat-input-vcf        The input VCF is normalized so that overlapping variants are" << endl
+        << "                               represented in a single record (as by vcflib/bin/vcfcreatemulti)." << endl
+        << "                               Do not decompose variant representation in VCF file to construct graph." << endl
 /*
           << "    -F --flatten-alignments    Flatten output into reference-relative alignments where the DAG" << endl
           << "                               alignment provides a better match than the reference.  Use this" << endl
@@ -217,7 +220,7 @@ Parameters::Parameters(int argc, char** argv) {
     mismatch_qsum_max = 10000000;
     gap_count_max = 10000000;
 
-
+    flat_input_vcf = false;
     flatten_alignments = true;
     flatten_flank = 2;
     
@@ -255,6 +258,7 @@ Parameters::Parameters(int argc, char** argv) {
         {"only-realigned", no_argument, 0, 'O'},
         {"unsorted-output", no_argument, 0, 'u'},
         {"flatten-flank", required_argument, 0, 'n'},
+        {"flat-input-vcf", no_argument, 0, 'U'},
         {0, 0, 0, 0}
         
     };
@@ -262,7 +266,7 @@ Parameters::Parameters(int argc, char** argv) {
     while (true) {
         int option_index = 0;
         c = getopt_long(argc, argv,
-                        "hrXONBDFRuds:q:f:t:v:o:g:x:m:M:w:Q:S:Z:E:G:n:C:L:",
+                        "hrXONBDFRuUds:q:f:t:v:o:g:x:m:M:w:Q:S:Z:E:G:n:C:L:",
                         long_options, &option_index);
         
         if (c == -1) // end of options
@@ -365,6 +369,10 @@ Parameters::Parameters(int argc, char** argv) {
 
         case 'F':
             flatten_alignments = true;
+            break;
+
+        case 'U':
+            flat_input_vcf = true;
             break;
 
         case 'n':

@@ -223,7 +223,7 @@ divide_ref_path(map<long, gssw_node*>& ref_path,
         // replace node connections
         gssw_node** p = old_node->prev;
         for (int i = 0; i < old_node->count_prev; ++i, ++p) {
-            Cigar old_cigar = ref_map.get_edge(*p, old_node)->second.cigar;
+            Cigar old_cigar = ref_map.get_edge(*p, old_node).cigar;
             ref_map.del_edge(*p, old_node);
             ref_map.add_edge(*p, left_ref_node, ref_node_pos, old_cigar);
             gssw_node_replace_next(*p, old_node, left_ref_node);
@@ -239,7 +239,7 @@ divide_ref_path(map<long, gssw_node*>& ref_path,
         // ahem and connect current to previous
         gssw_node** n = old_node->next;
         for (int i = 0; i < old_node->count_next; ++i, ++n) {   
-            Cigar old_cigar = ref_map.get_edge(old_node, *n)->second.cigar;
+            Cigar old_cigar = ref_map.get_edge(old_node, *n).cigar;
             ref_map.del_edge(old_node, *n);
             ref_map.add_edge(right_ref_node, *n, pos + diff, old_cigar);
             gssw_node_replace_prev(*n, old_node, right_ref_node);
@@ -283,7 +283,8 @@ int constructDAGProgressive(gssw_graph* graph,
                             vector<vcf::Variant> &variants,
                             long offset,
                             int8_t* nt_table,
-                            int8_t* score_matrix) {
+                            int8_t* score_matrix,
+                            bool flat_input_vcf) {
 
 
 // algorithm
@@ -322,7 +323,7 @@ int constructDAGProgressive(gssw_graph* graph,
         cerr << var << endl;
         int current_pos = (long int) var.position - 1;
         // decompose the alt
-        map<string, vector<vcf::VariantAllele> > alternates = var.parsedAlternates();
+        map<string, vector<vcf::VariantAllele> > alternates = (flat_input_vcf ? var.flatAlternates() : var.parsedAlternates());
         for (map<string, vector<vcf::VariantAllele> >::iterator va = alternates.begin(); va !=alternates.end(); ++va) {
             vector<vcf::VariantAllele>& alleles = va->second;
 
@@ -421,10 +422,14 @@ int constructDAGProgressive(gssw_graph* graph,
     }
 
     // reverse the order of the edges so that we traverse the reference path first
+    ReferenceNodeSorter rns(ref_map);
     for (int i = 0; i < graph->size; ++i) {
         gssw_node* n = graph->nodes[i];
-        reverse(n->next, n->next + n->count_next);
-        reverse(n->prev, n->prev + n->count_prev);
+        sort(n->next, n->next + n->count_next, rns);
+        //reverse(n->next, n->next + n->count_next);
+        sort(n->prev, n->prev + n->count_prev, rns);
+        //reverse(n->prev, n->prev + n->count_prev);
+
     }
 
     /*

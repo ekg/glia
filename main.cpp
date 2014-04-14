@@ -132,12 +132,7 @@ gswalign(gssw_graph* graph,
     }
 
     // determine the reference-relative position
-    map<gssw_node*, ReferenceMapping>::iterator m = ref_map.get_node(gm->cigar.elements[0].node);
-    if (m == ref_map.nodes.end()) {
-        cerr << "ERROR: could not find reference mapping for node " << gm->cigar.elements[0].node << endl;
-        exit(1);
-    }
-    ReferenceMapping& rm = m->second;
+    ReferenceMapping& rm = ref_map.get_node(gm->cigar.elements[0].node);
     if (rm.is_ref()) {
         position = gm->position + rm.ref_position;
     } else { // flatten to previous position
@@ -153,8 +148,7 @@ gswalign(gssw_graph* graph,
 
         //Cigar& ref_relative_cigar = cigars.at(n->id);
 
-        map<gssw_node*, ReferenceMapping>::iterator m = ref_map.get_node(gm->cigar.elements[i].node);
-        ReferenceMapping& rm = m->second;
+        ReferenceMapping& rm = ref_map.get_node(gm->cigar.elements[i].node);
         Cigar& ref_relative_cigar = rm.cigar;
         cerr << "node " << n->id << " ref mapping = " << ref_relative_cigar << endl;
 
@@ -164,14 +158,21 @@ gswalign(gssw_graph* graph,
             cerr << "flattening! " << graph_relative_cigar.readLen() 
                  << " ? " << ref_relative_cigar.readLen() << " ? " << strlen(n->seq) << endl;
             cerr << read << endl << qualities << endl;
-            // flatten things back into th reference space
-            string s = string(n->seq);
-            cerr << read.substr(read_pos, graph_relative_cigar.readLen()) << endl << s << endl;
-            read.replace(read_pos, graph_relative_cigar.readLen(), s);
-            short average_qual = (short) averageQuality(qualities.substr(read_pos, graph_relative_cigar.readLen()));
-            qualities.replace(read_pos, graph_relative_cigar.readLen(),
-                              string(s.size(), shortInt2QualityChar(average_qual)));
-            cerr << read << endl << qualities << endl;
+
+            // first check that we don't simply match the reference
+            // although map to a node in the graph which is not in the reference path
+
+            // flatten things back into the reference space
+            //if (params.flatten) {
+            if (true) {
+                string s = string(n->seq);
+                cerr << read.substr(read_pos, graph_relative_cigar.readLen()) << endl << s << endl;
+                read.replace(read_pos, graph_relative_cigar.readLen(), s);
+                short average_qual = (short) averageQuality(qualities.substr(read_pos, graph_relative_cigar.readLen()));
+                qualities.replace(read_pos, graph_relative_cigar.readLen(),
+                                  string(s.size(), shortInt2QualityChar(average_qual)));
+                cerr << read << endl << qualities << endl;
+            }
         } else {
             flat_cigar.append(graph_relative_cigar);
         }
@@ -182,8 +183,7 @@ gswalign(gssw_graph* graph,
             // check for edge mapping, e.g. deletion
             cerr << "checking for next edge mapping (e.g. deletion)" << endl;
             gssw_node* next = gm->cigar.elements[i+1].node;
-            map<pair<gssw_node*, gssw_node*>, ReferenceMapping>::iterator m = ref_map.get_edge(n, next);
-            ReferenceMapping& rm = m->second;
+            ReferenceMapping& rm = ref_map.get_edge(n, next);
             Cigar& edge_ref_relative_cigar = rm.cigar;
             cerr << "new cigar from " << n->id << " to " << next->id  <<" is " << edge_ref_relative_cigar << endl;
             if (edge_ref_relative_cigar.refLen() != edge_ref_relative_cigar.readLen()) {
@@ -272,7 +272,8 @@ void construct_dag_and_align_single_sequence(Parameters& params) {
                             variants,
                             offset,
                             nt_table,
-                            mat);
+                            mat,
+                            params.flat_input_vcf);
 
     if (params.display_dag) {
         cout << "DAG generated from input variants:" << endl;
@@ -584,7 +585,8 @@ void realign_bam(Parameters& params) {
                                     variants,
                                     dag_start_position,
                                     nt_table,
-                                    mat);
+                                    mat,
+                                    params.flat_input_vcf);
 
             if (params.debug) {
                 cerr << "graph has " << graph->size << " nodes" << endl;

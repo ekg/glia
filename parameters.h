@@ -43,6 +43,7 @@ public:
     bool realign_bam;
     bool flatten_alignments;
     int flatten_flank;
+    bool flat_input_vcf;
 
     // realignment parameters
     int dag_window_size;
