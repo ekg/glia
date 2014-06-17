@@ -180,6 +180,7 @@ gswalign(gssw_graph* graph,
             // check for edge mapping, e.g. deletion
             //cerr << "checking for next edge mapping (e.g. deletion)" << endl;
             gssw_node* next = gm->cigar.elements[i+1].node;
+            //cerr << "getting edge " << n << " to " << next << endl;
             ReferenceMapping& rm = ref_map.get_edge(n, next);
             Cigar& edge_ref_relative_cigar = rm.cigar;
             //cerr << "new cigar from " << n->id << " to " << next->id  <<" is " << edge_ref_relative_cigar << endl;
@@ -536,7 +537,8 @@ void realign_bam(Parameters& params) {
 
                 // check first variant
                 if (vcffile.getNextVariant(var)) {
-                    while (var.position == dag_start_position + 1) {
+                    while (var.position <= dag_start_position + 1) {
+                        //cerr << "var position == dag_start_position " << endl;
                         dag_start_position -= 1;
                         vcffile.setRegion(seqname,
                                           dag_start_position + 1,
@@ -561,6 +563,7 @@ void realign_bam(Parameters& params) {
 
             }
 
+            //cerr << "dag_start_position " << dag_start_position << endl;
             ref = reference.getSubSequence(seqname,
                                            max((long int) 0, dag_start_position),
                                            dag_window_size); // 0/1 conversion
@@ -645,8 +648,7 @@ void realign_bam(Parameters& params) {
                      << "-" << dag_start_position + dag_window_size << endl;
             }
 
-            //try {
-            {
+            try {
 
                 Cigar flat_cigar;
                 string read = alignment.QueryBases;
@@ -809,8 +811,7 @@ void realign_bam(Parameters& params) {
                         alignment = originalAlignment;
                     }
                 }
-            } // try block
-                /*
+                //} // try block
             } catch (...) {
                 cerr << "exception when realigning " << alignment.Name
                      << " at position " << referenceIDToName[alignment.RefID]
@@ -820,7 +821,6 @@ void realign_bam(Parameters& params) {
                 has_realigned = false;
                 alignment = originalAlignment;
             }
-                */
         }
 
         // ensure correct order if alignments move

@@ -181,18 +181,26 @@ divide_ref_path(map<long, gssw_node*>& ref_path,
                 int8_t* score_matrix,
                 int& id) {
 
-    //cerr << "dividing path at " << pos << endl;
-
     map<long, gssw_node*>::iterator ref = ref_path.upper_bound(pos);
     --ref; // we should now be pointing to the target ref node
 
     long ref_node_pos = ref->first;
     gssw_node* old_node = ref->second;
-    
+    //cerr << "old_node " << old_node << endl;
+    //cerr << "dividing ref path at " << pos << endl;
+
     // nothing to do
     if (ref_node_pos == pos) {
-        map<long, gssw_node*>::iterator n = ref; --n;
-        return make_pair(n->second, ref->second);
+        //cerr << "returning current node--- already split right" << endl;
+        gssw_node* right_ref_node = ref->second;
+        if (ref != ref_path.begin()) {
+            --ref;
+        } else {
+            cerr << "could not divide reference path at " << pos << " as this is the beginning of the DAG" << endl;
+            exit(1);
+        }
+        gssw_node* left_ref_node = ref->second;
+        return make_pair(left_ref_node, right_ref_node);
     } else {
 
         // divide the ref node at our alt starting position
@@ -202,11 +210,12 @@ divide_ref_path(map<long, gssw_node*>& ref_path,
         string left_ref_node_seq = string(ref->second->seq);//, diff);
         left_ref_node_seq = left_ref_node_seq.substr(0, diff);
         gssw_node* left_ref_node = (gssw_node*)gssw_node_create((void*)NULL, id++, left_ref_node_seq.c_str(), nt_table, score_matrix);
-
+        //cerr << "created left_ref_node " << left_ref_node << endl;
         // replace node connections
         gssw_node** p = old_node->prev;
         for (int i = 0; i < old_node->count_prev; ++i, ++p) {
             Cigar old_cigar = ref_map.get_edge(*p, old_node).cigar;
+            //cerr << *p << " replace next " << old_node << " with " << left_ref_node << endl;
             ref_map.del_edge(*p, old_node);
             ref_map.add_edge(*p, left_ref_node, ref_node_pos, old_cigar);
             gssw_node_replace_next(*p, old_node, left_ref_node);
@@ -219,10 +228,12 @@ divide_ref_path(map<long, gssw_node*>& ref_path,
         right_ref_node_seq = right_ref_node_seq.substr(diff);
 
         gssw_node* right_ref_node = (gssw_node*)gssw_node_create((void*)NULL, id++, right_ref_node_seq.c_str(), nt_table, score_matrix);
+        //cerr << "created right_ref_node " << right_ref_node << endl;
         // ahem and connect current to previous
         gssw_node** n = old_node->next;
         for (int i = 0; i < old_node->count_next; ++i, ++n) {   
             Cigar old_cigar = ref_map.get_edge(old_node, *n).cigar;
+            //cerr << *n << " replace prev " << old_node << " with " << right_ref_node << endl;
             ref_map.del_edge(old_node, *n);
             ref_map.add_edge(right_ref_node, *n, pos + diff, old_cigar);
             gssw_node_replace_prev(*n, old_node, right_ref_node);
@@ -230,10 +241,16 @@ divide_ref_path(map<long, gssw_node*>& ref_path,
         }
 
         // connect left to right
+        //cerr << "adding an edge from " << left_ref_node << " to " << right_ref_node << endl;
         gssw_nodes_add_edge(left_ref_node, right_ref_node);
         ref_map.add_edge(left_ref_node, right_ref_node, pos, Cigar(0, 'M'));
 
+        //cerr << "old_node seq " << old_node->seq << endl;
+        //cerr << "left_ref_node seq " << left_ref_node->seq << endl;
+        //cerr << "right_ref_node seq " << right_ref_node->seq << endl;
+
         // destroy old node
+        //cerr << "destroying the old node " << old_node << endl;
         gssw_node_destroy(old_node);
         nodes[ref_node_pos].erase(old_node);
         ref_map.del_node(old_node);
@@ -245,11 +262,16 @@ divide_ref_path(map<long, gssw_node*>& ref_path,
             nodes.erase(ref_node_pos);
         }
         nodes[ref_node_pos].insert(left_ref_node);
+        //cerr << "inserting left gssw node " << left_ref_node << endl;
         ref_path[ref_node_pos] = left_ref_node;
         ref_map.add_node(left_ref_node, ref_node_pos, Cigar(left_ref_node_seq.size(), 'M'));
 
         // right
+        if (nodes[pos].size() == 0) {
+            nodes.erase(pos);
+        }
         nodes[pos].insert(right_ref_node);
+        //cerr << "inserting right gssw node " << right_ref_node << endl;
         ref_path[pos] = right_ref_node;
         ref_map.add_node(right_ref_node, pos, Cigar(right_ref_node_seq.size(), 'M'));
 
@@ -289,19 +311,21 @@ int constructDAGProgressive(gssw_graph* graph,
     map<long, gssw_node*> reference_path;
     map<long, set<gssw_node*> > nodes; // for maintaining a reference-sorted graph
     //cerr << "target sequence " << targetSequence << endl;
-    //cerr << "starts at " << offset << endl;
+    //cerr << "DAG starts at " << offset << endl;
 
     gssw_node* ref_node = (gssw_node*)gssw_node_create((void*)NULL, id++, targetSequence.c_str(), nt_table, score_matrix);
+    //cerr << "created ref_node " << ref_node << endl;
     reference_path[offset] = ref_node;
     nodes[offset].insert(ref_node);
     ref_map.add_node(ref_node, offset, Cigar(convert(targetSequence.size()) + "M"));
-    //cerr << "added ref node " << ref_node->seq << endl;
+    //cerr << "added ref node @ " << offset << " " << ref_node->seq << endl;
 
     //cerr << "there are " << variants.size() << " variants to use" << endl;
 
     for(vector<vcf::Variant>::iterator it = variants.begin(); it != variants.end(); ++it) {
 
         vcf::Variant& var = *it;
+        //cerr << "at variant: " << var << endl;
         int current_pos = (long int) var.position - 1;
         // decompose the alt
         map<string, vector<vcf::VariantAllele> > alternates = (flat_input_vcf ? var.flatAlternates() : var.parsedAlternates());
@@ -319,11 +343,12 @@ int constructDAGProgressive(gssw_graph* graph,
                 long allele_start_pos = allele.position - 1;  // 0/1 based conversion... thanks vcflib!
                 long allele_end_pos = allele_start_pos + allele.ref.size();
                 //cerr << "allele start, end = " << allele_start_pos << " " << allele_end_pos << endl;
-
+ 
                 gssw_node* left_ref_node = NULL;
                 gssw_node* middle_ref_node = NULL;
                 gssw_node* right_ref_node = NULL;
 
+                //cerr << "going into divide ref path" << endl;
                 pair<gssw_node*, gssw_node*> ref_nodes = divide_ref_path(reference_path,
                                                                          ref_map,
                                                                          nodes,
@@ -332,7 +357,10 @@ int constructDAGProgressive(gssw_graph* graph,
                                                                          score_matrix,
                                                                          id);
                 //cerr << "returned from divide ref path " << ref_nodes.first << " and " << ref_nodes.second << endl;
+                //cerr << "left_ref_node = " << ref_nodes.first->seq << endl;
+                //cerr << "right_ref_node = " << ref_nodes.second->seq << endl;
                 left_ref_node = ref_nodes.first;
+                //cerr << "allele = " << allele << endl;
                 // if the ref portion of the allele is not empty, then we need to make another cut
                 if (!allele.ref.empty()) {
                     ref_nodes = divide_ref_path(reference_path,
@@ -342,25 +370,35 @@ int constructDAGProgressive(gssw_graph* graph,
                                                 nt_table,
                                                 score_matrix,
                                                 id);
+                    //cerr << "returned from divide ref path " << ref_nodes.first << " and " << ref_nodes.second << endl;
+                    //cerr << "left_ref_node = " << ref_nodes.first->seq << endl;
+                    //cerr << "right_ref_node = " << ref_nodes.second->seq << endl;
                     middle_ref_node = ref_nodes.first;
                     right_ref_node = ref_nodes.second;
                 } else {
+                    left_ref_node = ref_nodes.first;
                     right_ref_node = ref_nodes.second;
                 }
 
+                //cerr << "Creating new alt node and connecting" << endl;
                 // create a new alt node and connect the pieces from before
                 if (!allele.alt.empty()) {
+                    //cerr << "alt is not empty " << allele << endl;
                     gssw_node* alt_node = (gssw_node*)gssw_node_create((void*)NULL, id++, allele.alt.c_str(), nt_table, score_matrix);
+                    // cerr << "created alt_node " << alt_node << endl;
                     nodes[allele_start_pos].insert(alt_node);
                     //ref_map.add_node(alt_node, allele_start_pos, );
                     ref_map.add_node(alt_node, allele_start_pos, Cigar(allele));
+                    //cerr << "adding an edge from " << left_ref_node << " to " << alt_node << endl;
                     gssw_nodes_add_edge(left_ref_node, alt_node);
                     ref_map.add_edge(left_ref_node, alt_node, allele_start_pos, Cigar(0, 'M'));
+                    //cerr << "adding an edge from " << alt_node << " to " << right_ref_node << endl;
                     gssw_nodes_add_edge(alt_node, right_ref_node);
                     // NB, should check that the allele_start_pos + allele.ref.size() == allele ref end, aka start of next ref
                     ref_map.add_edge(alt_node, right_ref_node, allele_start_pos + allele.ref.size(), Cigar(0, 'M'));
                     // the overlapping reference sequence is already connected
                 } else {// otherwise, we have a deletion
+                    //cerr << "adding an edge from " << left_ref_node << " to " << right_ref_node << endl;
                     gssw_nodes_add_edge(left_ref_node, right_ref_node);
                     //cerr << "should be a deletion " << allele.ref.size() << " " << allele << endl;
                     ref_map.add_edge(left_ref_node, right_ref_node, allele_start_pos, Cigar(allele.ref.size(), 'D'));
@@ -391,6 +429,7 @@ int constructDAGProgressive(gssw_graph* graph,
 
     // topologically sort nodes before inserting into gssw_graph
     // this should be done for us due to ordering in nodes[]
+
 
     list<gssw_node*> sorted_nodes;
     topological_sort(nodes, sorted_nodes);
@@ -423,7 +462,8 @@ int constructDAGProgressive(gssw_graph* graph,
         }
     }
     */
-    
+
+    //gssw_graph_print_stderr(graph);
 
 }
 
