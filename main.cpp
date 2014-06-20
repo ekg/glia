@@ -155,25 +155,34 @@ gswalign(gssw_graph* graph,
         // to enable downstream detection algorithms to work on the BAM stream
         if (ref_relative_cigar.refLen() != ref_relative_cigar.readLen()) {
 
+            //cerr << "graph relative " << graph_relative_cigar << endl;
+            //cerr << "ref relative " << ref_relative_cigar << endl;
             // check for soft clips at start or end
             int scstart = graph_relative_cigar.softClipStart();
             int scend = graph_relative_cigar.softClipEnd();
+            if (graph_relative_cigar.size() == 1) {
+                if (i == 0) {
+                    scend = 0;
+                } else {
+                    scstart = 0;
+                }
+            }
 
             if (scstart > 0) {
                 flat_cigar.append(Cigar(scstart, 'S'));
             }
-            flat_cigar.append(ref_relative_cigar);
-            if (scend > 0) {
-                flat_cigar.append(Cigar(scend, 'S'));
-            }
 
-            // first check that we don't simply match the reference
+
             // although map to a node in the graph which is not in the reference path
 
             // flatten things back into the reference space
             //if (params.flatten) {
             // TODO deal with soft clips
-            if (true) {
+
+            if ((scstart + scend) < graph_relative_cigar.readLen()) {
+                flat_cigar.append(ref_relative_cigar);
+                //cerr << "flattening: " << read << endl
+                //     << "from " << graph_relative_cigar << " to " << ref_relative_cigar << endl;
                 string s = string(n->seq);
                 int non_softclip_read_length = graph_relative_cigar.readLen() - (scstart + scend);
                 read.replace(read_pos + scstart, non_softclip_read_length, s);
@@ -182,6 +191,14 @@ gswalign(gssw_graph* graph,
                                   non_softclip_read_length,
                                   string(s.size(), shortInt2QualityChar(average_qual)));
             }
+
+
+            if (scend > 0) {
+                flat_cigar.append(Cigar(scend, 'S'));
+            }
+
+            //cerr << "flat cigar " << flat_cigar << endl;
+
         } else {
             flat_cigar.append(graph_relative_cigar);
         }
@@ -660,6 +677,7 @@ void realign_bam(Parameters& params) {
                      << "-" << dag_start_position + dag_window_size << endl;
             }
 
+            //{
             try {
 
                 Cigar flat_cigar;
@@ -833,6 +851,7 @@ void realign_bam(Parameters& params) {
                 // reset to original alignment
                 has_realigned = false;
                 alignment = originalAlignment;
+
             }
         }
 
