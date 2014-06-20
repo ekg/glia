@@ -155,20 +155,32 @@ gswalign(gssw_graph* graph,
         // to enable downstream detection algorithms to work on the BAM stream
         if (ref_relative_cigar.refLen() != ref_relative_cigar.readLen()) {
 
+            // check for soft clips at start or end
+            int scstart = graph_relative_cigar.softClipStart();
+            int scend = graph_relative_cigar.softClipEnd();
+
+            if (scstart > 0) {
+                flat_cigar.append(Cigar(scstart, 'S'));
+            }
             flat_cigar.append(ref_relative_cigar);
+            if (scend > 0) {
+                flat_cigar.append(Cigar(scend, 'S'));
+            }
+
             // first check that we don't simply match the reference
             // although map to a node in the graph which is not in the reference path
 
             // flatten things back into the reference space
             //if (params.flatten) {
+            // TODO deal with soft clips
             if (true) {
                 string s = string(n->seq);
-                //cerr << read.substr(read_pos, graph_relative_cigar.readLen()) << endl << s << endl;
-                read.replace(read_pos, graph_relative_cigar.readLen(), s);
-                short average_qual = (short) averageQuality(qualities.substr(read_pos, graph_relative_cigar.readLen()));
-                qualities.replace(read_pos, graph_relative_cigar.readLen(),
+                int non_softclip_read_length = graph_relative_cigar.readLen() - (scstart + scend);
+                read.replace(read_pos + scstart, non_softclip_read_length, s);
+                short average_qual = (short) averageQuality(qualities.substr(read_pos + scstart, non_softclip_read_length));
+                qualities.replace(read_pos + scstart,
+                                  non_softclip_read_length,
                                   string(s.size(), shortInt2QualityChar(average_qual)));
-                //cerr << read << endl << qualities << endl;
             }
         } else {
             flat_cigar.append(graph_relative_cigar);
@@ -812,6 +824,7 @@ void realign_bam(Parameters& params) {
                     }
                 }
                 //} // try block
+
             } catch (...) {
                 cerr << "exception when realigning " << alignment.Name
                      << " at position " << referenceIDToName[alignment.RefID]

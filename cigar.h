@@ -28,6 +28,8 @@ struct Cigar : vector<CigarElement> {
     void append(const Cigar& c);
     int refLen(void);
     int readLen(void);
+    int softClipStart(void);
+    int softClipEnd(void);
     bool isReference(void);
     string str(void);
     Cigar(void) { }

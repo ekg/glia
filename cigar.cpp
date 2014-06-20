@@ -56,6 +56,22 @@ int Cigar::readLen(void) {
     return len;
 }
 
+int Cigar::softClipStart(void) {
+    if (front().type == 'S') {
+        return front().length;
+    } else {
+        return 0;
+    }
+}
+
+int Cigar::softClipEnd(void) {
+    if (back().type == 'S') {
+        return back().length;
+    } else {
+        return 0;
+    }
+}
+
 bool Cigar::isReference(void) {
     if (size() == 1 && front().type == 'M') {
         return true;
