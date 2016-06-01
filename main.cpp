@@ -73,7 +73,7 @@ gswalign(gssw_graph* graph,
     }
     if (params.display_all_nodes) {
         cerr << "==== forward alignment ====" << endl;
-        gssw_graph_print_score_matrices(graph, read.c_str(), read.length());
+        gssw_graph_print_score_matrices(graph, read.c_str(), read.length(), stderr);
     }
 
     score_F = gmf->score;
@@ -101,7 +101,7 @@ gswalign(gssw_graph* graph,
         }
         if (params.display_all_nodes) {
             cerr << "==== reverse alignment ====" << endl;
-            gssw_graph_print_score_matrices(graph, read.c_str(), read.length());
+            gssw_graph_print_score_matrices(graph, read.c_str(), read.length(), stderr);
             //gssw_print_graph_mapping(gmr);
         }
         score_R = gmr->score;

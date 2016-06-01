@@ -57,7 +57,7 @@ VCFLIB_OBJS = vcflib/tabixpp/tabix.o \
 			vcflib/smithwaterman/Repeats.o \
 			vcflib/smithwaterman/IndelAllele.o \
 
-GSSW = gssw/src/gssw.o
+GSSW = gssw/obj/gssw.o
 
 
 #SSW = ssw.o ssw_cpp.o
@@ -86,8 +86,8 @@ $(FASTAHACK):
 $(VCFLIB): libbamtools.a
 	cd vcflib && $(MAKE)
 
-$(GSSW): gssw/src/gssw.c
-	cd gssw/src && $(MAKE)
+$(GSSW): gssw/obj/gssw.o
+	cd gssw && $(MAKE)
 
 # glia build
 

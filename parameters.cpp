@@ -114,9 +114,9 @@ void Parameters::usage(char** argv) {
         << "    -f --fasta-reference FILE  The reference sequence for alignment." << endl
         << "    -v --vcf-file FILE         The genome DAG, BGZIP'ed (.vcf.gz) and tabix-indexed (.tbi)" << endl
         //<< "    -o --output-file FILE      Write alignments in BAM format to FILE." << endl
-        << "    -m --match N               The alignment match score (integer, default 10)." << endl
-        << "    -M --mismatch N            The alignment mismatch score (integer, default -10)." << endl
-        << "    -g --gap-open N            Gap open penalty (integer, default 3)." << endl
+        << "    -m --match N               The alignment match score (integer, default 1)." << endl
+        << "    -M --mismatch N            The alignment mismatch score (integer, default 4)." << endl
+        << "    -g --gap-open N            Gap open penalty (integer, default 6)." << endl
         << "    -e --gap-extend N          Gap extension penalty (integer, default 1)." << endl
         << endl
         << "single-read alignment:" << endl
@@ -196,9 +196,9 @@ Parameters::Parameters(int argc, char** argv) {
 
     dag_window_size = 1500;
 
-    match = 2;
-    mism = 2;
-    gap_open = 3;
+    match = 1;
+    mism = 4;
+    gap_open = 6;
     gap_extend = 1;
 
     display_dag = false;
