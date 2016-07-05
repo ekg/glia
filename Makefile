@@ -42,7 +42,7 @@ BAMTOOLS_ROOT=bamtools
 BAMTOOLS_LIB_DIR=bamtools/lib
 
 CXX = g++
-CXXFLAGS = -O3 -D_FILE_OFFSET_BITS=64 -fpermissive #-pg
+CXXFLAGS = -O3 -D_FILE_OFFSET_BITS=64 -fpermissive -msse4.1 #-pg
 INCLUDES = -I$(BAMTOOLS_ROOT)/include -Ivcflib/src -Ivcflib/ -Igssw/src
 LDFLAGS =
 LIBS = -L./ -Lvcflib/ -Lvcflib/tabixpp/ -lbamtools -ltabix -lz -lm
